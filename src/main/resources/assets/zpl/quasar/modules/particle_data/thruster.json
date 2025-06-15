@@ -1,0 +1,17 @@
+{
+  "render_style": "CUBE",
+  "init_modules": [
+    "zpl:thruster_vel"
+  ],
+  "update_modules": [
+  ],
+  "collision_modules": [
+  ],
+  "forces": [
+  ],
+  "render_modules": [
+  ],
+  "face_velocity": true,
+  "velocity_stretch_factor": 1.0,
+  "should_collide": true
+}

@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "facing=up": {
+            "model": "zpl:block/exhaust"
+        },
+        "facing=down": {
+            "model": "zpl:block/exhaust",
+            "x": 180
+        },
+        "facing=north": {
+            "model": "zpl:block/exhaust",
+            "x": 90
+        },
+        "facing=south": {
+            "model": "zpl:block/exhaust",
+            "x": 270
+        }
+
+    }
+} 
