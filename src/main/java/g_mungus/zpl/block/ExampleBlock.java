@@ -1,5 +1,6 @@
 package g_mungus.zpl.block;
 
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -14,6 +15,9 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,4 +59,49 @@ public class ExampleBlock extends Block implements EntityBlock {
             }
         };
     }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        Direction dir = state.getValue(FACING);
+
+        VoxelShape upShape = Shapes.or(
+                Block.box(2, 0, 2, 14, 10, 14),
+                Block.box(1, 10, 1, 15, 16, 15)
+        );
+
+        VoxelShape downShape = Shapes.or(
+                Block.box(2, 6, 2, 14, 16, 14),
+                Block.box(1, 0, 1, 15, 6, 15)
+        );
+
+        VoxelShape northShape = Shapes.or(
+                Block.box(2, 2, 6, 14, 14, 16),
+                Block.box(1, 1, 0, 15, 15, 6)
+        );
+
+        VoxelShape southShape = Shapes.or(
+                Block.box(2, 2, 0, 14, 14, 10),
+                Block.box(1, 1, 10, 15, 15, 16)
+        );
+
+        VoxelShape westShape = Shapes.or(
+                Block.box(6, 2, 2, 16, 14, 14),
+                Block.box(0, 1, 1, 6, 15, 15)
+        );
+
+        VoxelShape eastShape = Shapes.or(
+                Block.box(0, 2, 2, 10, 14, 14),
+                Block.box(10, 1, 1, 16, 15, 15)
+        );
+
+        return switch (dir) {
+            case UP -> upShape;
+            case DOWN -> downShape;
+            case NORTH -> northShape;
+            case SOUTH -> southShape;
+            case WEST -> westShape;
+            case EAST -> eastShape;
+        };
+    }
+
 }
