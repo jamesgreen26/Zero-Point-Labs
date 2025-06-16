@@ -21,6 +21,21 @@ repositories {
         name = 'BlameJared Maven (CrT / Bookshelf)'
         url = 'https://maven.blamejared.com'
     }
+
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+
+    maven {
+        name = "Valkyrien Skies Internal"
+        url = 'https://maven.valkyrienskies.org'
+    }
+
+    maven {
+        name = 'Kotlin for Forge'
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+    }
 }
 
 loom {
@@ -36,6 +51,15 @@ dependencies {
         exclude group: "maven.modrinth"
         exclude group: "me.fallenbreath"
     }
+
+    implementation("org.valkyrienskies.core:api:$vs_core_version") { transitive = false }
+    implementation("org.valkyrienskies.core:api-game:$vs_core_version") { transitive = false }
+    implementation("org.valkyrienskies.core:util:$vs_core_version") { transitive = false }
+    implementation("org.valkyrienskies.core:impl:$vs_core_version") { transitive = false }
+
+    modApi("org.valkyrienskies:valkyrienskies-1-21-1-forge:$vs2_version")
+
+    implementation("thedarkcolour:kotlinforforge-neoforge:5.8.0")
 }
 
 processResources {
