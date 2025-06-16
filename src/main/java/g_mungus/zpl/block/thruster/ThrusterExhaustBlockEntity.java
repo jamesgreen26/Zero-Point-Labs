@@ -1,6 +1,7 @@
 package g_mungus.zpl.block.thruster;
 
 import g_mungus.zpl.block.ModBlockEntities;
+import g_mungus.zpl.block.ModBlocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,7 @@ public class ThrusterExhaustBlockEntity extends BlockEntity {
     public void tick() {
         if (level == null) return;
         int current = getBlockState().getValue(ThrusterExhaustBlock.POWER);
-        int target = level.getBestNeighborSignal(getBlockPos());
+        int target = getInputSignal();
         if (current < target) {
             level.setBlock(getBlockPos(), getBlockState().setValue(ThrusterExhaustBlock.POWER, current + 1), 3);
             current++;
@@ -37,5 +38,20 @@ public class ThrusterExhaustBlockEntity extends BlockEntity {
         if (thrust != null) {
             thrust.strength = force_strength * 128_000;
         }
+    }
+
+    private int getInputSignal() {
+        if (level == null) return 0;
+
+        BlockPos thisPos = getBlockPos();
+        BlockState thisState = level.getBlockState(thisPos);
+
+        BlockPos neighbor = thisPos.offset(thisState.getValue(ThrusterExhaustBlock.FACING).getOpposite().getNormal());
+        BlockState neighborState = level.getBlockState(neighbor);
+
+        if (neighborState.is(ModBlocks.ION_MODULATOR_BLOCK) && neighborState.getValue(IonModulatorBlock.FACING).equals(thisState.getValue(ThrusterExhaustBlock.FACING))) {
+            return level.getBestNeighborSignal(neighbor);
+        }
+        return 0;
     }
 }
