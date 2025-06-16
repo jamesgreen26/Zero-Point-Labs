@@ -11,8 +11,8 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = 
         DeferredRegister.create(Registries.BLOCK, ZeroPointLabsMod.MOD_ID);
 
-    public static final DeferredHolder<Block, ExampleBlock> EXAMPLE_BLOCK = BLOCKS.register("example_block",
-        () -> new ExampleBlock(BlockBehaviour.Properties.of()
+    public static final DeferredHolder<Block, ThrusterExhaustBlock> THRUSTER_EXHAUST_BLOCK = BLOCKS.register("ion_thruster_exhaust",
+        () -> new ThrusterExhaustBlock(BlockBehaviour.Properties.of()
             .strength(3.0f)
             .requiresCorrectToolForDrops()));
 } 

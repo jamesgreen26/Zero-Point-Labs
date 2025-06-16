@@ -5,7 +5,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.ModBlockEntities;
-import g_mungus.zpl.block.ExampleBlockEntityRenderer;
+import g_mungus.zpl.block.ThrusterExhaustBlockEntityRenderer;
 import g_mungus.zpl.item.ModItems;
 
 @Mod(ZeroPointLabsMod.MOD_ID)
@@ -23,6 +23,6 @@ public final class ZeroPointLabsMod {
     }
 
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlockEntities.EXAMPLE_BLOCK_ENTITY.get(), ExampleBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
     }
 }

@@ -12,6 +12,6 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = 
         DeferredRegister.create(Registries.ITEM, ZeroPointLabsMod.MOD_ID);
 
-    public static final DeferredHolder<Item, BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block",
-        () -> new BlockItem(ModBlocks.EXAMPLE_BLOCK.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> THRUSTER_EXHAUST_ITEM = ITEMS.register("ion_thruster_exhaust",
+        () -> new BlockItem(ModBlocks.THRUSTER_EXHAUST_BLOCK.get(), new Item.Properties()));
 } 

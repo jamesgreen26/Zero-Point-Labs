@@ -17,8 +17,8 @@ import org.joml.Vector4f;
 import java.util.List;
 
 
-public class ExampleBlockEntityRenderer implements BlockEntityRenderer<ExampleBlockEntity> {
-    public ExampleBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+public class ThrusterExhaustBlockEntityRenderer implements BlockEntityRenderer<ThrusterExhaustBlockEntity> {
+    public ThrusterExhaustBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
 
     }
 
@@ -30,7 +30,7 @@ public class ExampleBlockEntityRenderer implements BlockEntityRenderer<ExampleBl
     }
 
     @Override
-    public void render(ExampleBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+    public void render(ThrusterExhaustBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         RenderType renderType = VeilRenderType.get(THRUST);
         if (renderType == null) {
             System.out.println("Could not load render type");
@@ -38,7 +38,7 @@ public class ExampleBlockEntityRenderer implements BlockEntityRenderer<ExampleBl
         }
 
         BlockState blockState = blockEntity.getBlockState();
-        float power = blockState.getValue(ExampleBlock.POWER) / 15f;
+        float power = blockState.getValue(ThrusterExhaustBlock.POWER) / 15f;
         if (power < 0.0001f) return;
 
         float hScale = (1 + power) / 2f;
@@ -47,7 +47,7 @@ public class ExampleBlockEntityRenderer implements BlockEntityRenderer<ExampleBl
 
         poseStack.translate(0.5, 0.5, 0.5);
 
-        Direction direction = blockState.getValue(ExampleBlock.FACING);
+        Direction direction = blockState.getValue(ThrusterExhaustBlock.FACING);
         switch (direction) {
             case UP -> {}
             case DOWN -> poseStack.mulPose(Axis.XP.rotationDegrees(180f));
@@ -74,12 +74,12 @@ public class ExampleBlockEntityRenderer implements BlockEntityRenderer<ExampleBl
     }
 
 
-    private void renderCube(ExampleBlockEntity blockEntity, Matrix4f matrix4f, VertexConsumer vertexConsumer) {
+    private void renderCube(ThrusterExhaustBlockEntity blockEntity, Matrix4f matrix4f, VertexConsumer vertexConsumer) {
         renderHex(blockEntity, matrix4f, vertexConsumer, 0);
         renderHex(blockEntity, matrix4f, vertexConsumer, 7);
     }
 
-    private void renderHex(ExampleBlockEntity blockEntity, Matrix4f matrix4f, VertexConsumer vertexConsumer, int offset) {
+    private void renderHex(ThrusterExhaustBlockEntity blockEntity, Matrix4f matrix4f, VertexConsumer vertexConsumer, int offset) {
         this.renderFace(blockEntity, matrix4f, vertexConsumer, shape.get(0 + offset), shape.get(1 + offset), shape.get(8 + offset), shape.get(7 + offset));
         this.renderFace(blockEntity, matrix4f, vertexConsumer, shape.get(1 + offset), shape.get(2 + offset), shape.get(9 + offset), shape.get(8 + offset));
         this.renderFace(blockEntity, matrix4f, vertexConsumer, shape.get(2 + offset), shape.get(3 + offset), shape.get(10 + offset), shape.get(9 + offset));
@@ -88,7 +88,7 @@ public class ExampleBlockEntityRenderer implements BlockEntityRenderer<ExampleBl
         this.renderFace(blockEntity, matrix4f, vertexConsumer, shape.get(5 + offset), shape.get(6 + offset), shape.get(13 + offset), shape.get(12 + offset));
     }
 
-    private void renderFace(ExampleBlockEntity arg, Matrix4f matrix4f, VertexConsumer vertexConsumer, Vector4f a, Vector4f b, Vector4f c, Vector4f d) {
+    private void renderFace(ThrusterExhaustBlockEntity arg, Matrix4f matrix4f, VertexConsumer vertexConsumer, Vector4f a, Vector4f b, Vector4f c, Vector4f d) {
 
         vertexConsumer.addVertex(matrix4f, d.x, d.y, d.z).setUv(d.y, d.w);
         vertexConsumer.addVertex(matrix4f, c.x, c.y, c.z).setUv(c.y, c.w);
