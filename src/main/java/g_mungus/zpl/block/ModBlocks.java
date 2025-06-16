@@ -1,5 +1,6 @@
 package g_mungus.zpl.block;
 
+import g_mungus.zpl.block.gyro.GyroscopeBlock;
 import g_mungus.zpl.block.thruster.IonModulatorBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import net.minecraft.world.level.block.Block;
@@ -20,6 +21,11 @@ public class ModBlocks {
 
     public static final DeferredHolder<Block, IonModulatorBlock> ION_MODULATOR_BLOCK = BLOCKS.register("ion_thrust_modulator",
             () -> new IonModulatorBlock(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final DeferredHolder<Block, GyroscopeBlock> GYROSCOPE_BLOCK = BLOCKS.register("gyroscope",
+            () -> new GyroscopeBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
 } 

@@ -17,4 +17,7 @@ public class ModItems {
 
     public static final DeferredHolder<Item, BlockItem> ION_MODULATOR_ITEM = ITEMS.register("ion_thrust_modulator",
             () -> new BlockItem(ModBlocks.ION_MODULATOR_BLOCK.get(), new Item.Properties()));
+
+    public static final DeferredHolder<Item, BlockItem> GYROSCOPE_ITEM = ITEMS.register("gyroscope",
+            () -> new BlockItem(ModBlocks.GYROSCOPE_BLOCK.get(), new Item.Properties()));
 } 

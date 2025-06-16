@@ -1,5 +1,6 @@
 package g_mungus.zpl.block;
 
+import g_mungus.zpl.block.gyro.GyroscopeBlockEntity;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.core.registries.Registries;
@@ -14,4 +15,8 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ThrusterExhaustBlockEntity>> THRUSTER_EXHAUST_BLOCK_ENTITY =
         BLOCK_ENTITIES.register("ion_thruster_exhaust_block_entity",
             () -> BlockEntityType.Builder.of(ThrusterExhaustBlockEntity::new, ModBlocks.THRUSTER_EXHAUST_BLOCK.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GyroscopeBlockEntity>> GYROSCOPE_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("gyroscope_block_entity",
+                    () -> BlockEntityType.Builder.of(GyroscopeBlockEntity::new, ModBlocks.GYROSCOPE_BLOCK.get()).build(null));
 } 

@@ -36,7 +36,7 @@ public class ThrusterExhaustBlockEntity extends BlockEntity {
         double force_strength = current / 15.0;
 
         if (thrust != null) {
-            thrust.strength = force_strength * 128_000;
+            thrust.strength = force_strength * 256_000;
         }
     }
 
