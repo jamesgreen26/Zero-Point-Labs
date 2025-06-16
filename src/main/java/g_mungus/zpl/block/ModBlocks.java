@@ -1,5 +1,6 @@
 package g_mungus.zpl.block;
 
+import g_mungus.zpl.block.thruster.IonModulatorBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -16,4 +17,9 @@ public class ModBlocks {
         () -> new ThrusterExhaustBlock(BlockBehaviour.Properties.of()
             .strength(3.0f)
             .requiresCorrectToolForDrops()));
+
+    public static final DeferredHolder<Block, IonModulatorBlock> ION_MODULATOR_BLOCK = BLOCKS.register("ion_thrust_modulator",
+            () -> new IonModulatorBlock(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
 } 

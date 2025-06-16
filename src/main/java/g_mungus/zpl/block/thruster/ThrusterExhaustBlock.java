@@ -20,10 +20,9 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.valkyrienskies.mod.common.util.VectorConversionsMCKt;
-
-import javax.annotation.Nonnull;
 
 public class ThrusterExhaustBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -45,7 +44,13 @@ public class ThrusterExhaustBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
+        Direction direction;
+        if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
+            direction = context.getNearestLookingDirection();
+        } else {
+            direction = context.getNearestLookingDirection().getOpposite();
+        }
+        return this.defaultBlockState().setValue(FACING, direction);
     }
 
     @Nullable
@@ -109,7 +114,7 @@ public class ThrusterExhaustBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public void onPlace(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
+    public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
         if (!level.isClientSide()) {
             ZPLShipAttachment attachment = ZPLShipAttachment.get(level, pos);
             BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -124,7 +129,7 @@ public class ThrusterExhaustBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
         if (!level.isClientSide()) {
             ZPLShipAttachment ship = ZPLShipAttachment.get(level, pos);
             if (ship != null) {
