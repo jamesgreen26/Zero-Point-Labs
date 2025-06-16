@@ -1,4 +1,4 @@
-package g_mungus.zpl.block;
+package g_mungus.zpl.block.thruster;
 
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;

@@ -1,6 +1,9 @@
-package g_mungus.zpl.block;
+package g_mungus.zpl.block.thruster;
 
+import g_mungus.zpl.ship.ZPLShipAttachment;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,6 +21,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+import org.valkyrienskies.mod.common.util.VectorConversionsMCKt;
+
+import javax.annotation.Nonnull;
 
 public class ThrusterExhaustBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -100,6 +106,33 @@ public class ThrusterExhaustBlock extends Block implements EntityBlock {
             case WEST -> westShape;
             case EAST -> eastShape;
         };
+    }
+
+    @Override
+    public void onPlace(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
+        if (!level.isClientSide()) {
+            ZPLShipAttachment attachment = ZPLShipAttachment.get(level, pos);
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (attachment != null && blockEntity instanceof ThrusterExhaustBlockEntity thrusterBlockEntity) {
+                thrusterBlockEntity.thrust = new ThrusterData(VectorConversionsMCKt.toJOMLD(state.getValue(FACING).getOpposite().getNormal()), 0.0);
+
+                ThrusterForceApplier applier = new ThrusterForceApplier(thrusterBlockEntity.thrust);
+                attachment.addApplier(pos, applier);
+            }
+        }
+        super.onPlace(state, level, pos, oldState, isMoving);
+    }
+
+    @Override
+    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        if (!level.isClientSide()) {
+            ZPLShipAttachment ship = ZPLShipAttachment.get(level, pos);
+            if (ship != null) {
+                ship.removeApplier((ServerLevel) level, pos);
+            }
+        }
+
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
 }

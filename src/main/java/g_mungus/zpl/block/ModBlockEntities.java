@@ -1,5 +1,6 @@
 package g_mungus.zpl.block;
 
+import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.neoforge.registries.DeferredHolder;

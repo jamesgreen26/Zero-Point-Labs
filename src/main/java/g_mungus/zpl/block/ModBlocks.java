@@ -1,5 +1,6 @@
 package g_mungus.zpl.block;
 
+import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.core.registries.Registries;
