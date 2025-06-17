@@ -38,7 +38,9 @@ public class ThrusterExhaustBlockEntity extends BlockEntity {
         if (thrust == null) {
             ThrusterExhaustBlock.addApplier(getBlockState(), level, getBlockPos());
         }
-        thrust.strength = force_strength * 800_000;
+        if (thrust != null) {
+            thrust.strength = force_strength * 800_000;
+        }
     }
 
     private int getInputSignal() {
