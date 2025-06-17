@@ -1,5 +1,6 @@
 package g_mungus.zpl;
 
+import g_mungus.zpl.item.ModCreativeTabs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -17,6 +18,7 @@ public final class ZeroPointLabsMod {
         ModBlocks.BLOCKS.register(eventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(eventBus);
         ModItems.ITEMS.register(eventBus);
+        ModCreativeTabs.register(eventBus);
 
         // Register client-side renderer
         eventBus.addListener(this::registerRenderers);
