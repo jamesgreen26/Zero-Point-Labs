@@ -66,27 +66,35 @@ public class GyroscopeBlock extends Block implements EntityBlock {
     @Override
     public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
         if (!level.isClientSide()) {
-            ZPLShipAttachment attachment = ZPLShipAttachment.get(level, pos);
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (attachment != null && blockEntity instanceof GyroscopeBlockEntity gyro) {
-                gyro.thrust = new ThrusterData(VectorConversionsMCKt.toJOMLD(state.getValue(FACING).getOpposite().getNormal()), 0.0);
-
-                GyroForceApplier applier = new GyroForceApplier(gyro.thrust);
-                attachment.addApplier(pos, applier);
-            }
+            addApplier(state, level, pos);
         }
         super.onPlace(state, level, pos, oldState, isMoving);
     }
 
+    public static void addApplier(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+        ZPLShipAttachment attachment = ZPLShipAttachment.get(level, pos);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (attachment != null && blockEntity instanceof GyroscopeBlockEntity gyro) {
+            gyro.thrust = new ThrusterData(VectorConversionsMCKt.toJOMLD(state.getValue(FACING).getOpposite().getNormal()), 0.0);
+
+            GyroForceApplier applier = new GyroForceApplier(gyro.thrust);
+            attachment.addApplier(pos, applier);
+        }
+    }
+
     @Override
     public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
+        removeApplier(level, pos);
+
+        super.onRemove(state, level, pos, newState, isMoving);
+    }
+
+    private static void removeApplier(@NotNull Level level, @NotNull BlockPos pos) {
         if (!level.isClientSide()) {
             ZPLShipAttachment ship = ZPLShipAttachment.get(level, pos);
             if (ship != null) {
                 ship.removeApplier((ServerLevel) level, pos);
             }
         }
-
-        super.onRemove(state, level, pos, newState, isMoving);
     }
 }

@@ -16,8 +16,11 @@ public class GyroscopeBlockEntity extends BlockEntity {
     public ThrusterData thrust;
 
     public void tick() {
-        if (level == null || thrust == null) return;
-        thrust.strength = level.getBestNeighborSignal(getBlockPos()) * 32_000;
+        if (level == null) return;
+        if (thrust == null) {
+            GyroscopeBlock.addApplier(getBlockState(), level, getBlockPos());
+        }
+        thrust.strength = level.getBestNeighborSignal(getBlockPos()) * 20_000;
     }
 
     @Nullable

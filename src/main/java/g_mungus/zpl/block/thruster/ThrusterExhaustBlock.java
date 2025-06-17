@@ -116,16 +116,20 @@ public class ThrusterExhaustBlock extends Block implements EntityBlock {
     @Override
     public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
         if (!level.isClientSide()) {
-            ZPLShipAttachment attachment = ZPLShipAttachment.get(level, pos);
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (attachment != null && blockEntity instanceof ThrusterExhaustBlockEntity thrusterBlockEntity) {
-                thrusterBlockEntity.thrust = new ThrusterData(VectorConversionsMCKt.toJOMLD(state.getValue(FACING).getOpposite().getNormal()), 0.0);
-
-                ThrusterForceApplier applier = new ThrusterForceApplier(thrusterBlockEntity.thrust);
-                attachment.addApplier(pos, applier);
-            }
+            addApplier(state, level, pos);
         }
         super.onPlace(state, level, pos, oldState, isMoving);
+    }
+
+    public static void addApplier(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+        ZPLShipAttachment attachment = ZPLShipAttachment.get(level, pos);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (attachment != null && blockEntity instanceof ThrusterExhaustBlockEntity thrusterBlockEntity) {
+            thrusterBlockEntity.thrust = new ThrusterData(VectorConversionsMCKt.toJOMLD(state.getValue(FACING).getOpposite().getNormal()), 0.0);
+
+            ThrusterForceApplier applier = new ThrusterForceApplier(thrusterBlockEntity.thrust);
+            attachment.addApplier(pos, applier);
+        }
     }
 
     @Override
