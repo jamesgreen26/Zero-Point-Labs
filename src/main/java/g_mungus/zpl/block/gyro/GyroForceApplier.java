@@ -4,6 +4,8 @@ import g_mungus.zpl.block.thruster.ThrusterData;
 import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
 import org.joml.Vector3d;
+import org.joml.Vector3dc;
+import org.valkyrienskies.core.api.ships.properties.ShipTransform;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
 
 public class GyroForceApplier implements IForceApplier {
@@ -16,10 +18,17 @@ public class GyroForceApplier implements IForceApplier {
 
     @Override
     public void applyForces(BlockPos pos, PhysShipImpl ship) {
+        final ShipTransform transform = ship.getTransform();
+        Vector3dc scaling = transform.getShipToWorldScaling();
+
+        double massScaleFactor = scaling.x() * scaling.y() * scaling.z();
+        double torqueScaleFactor = massScaleFactor * scaling.x() * scaling.z();
+
         if (thrust.strength > 0.01) {
-            ship.applyRotDependentTorque(thrust.direction.normalize(thrust.strength));
+            ship.applyRotDependentTorque(thrust.direction.normalize(thrust.strength).mul(torqueScaleFactor));
         }
-        ship.applyInvariantTorque(ship.getOmega().mul(-8000, new Vector3d()));
-        ship.applyInvariantForce(ship.getVelocity().mul(-3200, new Vector3d()));
+
+        ship.applyInvariantTorque(ship.getOmega().mul(-8000, new Vector3d()).mul(torqueScaleFactor));
+        ship.applyInvariantForce(ship.getVelocity().mul(-3200, new Vector3d()).mul(massScaleFactor));
     }
 }
