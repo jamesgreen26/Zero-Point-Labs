@@ -52,12 +52,12 @@ dependencies {
         exclude group: "me.fallenbreath"
     }
 
-    implementation("org.valkyrienskies.core:api:$vs_core_version") { transitive = false }
-    implementation("org.valkyrienskies.core:api-game:$vs_core_version") { transitive = false }
-    implementation("org.valkyrienskies.core:util:$vs_core_version") { transitive = false }
-    implementation("org.valkyrienskies.core:impl:$vs_core_version") { transitive = false }
+    compileOnly ("org.valkyrienskies.core:api:$vs_core_version") { transitive = false }
+    compileOnly ("org.valkyrienskies.core:api-game:$vs_core_version") { transitive = false }
+    compileOnly ("org.valkyrienskies.core:util:$vs_core_version") { transitive = false }
+    compileOnly ("org.valkyrienskies.core:impl:$vs_core_version") { transitive = false }
 
-    modApi("org.valkyrienskies:valkyrienskies-1-21-1-forge:$vs2_version")
+    compileOnlyApi("org.valkyrienskies:valkyrienskies-1-21-1-forge:$vs2_version")
 
     implementation("thedarkcolour:kotlinforforge-neoforge:5.8.0")
 }
