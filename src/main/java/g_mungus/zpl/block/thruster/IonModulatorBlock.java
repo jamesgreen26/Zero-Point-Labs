@@ -8,8 +8,11 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
 
-public class IonModulatorBlock extends Block {
+public class IonModulatorBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     public IonModulatorBlock(Properties arg) {
@@ -34,5 +37,10 @@ public class IonModulatorBlock extends Block {
             direction = context.getNearestLookingDirection().getOpposite();
         }
         return this.defaultBlockState().setValue(FACING, direction);
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new IonModulatorBlockEntity(pos, state);
     }
 }
