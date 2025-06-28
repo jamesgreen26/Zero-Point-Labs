@@ -1,0 +1,104 @@
+plugins {
+    id 'dev.architectury.loom' version '1.10-SNAPSHOT'
+    id 'maven-publish'
+}
+
+group = project.maven_group
+version = project.mod_version
+
+base {
+    archivesName = project.archives_name
+}
+
+loom {
+    silentMojangMappingsLicense()
+
+    forge {
+        mixinConfig 'zpl.mixins.json'
+    }
+}
+
+repositories {
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+
+    maven {
+        name = "Valkyrien Skies Internal"
+        url = 'https://maven.valkyrienskies.org'
+    }
+
+    maven {
+        name = 'Kotlin for Forge'
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+    }
+    maven { url = 'https://maven.blamejared.com/' }
+    maven {
+        name 'Curios maven'
+        url = "https://maven.theillusivec4.top/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "net.minecraft:minecraft:$project.minecraft_version"
+    mappings loom.officialMojangMappings()
+    forge "net.minecraftforge:forge:$project.forge_version"
+
+    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
+    implementation("io.github.llamalad7:mixinextras-forge:0.3.5")
+
+    compileOnly ("org.valkyrienskies.core:api:$vs_core_version") { transitive = false }
+    compileOnly ("org.valkyrienskies.core:api-game:$vs_core_version") { transitive = false }
+    compileOnly ("org.valkyrienskies.core:util:$vs_core_version") { transitive = false }
+    compileOnly ("org.valkyrienskies.core:impl:$vs_core_version") { transitive = false }
+
+
+    modImplementation("maven.modrinth:valkyrien-skies:1.20.1-forge-2.3.0-beta.7")
+
+//    compileOnly files("libs/shade-1.0.0-dev-shadow.jar")
+
+    modImplementation("maven.modrinth:curios:5.14.1+1.20.1")
+    modImplementation("maven.modrinth:lodestonelib:1.20.1-1.6.4.1")
+
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('META-INF/mods.toml') {
+        expand version: project.version
+    }
+}
+
+java {
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+// Configure Maven publishing.
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}

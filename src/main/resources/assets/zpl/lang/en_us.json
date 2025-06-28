@@ -1,0 +1,8 @@
+{
+  "item.zpl.gyroscope": "Gyroscope",
+  "item.zpl.ion_thrust_modulator": "Ion Thrust Modulator",
+  "item.zpl.ion_thruster_exhaust": "Ion Thruster Exhaust",
+  "block.zpl.gyroscope": "Gyroscope",
+  "block.zpl.ion_thrust_modulator": "Ion Thrust Modulator",
+  "block.zpl.ion_thruster_exhaust": "Ion Thruster Exhaust"
+}
