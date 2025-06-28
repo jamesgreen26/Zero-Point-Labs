@@ -58,7 +58,7 @@ public class ThrusterExhaustBlockEntity extends BlockEntity {
         }
 
         double requestedStrength = output / 15.0;
-        double requestedEnergy = requestedStrength * 250.0;
+        double requestedEnergy = requestedStrength * 100;
 
         LazyOptional<IEnergyStorage> energySource = getNeighborEnergyStorage();
 
