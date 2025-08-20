@@ -19,13 +19,20 @@ import java.util.List;
 import static g_mungus.zpl.ShaderRegistry.THRUST_SHADER;
 
 public class ThrusterExhaustBlockEntityRenderer implements BlockEntityRenderer<ThrusterExhaustBlockEntity> {
+    private static LodestoneRenderType THRUST;
+    
     public ThrusterExhaustBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
-    public static final LodestoneRenderType THRUST = LodestoneRenderTypeRegistry.createGenericRenderType("thruster_render_type", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, LodestoneRenderTypeRegistry.builder()
+    private static LodestoneRenderType getThrustRenderType() {
+        if (THRUST == null) {
+            THRUST = LodestoneRenderTypeRegistry.createGenericRenderType("thruster_render_type", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, LodestoneRenderTypeRegistry.builder()
                     .setShaderState(THRUST_SHADER)
                     .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
             );
+        }
+        return THRUST;
+    }
 
     @Override
     public int getViewDistance() {
@@ -76,7 +83,7 @@ public class ThrusterExhaustBlockEntityRenderer implements BlockEntityRenderer<T
 
         Matrix4f matrix4f = poseStack.last().pose();
 
-        this.renderCube(blockEntity, matrix4f, bufferSource.getBuffer(THRUST));
+        this.renderCube(blockEntity, matrix4f, bufferSource.getBuffer(getThrustRenderType()));
 
         poseStack.popPose();
     }
