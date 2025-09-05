@@ -1,17 +1,17 @@
 modLoader = "javafml"
 loaderVersion = "[47,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "Apache 2.0"
 
 [[mods]]
 modId = "zpl"
 version = "${version}"
 displayName = "Zero Point Labs"
-authors = "Me!"
+authors = "G_Mungus"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Innovative technologies for high-performance spacecraft locomotion.
 '''
-#logoFile = ""
+logoFile = "assets/zpl/icon.png"
 
 [[dependencies.zpl]]
 modId = "forge"
