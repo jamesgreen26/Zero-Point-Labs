@@ -29,4 +29,9 @@ public class ModBlocks {
             () -> new GyroscopeBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> CAUTION_BLOCK = BLOCKS.register("caution_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
 } 

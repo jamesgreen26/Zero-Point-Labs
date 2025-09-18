@@ -21,4 +21,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> GYROSCOPE_ITEM = ITEMS.register("gyroscope",
             () -> new BlockItem(ModBlocks.GYROSCOPE_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CAUTION_BLOCK_ITEM = ITEMS.register("caution_block",
+            () -> new BlockItem(ModBlocks.CAUTION_BLOCK.get(), new Item.Properties()));
 } 
