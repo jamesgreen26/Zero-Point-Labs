@@ -24,4 +24,13 @@ public class ModItems {
 
     public static final RegistryObject<Item> CAUTION_BLOCK_ITEM = ITEMS.register("caution_block",
             () -> new BlockItem(ModBlocks.CAUTION_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SPACE_PLATING_ITEM = ITEMS.register("space_plating",
+            () -> new BlockItem(ModBlocks.SPACE_PLATING.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SPACE_PLATING_SLAB_ITEM = ITEMS.register("space_plating_slab",
+            () -> new BlockItem(ModBlocks.SPACE_PLATING_SLAB.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SPACE_PLATING_STAIRS_ITEM = ITEMS.register("space_plating_stairs",
+            () -> new BlockItem(ModBlocks.SPACE_PLATING_STAIRS.get(), new Item.Properties()));
 } 

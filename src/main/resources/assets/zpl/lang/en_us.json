@@ -3,8 +3,14 @@
   "item.zpl.gyroscope": "Gyroscope",
   "item.zpl.ion_thrust_modulator": "Ion Thrust Modulator",
   "item.zpl.ion_thruster_exhaust": "Ion Thruster Exhaust",
+  "item.zpl.space_plating": "Space Plating",
+  "item.zpl.space_plating_slab": "Space Plating Slab",
+  "item.zpl.space_plating_stairs": "Space Plating Stairs",
   "block.zpl.caution_block": "Caution Block",
   "block.zpl.gyroscope": "Gyroscope",
   "block.zpl.ion_thrust_modulator": "Ion Thrust Modulator",
-  "block.zpl.ion_thruster_exhaust": "Ion Thruster Exhaust"
+  "block.zpl.ion_thruster_exhaust": "Ion Thruster Exhaust",
+  "block.zpl.space_plating": "Space Plating",
+  "block.zpl.space_plating_slab": "Space Plating Slab",
+  "block.zpl.space_plating_stairs": "Space Plating Stairs"
 }

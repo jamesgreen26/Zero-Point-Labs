@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "zpl:block/plating",
+    "top": "zpl:block/plating",
+    "side": "zpl:block/plating"
+  }
+}

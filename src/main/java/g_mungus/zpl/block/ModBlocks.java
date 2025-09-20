@@ -6,6 +6,8 @@ import g_mungus.zpl.block.thruster.IonModulatorBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -32,6 +34,21 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> CAUTION_BLOCK = BLOCKS.register("caution_block",
             () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> SPACE_PLATING = BLOCKS.register("space_plating",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> SPACE_PLATING_SLAB = BLOCKS.register("space_plating_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> SPACE_PLATING_STAIRS = BLOCKS.register("space_plating_stairs",
+            () -> new StairBlock(() -> SPACE_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
 } 
