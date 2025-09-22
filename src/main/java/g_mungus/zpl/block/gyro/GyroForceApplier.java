@@ -25,10 +25,10 @@ public class GyroForceApplier implements IForceApplier {
         double torqueScaleFactor = massScaleFactor * scaling.x() * scaling.z();
 
         if (thrust.strength > 0.01) {
-            ship.applyRotDependentTorque(thrust.direction.normalize(thrust.strength).mul(torqueScaleFactor));
+            ship.applyRotDependentTorque(thrust.direction.normalize(thrust.strength * 1.5).mul(torqueScaleFactor));
         }
 
         ship.applyInvariantTorque(ship.getPoseVel().getOmega().mul(-8000, new Vector3d()).mul(torqueScaleFactor));
-        ship.applyInvariantForce(ship.getPoseVel().getVel().mul(-3200, new Vector3d()).mul(massScaleFactor));
+        ship.applyInvariantForce(ship.getPoseVel().getVel().mul(-2400, new Vector3d()).mul(massScaleFactor));
     }
 }
