@@ -1,10 +1,10 @@
 package g_mungus.zpl.block.gyro;
 
+import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.thruster.ThrusterData;
 import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
-import org.joml.Vector3d;
-import org.joml.Vector3dc;
+import org.joml.*;
 import org.valkyrienskies.core.api.ships.properties.ShipTransform;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
 
@@ -28,7 +28,12 @@ public class GyroForceApplier implements IForceApplier {
             ship.applyRotDependentTorque(thrust.direction.normalize(thrust.strength * 1.5).mul(torqueScaleFactor));
         }
 
-        ship.applyInvariantTorque(ship.getPoseVel().getOmega().mul(-8000, new Vector3d()).mul(torqueScaleFactor));
-        ship.applyInvariantForce(ship.getPoseVel().getVel().mul(-2400, new Vector3d()).mul(massScaleFactor));
+        Vector3d invOmega = ship.getPoseVel().getOmega().mul(-8000, new Vector3d());
+
+        Matrix4dc worldToShip = transform.getWorldToShip();
+        Matrix3d rotPart = new Matrix3d(); worldToShip.get3x3(rotPart);
+
+        Vector3d shipSpaceOmega = rotPart.transform(invOmega, new Vector3d());
+        ship.applyRotDependentTorque(shipSpaceOmega.mul(torqueScaleFactor));
     }
 }
