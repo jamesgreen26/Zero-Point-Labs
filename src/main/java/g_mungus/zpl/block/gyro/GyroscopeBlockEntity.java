@@ -21,7 +21,7 @@ public class GyroscopeBlockEntity extends BlockEntity {
             GyroscopeBlock.addApplier(getBlockState(), level, getBlockPos());
         }
         if (thrust != null) {
-            thrust.strength = level.getBestNeighborSignal(getBlockPos()) * 20_000;
+            thrust.strength = level.getBestNeighborSignal(getBlockPos()) * 64_000;
         }
     }
 
