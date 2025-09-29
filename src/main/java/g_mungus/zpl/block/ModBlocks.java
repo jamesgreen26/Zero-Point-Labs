@@ -2,6 +2,7 @@ package g_mungus.zpl.block;
 
 import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.gyro.GyroscopeBlock;
+import g_mungus.zpl.block.hover.MassSuspensionMatrixBlock;
 import g_mungus.zpl.block.thruster.IonModulatorBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import net.minecraft.core.registries.Registries;
@@ -49,6 +50,11 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> SPACE_PLATING_STAIRS = BLOCKS.register("space_plating_stairs",
             () -> new StairBlock(() -> SPACE_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> MASS_SUSPENSION_MATRIX_BLOCK = BLOCKS.register("mass_suspension_matrix",
+            () -> new MassSuspensionMatrixBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
 } 

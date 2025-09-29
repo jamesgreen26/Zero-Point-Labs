@@ -33,4 +33,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> SPACE_PLATING_STAIRS_ITEM = ITEMS.register("space_plating_stairs",
             () -> new BlockItem(ModBlocks.SPACE_PLATING_STAIRS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> MASS_SUSPENSION_MATRIX_ITEM = ITEMS.register("mass_suspension_matrix",
+            () -> new BlockItem(ModBlocks.MASS_SUSPENSION_MATRIX_BLOCK.get(), new Item.Properties()));
 } 

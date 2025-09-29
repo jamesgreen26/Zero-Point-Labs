@@ -2,6 +2,7 @@ package g_mungus.zpl.block;
 
 import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.gyro.GyroscopeBlockEntity;
+import g_mungus.zpl.block.hover.MassSuspensionMatrixBlockEntity;
 import g_mungus.zpl.block.thruster.IonModulatorBlockEntity;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
 import net.minecraft.core.registries.Registries;
@@ -24,4 +25,8 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<IonModulatorBlockEntity>> ION_MODULATOR_BLOCK_ENTITY =
         BLOCK_ENTITIES.register("ion_modulator_block_entity",
             () -> BlockEntityType.Builder.of(IonModulatorBlockEntity::new, ModBlocks.ION_MODULATOR_BLOCK.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<MassSuspensionMatrixBlockEntity>> MASS_SUSPENSION_MATRIX_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("mass_suspension_matrix_block_entity",
+                    () -> BlockEntityType.Builder.of(MassSuspensionMatrixBlockEntity::new, ModBlocks.MASS_SUSPENSION_MATRIX_BLOCK.get()).build(null));
 } 
