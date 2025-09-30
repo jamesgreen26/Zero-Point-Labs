@@ -22,7 +22,7 @@ public class ThrusterForceApplier implements IForceApplier {
         final ShipTransform transform = ship.getTransform();
         Vector3dc scaling = transform.getShipToWorldScaling();
 
-        double massScaleFactor = scaling.x() * scaling.y() * scaling.z();
+        double massScaleFactor = scaling.x() * scaling.y() * scaling.z() * 1.5;
 
         if (thrust.strength > 0.01) {
 
