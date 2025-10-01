@@ -51,8 +51,6 @@ public class MassSuspensionMatrixBlock extends Block implements EntityBlock {
 
             String dimension = "minecraft:dimension:" + level.dimension().location();
 
-            ZeroPointLabsMod.LOGGER.info(dimension);
-
             HoverForceApplier applier = new HoverForceApplier(dimension, matrixBlockEntity.thrust);
             attachment.addApplier(pos, applier);
         }
