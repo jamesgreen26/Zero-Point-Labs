@@ -16,16 +16,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class EnergyOrbParticle extends TextureSheetParticle {
+    private final float baseSize;
 
     protected EnergyOrbParticle(ClientLevel level, double x, double y, double z,
                                 double xSpeed, double ySpeed, double zSpeed) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
-        this.xd = xSpeed;
-        this.yd = ySpeed;
-        this.zd = zSpeed;
+        // xSpeed contains the scale value, ySpeed and zSpeed are unused (always 0)
+        double scale = xSpeed > 0 ? xSpeed : 1.0;
 
-        this.quadSize = 0.2F;
+        this.xd = 0;
+        this.yd = 0;
+        this.zd = 0;
+
+        this.baseSize = (float) (0.2F * scale);
+        this.quadSize = this.baseSize;
         this.lifetime = 20;
 
         this.rCol = 0.3F;
@@ -43,7 +48,7 @@ public class EnergyOrbParticle extends TextureSheetParticle {
         // Fade out and shrink as the particle ages
         float ageRatio = (float) this.age / (float) this.lifetime;
         this.alpha = 0.8F * (1.0F - ageRatio);
-        this.quadSize = 0.2F * (1.0F - ageRatio);
+        this.quadSize = this.baseSize * (1.0F - ageRatio);
     }
 
     @Override

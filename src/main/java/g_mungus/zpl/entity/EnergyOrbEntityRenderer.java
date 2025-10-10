@@ -30,7 +30,7 @@ public class EnergyOrbEntityRenderer extends EntityRenderer<EnergyOrbEntity> {
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
 
-        // Size of the quad
+        // Size of the quad (no dimension scaling)
         float size = 0.3F;
 
         // Add pulsing effect

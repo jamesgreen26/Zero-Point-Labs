@@ -1,5 +1,6 @@
 package g_mungus.zpl.item;
 
+import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.entity.EnergyOrbEntity;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,12 +26,15 @@ public class EnergyOrbLauncherItem extends Item {
             // Get player's look direction
             Vec3 lookVector = player.getLookAngle();
 
-            // Starting position (slightly in front of player's eyes)
-            Vec3 eyePos = player.getEyePosition();
-            Vec3 spawnPos = eyePos.add(lookVector.scale(0.5));
+            // Get dimension scale
+            double scale = ZeroPointLabsMod.getDimensionScale(level);
 
-            // Projectile speed
-            double speed = 2.0;
+            // Starting position (slightly in front of player's eyes, scaled)
+            Vec3 eyePos = player.getEyePosition();
+            Vec3 spawnPos = eyePos.add(lookVector.scale(0.5 * scale));
+
+            // Projectile speed (scaled by dimension)
+            double speed = 2.0 * scale;
             Vec3 velocity = lookVector.scale(speed);
 
             // Create and spawn the energy orb entity

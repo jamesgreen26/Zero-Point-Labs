@@ -1,5 +1,6 @@
 package g_mungus.zpl.entity;
 
+import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.particle.ModParticles;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -50,11 +51,13 @@ public class EnergyOrbEntity extends Projectile {
 
         // Spawn trail particles (client-side will see these)
         if (this.level().isClientSide) {
+            double scale = ZeroPointLabsMod.getDimensionScale(this.level());
 
+            // Pass scale through velocity parameters (will be used for sizing)
             this.level().addParticle(
                     ModParticles.ENERGY_ORB.get(),
                     this.xOld, this.yOld, this.zOld,
-                    0, 0, 0
+                    scale, 0, 0  // Pass scale in xSpeed parameter
             );
         }
 
