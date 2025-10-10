@@ -11,8 +11,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4dc;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 import org.valkyrienskies.core.api.ships.Ship;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
+import org.valkyrienskies.mod.common.util.VectorConversionsMCKt;
 
 public class EnergyOrbLauncherBlockEntity extends BlockEntity {
     private boolean wasPowered = false;
@@ -48,16 +52,24 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
         Vec3 spawnPos = blockCenter.add(direction.scale(0.6));
 
         // Calculate velocity (scaled by dimension)
-        double speed = 5.0 * scale;
-        Vec3 velocity = direction.scale(speed);
+        Vec3 velocity = direction.scale(5.0);
 
         // Create and spawn the energy orb
-        EnergyOrbEntity energyOrb = new EnergyOrbEntity(level, spawnPos.x, spawnPos.y, spawnPos.z, velocity);
+        EnergyOrbEntity energyOrb;
 
         // Check if this block is on a ship, and if so, exclude that ship from collisions
         Ship ship = VSGameUtilsKt.getShipManagingPos(level, pos);
         if (ship != null) {
+            Matrix4dc transform = ship.getTransform().getShipToWorld();
+            Vector3dc newVelocity = transform.transformDirection(VectorConversionsMCKt.toJOML(velocity));
+            Vector3d newPosition = transform.transformPosition(VectorConversionsMCKt.toJOML(blockCenter));
+            newPosition = newPosition.add(newVelocity.normalize(0.6, new Vector3d()));
+
+            energyOrb = new EnergyOrbEntity(level, newPosition.x, newPosition.y, newPosition.z, VectorConversionsMCKt.toMinecraft(newVelocity));
+
             energyOrb.setExcludedShipId(ship.getId());
+        } else {
+            energyOrb = new EnergyOrbEntity(level, spawnPos.x, spawnPos.y, spawnPos.z, velocity.scale(scale));
         }
 
         level.addFreshEntity(energyOrb);
