@@ -59,7 +59,7 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
         Ship ship = VSGameUtilsKt.getShipManagingPos(level, pos);
         if (ship != null) {
             Matrix4dc transform = ship.getTransform().getShipToWorld();
-            Vector3dc newVelocity = transform.transformDirection(VectorConversionsMCKt.toJOML(velocity));
+            Vector3d newVelocity = transform.transformDirection(VectorConversionsMCKt.toJOML(velocity));
             Vector3d newPosition = transform.transformPosition(VectorConversionsMCKt.toJOML(blockCenter));
             newPosition = newPosition.add(newVelocity.normalize(0.6, new Vector3d()));
 
@@ -68,7 +68,12 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
             double parallelComponent = shipVelocity.dot(velocityDirection);
             Vector3d parallelVelocity = velocityDirection.mul(parallelComponent, new Vector3d());
 
-            Vector3d finalVelocity = newVelocity.add(parallelVelocity.mul(scale), new Vector3d());
+            Vector3d finalVelocity;
+            if (scale < 0.5) {
+                finalVelocity = newVelocity.add(parallelVelocity.mul(scale), new Vector3d());
+            } else {
+                finalVelocity = newVelocity;
+            }
 
             energyOrb = new EnergyOrbEntity(level, newPosition.x, newPosition.y, newPosition.z, VectorConversionsMCKt.toMinecraft(finalVelocity));
 
