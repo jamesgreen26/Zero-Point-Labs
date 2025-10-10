@@ -28,10 +28,8 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
     public static void serverTick(Level level, BlockPos pos, BlockState state, EnergyOrbLauncherBlockEntity blockEntity) {
         if (level.isClientSide) return;
 
-        // Check if block is receiving redstone power
         boolean isPowered = level.hasNeighborSignal(pos);
 
-        // Fire on rising edge (when power turns on)
         if (isPowered && !blockEntity.wasPowered) {
             blockEntity.fireEnergyOrb(level, pos, state);
         }
@@ -40,24 +38,18 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
     }
 
     private void fireEnergyOrb(Level level, BlockPos pos, BlockState state) {
-        // Get the facing direction
         Direction facing = state.getValue(EnergyOrbLauncherBlock.FACING);
         Vec3 direction = Vec3.atLowerCornerOf(facing.getNormal());
 
-        // Get dimension scale
         double scale = ZeroPointLabsMod.getDimensionScale(level);
 
-        // Calculate spawn position (center of block + offset in facing direction)
         Vec3 blockCenter = Vec3.atCenterOf(pos);
         Vec3 spawnPos = blockCenter.add(direction.scale(0.6));
 
-        // Calculate velocity (scaled by dimension)
         Vec3 velocity = direction.scale(5.0);
 
-        // Create and spawn the energy orb
         EnergyOrbEntity energyOrb;
 
-        // Check if this block is on a ship, and if so, exclude that ship from collisions
         Ship ship = VSGameUtilsKt.getShipManagingPos(level, pos);
         if (ship != null) {
             Matrix4dc transform = ship.getTransform().getShipToWorld();
@@ -65,7 +57,14 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
             Vector3d newPosition = transform.transformPosition(VectorConversionsMCKt.toJOML(blockCenter));
             newPosition = newPosition.add(newVelocity.normalize(0.6, new Vector3d()));
 
-            energyOrb = new EnergyOrbEntity(level, newPosition.x, newPosition.y, newPosition.z, VectorConversionsMCKt.toMinecraft(newVelocity));
+            Vector3dc shipVelocity = ship.getVelocity();
+            Vector3d velocityDirection = newVelocity.normalize(new Vector3d());
+            double parallelComponent = shipVelocity.dot(velocityDirection);
+            Vector3d parallelVelocity = velocityDirection.mul(parallelComponent, new Vector3d());
+
+            Vector3d finalVelocity = newVelocity.add(parallelVelocity.mul(scale), new Vector3d());
+
+            energyOrb = new EnergyOrbEntity(level, newPosition.x, newPosition.y, newPosition.z, VectorConversionsMCKt.toMinecraft(finalVelocity));
 
             energyOrb.setExcludedShipId(ship.getId());
         } else {
@@ -74,7 +73,6 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
 
         level.addFreshEntity(energyOrb);
 
-        // Play sound effect
         level.playSound(
             null,
             pos,
