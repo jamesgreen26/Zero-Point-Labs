@@ -3,6 +3,8 @@ package g_mungus.zpl;
 import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntityRenderer;
+import g_mungus.zpl.entity.EnergyOrbEntityRenderer;
+import g_mungus.zpl.entity.ModEntities;
 import g_mungus.zpl.item.ModCreativeTabs;
 import g_mungus.zpl.item.ModItems;
 import g_mungus.zpl.particle.EnergyOrbParticle;
@@ -28,6 +30,7 @@ public final class ZeroPointLabsMod {
         ModItems.ITEMS.register(eventBus);
         ModCreativeTabs.register(eventBus);
         ModParticles.PARTICLE_TYPES.register(eventBus);
+        ModEntities.ENTITY_TYPES.register(eventBus);
 
         eventBus.addListener(this::registerRenderers);
         eventBus.addListener(this::registerParticleProviders);
@@ -35,6 +38,7 @@ public final class ZeroPointLabsMod {
 
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
+        event.registerEntityRenderer(ModEntities.ENERGY_ORB.get(), EnergyOrbEntityRenderer::new);
     }
 
     private void registerParticleProviders(RegisterParticleProvidersEvent event) {

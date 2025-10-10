@@ -26,7 +26,7 @@ public class EnergyOrbParticle extends TextureSheetParticle {
         this.zd = zSpeed;
 
         this.quadSize = 0.2F;
-        this.lifetime = 60;
+        this.lifetime = 20;
 
         this.rCol = 0.3F;
         this.gCol = 0.8F;
@@ -40,12 +40,10 @@ public class EnergyOrbParticle extends TextureSheetParticle {
     public void tick() {
         super.tick();
 
-        // Fade out as the particle ages
+        // Fade out and shrink as the particle ages
         float ageRatio = (float) this.age / (float) this.lifetime;
         this.alpha = 0.8F * (1.0F - ageRatio);
-
-        // Optional: slight pulsing effect
-        this.quadSize = 0.2F + 0.05F * (float) Math.sin(this.age * 0.5);
+        this.quadSize = 0.2F * (1.0F - ageRatio);
     }
 
     @Override

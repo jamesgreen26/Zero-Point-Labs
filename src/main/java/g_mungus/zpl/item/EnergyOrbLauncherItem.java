@@ -1,7 +1,6 @@
 package g_mungus.zpl.item;
 
-import g_mungus.zpl.particle.ModParticles;
-import net.minecraft.server.level.ServerLevel;
+import g_mungus.zpl.entity.EnergyOrbEntity;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -23,26 +22,27 @@ public class EnergyOrbLauncherItem extends Item {
         ItemStack itemStack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
+            // Get player's look direction
             Vec3 lookVector = player.getLookAngle();
 
+            // Starting position (slightly in front of player's eyes)
             Vec3 eyePos = player.getEyePosition();
             Vec3 spawnPos = eyePos.add(lookVector.scale(0.5));
 
-            double speed = 3;
+            // Projectile speed
+            double speed = 2.0;
             Vec3 velocity = lookVector.scale(speed);
 
-            ServerLevel serverLevel = (ServerLevel) level;
-            serverLevel.sendParticles(
-                ModParticles.ENERGY_ORB.get(),
-                spawnPos.x, spawnPos.y, spawnPos.z,
-                0,
-                velocity.x, velocity.y, velocity.z,
-                1.0
-            );
+            // Create and spawn the energy orb entity
+            EnergyOrbEntity energyOrb = new EnergyOrbEntity(level, spawnPos.x, spawnPos.y, spawnPos.z, velocity);
+            energyOrb.setOwner(player);
+            level.addFreshEntity(energyOrb);
 
+            // Play sound effect
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.5F, 1.2F);
 
+            // Add cooldown (1 tick for testing, can increase later)
             player.getCooldowns().addCooldown(this, 1);
         }
 
