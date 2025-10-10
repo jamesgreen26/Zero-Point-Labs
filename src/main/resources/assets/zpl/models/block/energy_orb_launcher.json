@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "zpl:block/energy_orb_launcher_front",
+    "north": "zpl:block/energy_orb_launcher_front",
+    "south": "zpl:block/energy_orb_launcher_side",
+    "east": "zpl:block/energy_orb_launcher_side",
+    "west": "zpl:block/energy_orb_launcher_side",
+    "up": "zpl:block/energy_orb_launcher_top",
+    "down": "zpl:block/energy_orb_launcher_top"
+  }
+}

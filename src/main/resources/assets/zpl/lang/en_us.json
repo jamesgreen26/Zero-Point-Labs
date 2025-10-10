@@ -8,6 +8,7 @@
   "item.zpl.space_plating_stairs": "Space Plating Stairs",
   "item.zpl.mass_suspension_matrix": "Mass Suspension Matrix",
   "item.zpl.energy_orb_launcher": "Energy Orb Launcher",
+  "item.zpl.energy_orb_launcher_hand": "Energy Orb Launcher (Hand)",
   "block.zpl.caution_block": "Caution Block",
   "block.zpl.gyroscope": "Gyroscope",
   "block.zpl.ion_thrust_modulator": "Ion Thrust Modulator",
@@ -15,5 +16,6 @@
   "block.zpl.space_plating": "Space Plating",
   "block.zpl.space_plating_slab": "Space Plating Slab",
   "block.zpl.space_plating_stairs": "Space Plating Stairs",
-  "block.zpl.mass_suspension_matrix": "Mass Suspension Matrix"
+  "block.zpl.mass_suspension_matrix": "Mass Suspension Matrix",
+  "block.zpl.energy_orb_launcher": "Energy Orb Launcher"
 }
