@@ -88,8 +88,8 @@ public class EnergyOrbEntity extends Projectile {
             );
         }
 
-        // Remove after 5 seconds (100 ticks)
-        if (this.tickCount > 100) {
+        // Remove after 8 seconds (160 ticks)
+        if (this.tickCount > 160) {
             this.discard();
         }
     }
@@ -128,6 +128,11 @@ public class EnergyOrbEntity extends Projectile {
     public boolean shouldRenderAtSqrDistance(double distance) {
         // Render at longer distances
         return distance < 4096.0D;
+    }
+
+    @Override
+    public boolean ignoreExplosion() {
+        return true;
     }
 
     @Override
