@@ -48,7 +48,7 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
         Vec3 spawnPos = blockCenter.add(direction.scale(0.6));
 
         // Calculate velocity (scaled by dimension)
-        double speed = 2.0 * scale;
+        double speed = 3.0 * scale;
         Vec3 velocity = direction.scale(speed);
 
         // Create and spawn the energy orb
