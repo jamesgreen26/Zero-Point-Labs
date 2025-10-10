@@ -2,13 +2,10 @@ package g_mungus.zpl.entity;
 
 import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.particle.ModParticles;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -17,8 +14,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
+import org.valkyrienskies.core.api.ships.Ship;
+import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
 public class EnergyOrbEntity extends Projectile {
+    private static final EntityDataAccessor<Long> EXCLUDED_SHIP_ID =
+        SynchedEntityData.defineId(EnergyOrbEntity.class, EntityDataSerializers.LONG);
+
+    private static final long NO_SHIP_ID = -1L;
 
     public EnergyOrbEntity(EntityType<? extends EnergyOrbEntity> entityType, Level level) {
         super(entityType, level);
@@ -30,8 +34,19 @@ public class EnergyOrbEntity extends Projectile {
         this.setDeltaMovement(velocity);
     }
 
+    public void setExcludedShipId(@Nullable Long shipId) {
+        this.entityData.set(EXCLUDED_SHIP_ID, shipId != null ? shipId : NO_SHIP_ID);
+    }
+
+    @Nullable
+    public Long getExcludedShipId() {
+        long shipId = this.entityData.get(EXCLUDED_SHIP_ID);
+        return shipId == NO_SHIP_ID ? null : shipId;
+    }
+
     @Override
     protected void defineSynchedData() {
+        this.entityData.define(EXCLUDED_SHIP_ID, NO_SHIP_ID);
     }
 
     @Override
@@ -41,7 +56,19 @@ public class EnergyOrbEntity extends Projectile {
         // Raycast for collisions
         HitResult hitResult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 
-        if (hitResult.getType() != HitResult.Type.MISS) {
+        // Check if we hit a block on our excluded ship
+        Long excludedShipId = this.getExcludedShipId();
+        if (hitResult.getType() == HitResult.Type.BLOCK && excludedShipId != null) {
+            BlockHitResult blockHit = (BlockHitResult) hitResult;
+            Ship ship = VSGameUtilsKt.getShipManagingPos(this.level(), blockHit.getBlockPos());
+
+            // If the block is part of our excluded ship, ignore the hit
+            if (ship != null && ship.getId() == excludedShipId) {
+                // Don't trigger hit, just continue
+            } else {
+                this.onHit(hitResult);
+            }
+        } else if (hitResult.getType() != HitResult.Type.MISS) {
             this.onHit(hitResult);
         }
 
@@ -105,11 +132,16 @@ public class EnergyOrbEntity extends Projectile {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        // No additional data to read
+        if (tag.contains("ExcludedShipId")) {
+            this.setExcludedShipId(tag.getLong("ExcludedShipId"));
+        }
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        // No additional data to save
+        Long shipId = this.getExcludedShipId();
+        if (shipId != null) {
+            tag.putLong("ExcludedShipId", shipId);
+        }
     }
 }

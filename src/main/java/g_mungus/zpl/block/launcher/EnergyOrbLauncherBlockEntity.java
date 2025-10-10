@@ -11,6 +11,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.valkyrienskies.core.api.ships.Ship;
+import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
 public class EnergyOrbLauncherBlockEntity extends BlockEntity {
     private boolean wasPowered = false;
@@ -43,7 +45,7 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
 
         // Calculate spawn position (center of block + offset in facing direction)
         Vec3 blockCenter = Vec3.atCenterOf(pos);
-        Vec3 spawnPos = blockCenter.add(direction.scale(0.6 * scale));
+        Vec3 spawnPos = blockCenter.add(direction.scale(0.6));
 
         // Calculate velocity (scaled by dimension)
         double speed = 2.0 * scale;
@@ -51,6 +53,13 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
 
         // Create and spawn the energy orb
         EnergyOrbEntity energyOrb = new EnergyOrbEntity(level, spawnPos.x, spawnPos.y, spawnPos.z, velocity);
+
+        // Check if this block is on a ship, and if so, exclude that ship from collisions
+        Ship ship = VSGameUtilsKt.getShipManagingPos(level, pos);
+        if (ship != null) {
+            energyOrb.setExcludedShipId(ship.getId());
+        }
+
         level.addFreshEntity(energyOrb);
 
         // Play sound effect
