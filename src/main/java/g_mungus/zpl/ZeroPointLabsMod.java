@@ -11,6 +11,7 @@ import g_mungus.zpl.item.ModCreativeTabs;
 import g_mungus.zpl.item.ModItems;
 import g_mungus.zpl.particle.EnergyOrbParticle;
 import g_mungus.zpl.particle.ModParticles;
+import g_mungus.zpl.sound.ModSounds;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -34,6 +35,7 @@ public final class ZeroPointLabsMod {
         ModCreativeTabs.register(eventBus);
         ModParticles.PARTICLE_TYPES.register(eventBus);
         ModEntities.ENTITY_TYPES.register(eventBus);
+        ModSounds.SOUND_EVENTS.register(eventBus);
 
         eventBus.addListener(this::registerRenderers);
         eventBus.addListener(this::registerParticleProviders);

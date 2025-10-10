@@ -1,0 +1,8 @@
+{
+  "energy_orb_shoot": {
+    "subtitle": "subtitles.zpl.energy_orb_shoot",
+    "sounds": [
+      "zpl:energy_orb"
+    ]
+  }
+}

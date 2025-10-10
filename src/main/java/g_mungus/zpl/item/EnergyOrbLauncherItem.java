@@ -2,7 +2,7 @@ package g_mungus.zpl.item;
 
 import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.entity.EnergyOrbEntity;
-import net.minecraft.sounds.SoundEvents;
+import g_mungus.zpl.sound.ModSounds;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -44,7 +44,7 @@ public class EnergyOrbLauncherItem extends Item {
 
             // Play sound effect
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.5F, 1.2F);
+                    ModSounds.ENERGY_ORB_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
             // Add cooldown (1 tick for testing, can increase later)
             player.getCooldowns().addCooldown(this, 1);

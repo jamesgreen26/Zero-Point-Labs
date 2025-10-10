@@ -3,9 +3,9 @@ package g_mungus.zpl.block.launcher;
 import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.entity.EnergyOrbEntity;
+import g_mungus.zpl.sound.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -66,7 +66,7 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
         level.playSound(
             null,
             pos,
-            SoundEvents.FIRECHARGE_USE,
+            ModSounds.ENERGY_ORB_SHOOT.get(),
             SoundSource.BLOCKS,
             1.0F,
             1.0F

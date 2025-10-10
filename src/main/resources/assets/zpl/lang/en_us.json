@@ -17,5 +17,6 @@
   "block.zpl.space_plating_slab": "Space Plating Slab",
   "block.zpl.space_plating_stairs": "Space Plating Stairs",
   "block.zpl.mass_suspension_matrix": "Mass Suspension Matrix",
-  "block.zpl.energy_orb_launcher": "Energy Orb Launcher"
+  "block.zpl.energy_orb_launcher": "Energy Orb Launcher",
+  "subtitles.zpl.energy_orb_shoot": "Energy Orb fired"
 }
