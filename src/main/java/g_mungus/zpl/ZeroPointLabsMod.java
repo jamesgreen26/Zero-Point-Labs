@@ -5,7 +5,10 @@ import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntityRenderer;
 import g_mungus.zpl.item.ModCreativeTabs;
 import g_mungus.zpl.item.ModItems;
+import g_mungus.zpl.particle.EnergyOrbParticle;
+import g_mungus.zpl.particle.ModParticles;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -24,11 +27,17 @@ public final class ZeroPointLabsMod {
         ModBlockEntities.BLOCK_ENTITIES.register(eventBus);
         ModItems.ITEMS.register(eventBus);
         ModCreativeTabs.register(eventBus);
+        ModParticles.PARTICLE_TYPES.register(eventBus);
 
         eventBus.addListener(this::registerRenderers);
+        eventBus.addListener(this::registerParticleProviders);
     }
 
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
+    }
+
+    private void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ModParticles.ENERGY_ORB.get(), EnergyOrbParticle.Provider::new);
     }
 }

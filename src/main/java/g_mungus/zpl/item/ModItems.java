@@ -36,4 +36,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> MASS_SUSPENSION_MATRIX_ITEM = ITEMS.register("mass_suspension_matrix",
             () -> new BlockItem(ModBlocks.MASS_SUSPENSION_MATRIX_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ENERGY_ORB_LAUNCHER = ITEMS.register("energy_orb_launcher",
+            () -> new EnergyOrbLauncherItem(new Item.Properties().stacksTo(1)));
 } 
