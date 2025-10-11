@@ -29,9 +29,9 @@ public class GyroForceApplier implements IForceApplier {
         Matrix3d rotPart = new Matrix3d();
         worldToShip.get3x3(rotPart);
 
-        double scale = 16 * java.lang.Math.sqrt(rotPart.m00() * rotPart.m00() + rotPart.m10() * rotPart.m10() + rotPart.m20() * rotPart.m20());
+        double scale = java.lang.Math.sqrt(rotPart.m00() * rotPart.m00() + rotPart.m10() * rotPart.m10() + rotPart.m20() * rotPart.m20());
 
-        rotPart.scale(1.0 / scale);
+        rotPart.scale(16.0 / scale);
 
         Vector3d shipSpaceOmega = rotPart.transform(invOmega, new Vector3d());
         Vector3d thrustAxis = thrust.direction.normalize(new Vector3d());
