@@ -18,7 +18,7 @@ import org.valkyrienskies.mod.common.VSGameUtilsKt;
 import org.valkyrienskies.mod.common.util.VectorConversionsMCKt;
 
 public class EnergyOrbLauncherBlockEntity extends BlockEntity {
-    private boolean wasPowered = false;
+    private int tickCounter = 0;
 
     public EnergyOrbLauncherBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.ENERGY_ORB_LAUNCHER.get(), pos, blockState);
@@ -29,11 +29,15 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
 
         boolean isPowered = level.hasNeighborSignal(pos);
 
-        if (isPowered && !blockEntity.wasPowered) {
-            blockEntity.fireEnergyOrb(level, pos, state);
+        if (isPowered) {
+            if (blockEntity.tickCounter == 0) {
+                blockEntity.fireEnergyOrb(level, pos, state);
+            }
         }
-
-        blockEntity.wasPowered = isPowered;
+        if (blockEntity.tickCounter != 0 || isPowered) {
+            int TICKS_PER_SHOT = 5;
+            blockEntity.tickCounter = (blockEntity.tickCounter + 1) % TICKS_PER_SHOT;
+        }
     }
 
     private void fireEnergyOrb(Level level, BlockPos pos, BlockState state) {
