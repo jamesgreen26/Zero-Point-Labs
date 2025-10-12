@@ -59,7 +59,7 @@ public class ModBlocks {
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
 
-    public static final RegistryObject<Block> ENERGY_ORB_LAUNCHER = BLOCKS.register("energy_orb_launcher",
+    public static final RegistryObject<Block> ENERGY_ORB_LAUNCHER = BLOCKS.register("photon_pulse_blaster",
             () -> new EnergyOrbLauncherBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));

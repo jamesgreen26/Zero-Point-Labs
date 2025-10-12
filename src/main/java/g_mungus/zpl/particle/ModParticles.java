@@ -12,5 +12,5 @@ public class ModParticles {
             DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, ZeroPointLabsMod.MOD_ID);
 
     public static final RegistryObject<SimpleParticleType> ENERGY_ORB =
-            PARTICLE_TYPES.register("energy_orb", () -> new SimpleParticleType(true));
+            PARTICLE_TYPES.register("photon_pulse", () -> new SimpleParticleType(true));
 }

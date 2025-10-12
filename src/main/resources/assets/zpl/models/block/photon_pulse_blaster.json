@@ -1,8 +1,8 @@
 {
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "zpl:block/energy_orb_launcher",
-		"particle": "zpl:block/energy_orb_launcher"
+		"0": "zpl:block/photon_pulse_blaster",
+		"particle": "zpl:block/photon_pulse_blaster"
 	},
 	"elements": [
 		{

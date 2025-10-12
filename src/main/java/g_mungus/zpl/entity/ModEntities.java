@@ -12,12 +12,12 @@ public class ModEntities {
             DeferredRegister.create(Registries.ENTITY_TYPE, ZeroPointLabsMod.MOD_ID);
 
     public static final RegistryObject<EntityType<EnergyOrbEntity>> ENERGY_ORB =
-            ENTITY_TYPES.register("energy_orb", () -> EntityType.Builder.<EnergyOrbEntity>of(
+            ENTITY_TYPES.register("photon_pulse", () -> EntityType.Builder.<EnergyOrbEntity>of(
                     (entityType, level) -> new EnergyOrbEntity(entityType, level),
                     MobCategory.MISC
             )
             .sized(0.25F, 0.25F) // Small hitbox
             .clientTrackingRange(4) // Sync range in chunks
             .updateInterval(10) // Update every 10 ticks
-            .build("energy_orb"));
+            .build("photon_pulse"));
 }

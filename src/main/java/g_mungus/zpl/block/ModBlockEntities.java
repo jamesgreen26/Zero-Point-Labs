@@ -32,6 +32,6 @@ public class ModBlockEntities {
                     () -> BlockEntityType.Builder.of(MassSuspensionMatrixBlockEntity::new, ModBlocks.MASS_SUSPENSION_MATRIX_BLOCK.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<EnergyOrbLauncherBlockEntity>> ENERGY_ORB_LAUNCHER =
-            BLOCK_ENTITIES.register("energy_orb_launcher_block_entity",
+            BLOCK_ENTITIES.register("photon_pulse_blaster_block_entity",
                     () -> BlockEntityType.Builder.of(EnergyOrbLauncherBlockEntity::new, ModBlocks.ENERGY_ORB_LAUNCHER.get()).build(null));
 } 

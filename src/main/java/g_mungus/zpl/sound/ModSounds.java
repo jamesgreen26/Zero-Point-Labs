@@ -11,7 +11,7 @@ public class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ZeroPointLabsMod.MOD_ID);
 
-    public static final RegistryObject<SoundEvent> ENERGY_ORB_SHOOT = registerSoundEvent("energy_orb_shoot");
+    public static final RegistryObject<SoundEvent> ENERGY_ORB_SHOOT = registerSoundEvent("photon_pulse_shoot");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ZeroPointLabsMod.MOD_ID, name);
