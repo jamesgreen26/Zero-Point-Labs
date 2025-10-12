@@ -5,7 +5,6 @@ import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.entity.EnergyOrbEntity;
 import g_mungus.zpl.sound.ModSounds;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,8 +37,7 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
     }
 
     private void fireEnergyOrb(Level level, BlockPos pos, BlockState state) {
-        Direction facing = state.getValue(EnergyOrbLauncherBlock.FACING);
-        Vec3 direction = Vec3.atLowerCornerOf(facing.getNormal());
+        Vec3 direction = EnergyOrbLauncherBlock.getAimVector(state);
 
         double scale = ZeroPointLabsMod.getDimensionScale(level);
 

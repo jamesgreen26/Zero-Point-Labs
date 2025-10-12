@@ -1,10 +1,66 @@
 {
   "variants": {
-    "facing=north": { "model": "zpl:block/photon_pulse_blaster" },
-    "facing=south": { "model": "zpl:block/photon_pulse_blaster", "y": 180 },
-    "facing=west": { "model": "zpl:block/photon_pulse_blaster", "y": 270 },
-    "facing=east": { "model": "zpl:block/photon_pulse_blaster", "y": 90 },
-    "facing=up": { "model": "zpl:block/photon_pulse_blaster", "x": 270 },
-    "facing=down": { "model": "zpl:block/photon_pulse_blaster", "x": 90 }
+    "facing=north,rotation=0": { "model": "zpl:block/photon_pulse_blaster" },
+    "facing=south,rotation=0": { "model": "zpl:block/photon_pulse_blaster", "y": 180 },
+    "facing=west,rotation=0": { "model": "zpl:block/photon_pulse_blaster", "y": 270 },
+    "facing=east,rotation=0": { "model": "zpl:block/photon_pulse_blaster", "y": 90 },
+    "facing=up,rotation=0": { "model": "zpl:block/photon_pulse_blaster", "x": 270 },
+    "facing=down,rotation=0": { "model": "zpl:block/photon_pulse_blaster", "x": 90 },
+
+    "facing=north,rotation=1": { "model": "zpl:block/photon_pulse_blaster_x5" },
+    "facing=south,rotation=1": { "model": "zpl:block/photon_pulse_blaster_x5", "y": 180 },
+    "facing=west,rotation=1": { "model": "zpl:block/photon_pulse_blaster_x5", "y": 270 },
+    "facing=east,rotation=1": { "model": "zpl:block/photon_pulse_blaster_x5", "y": 90 },
+    "facing=up,rotation=1": { "model": "zpl:block/photon_pulse_blaster_x5", "x": 270 },
+    "facing=down,rotation=1": { "model": "zpl:block/photon_pulse_blaster_x5", "x": 90 },
+
+    "facing=north,rotation=2": { "model": "zpl:block/photon_pulse_blaster_x10" },
+    "facing=south,rotation=2": { "model": "zpl:block/photon_pulse_blaster_x10", "y": 180 },
+    "facing=west,rotation=2": { "model": "zpl:block/photon_pulse_blaster_x10", "y": 270 },
+    "facing=east,rotation=2": { "model": "zpl:block/photon_pulse_blaster_x10", "y": 90 },
+    "facing=up,rotation=2": { "model": "zpl:block/photon_pulse_blaster_x10", "x": 270 },
+    "facing=down,rotation=2": { "model": "zpl:block/photon_pulse_blaster_x10", "x": 90 },
+
+    "facing=north,rotation=3": { "model": "zpl:block/photon_pulse_blaster_xm5" },
+    "facing=south,rotation=3": { "model": "zpl:block/photon_pulse_blaster_xm5", "y": 180 },
+    "facing=west,rotation=3": { "model": "zpl:block/photon_pulse_blaster_xm5", "y": 270 },
+    "facing=east,rotation=3": { "model": "zpl:block/photon_pulse_blaster_xm5", "y": 90 },
+    "facing=up,rotation=3": { "model": "zpl:block/photon_pulse_blaster_xm5", "x": 270 },
+    "facing=down,rotation=3": { "model": "zpl:block/photon_pulse_blaster_xm5", "x": 90 },
+
+    "facing=north,rotation=4": { "model": "zpl:block/photon_pulse_blaster_xm10" },
+    "facing=south,rotation=4": { "model": "zpl:block/photon_pulse_blaster_xm10", "y": 180 },
+    "facing=west,rotation=4": { "model": "zpl:block/photon_pulse_blaster_xm10", "y": 270 },
+    "facing=east,rotation=4": { "model": "zpl:block/photon_pulse_blaster_xm10", "y": 90 },
+    "facing=up,rotation=4": { "model": "zpl:block/photon_pulse_blaster_xm10", "x": 270 },
+    "facing=down,rotation=4": { "model": "zpl:block/photon_pulse_blaster_xm10", "x": 90 },
+
+    "facing=north,rotation=5": { "model": "zpl:block/photon_pulse_blaster_y5" },
+    "facing=south,rotation=5": { "model": "zpl:block/photon_pulse_blaster_y5", "y": 180 },
+    "facing=west,rotation=5": { "model": "zpl:block/photon_pulse_blaster_y5", "y": 270 },
+    "facing=east,rotation=5": { "model": "zpl:block/photon_pulse_blaster_y5", "y": 90 },
+    "facing=up,rotation=5": { "model": "zpl:block/photon_pulse_blaster_y5", "x": 270 },
+    "facing=down,rotation=5": { "model": "zpl:block/photon_pulse_blaster_y5", "x": 90 },
+
+    "facing=north,rotation=6": { "model": "zpl:block/photon_pulse_blaster_y10" },
+    "facing=south,rotation=6": { "model": "zpl:block/photon_pulse_blaster_y10", "y": 180 },
+    "facing=west,rotation=6": { "model": "zpl:block/photon_pulse_blaster_y10", "y": 270 },
+    "facing=east,rotation=6": { "model": "zpl:block/photon_pulse_blaster_y10", "y": 90 },
+    "facing=up,rotation=6": { "model": "zpl:block/photon_pulse_blaster_y10", "x": 270 },
+    "facing=down,rotation=6": { "model": "zpl:block/photon_pulse_blaster_y10", "x": 90 },
+
+    "facing=north,rotation=7": { "model": "zpl:block/photon_pulse_blaster_ym5" },
+    "facing=south,rotation=7": { "model": "zpl:block/photon_pulse_blaster_ym5", "y": 180 },
+    "facing=west,rotation=7": { "model": "zpl:block/photon_pulse_blaster_ym5", "y": 270 },
+    "facing=east,rotation=7": { "model": "zpl:block/photon_pulse_blaster_ym5", "y": 90 },
+    "facing=up,rotation=7": { "model": "zpl:block/photon_pulse_blaster_ym5", "x": 270 },
+    "facing=down,rotation=7": { "model": "zpl:block/photon_pulse_blaster_ym5", "x": 90 },
+
+    "facing=north,rotation=8": { "model": "zpl:block/photon_pulse_blaster_ym10" },
+    "facing=south,rotation=8": { "model": "zpl:block/photon_pulse_blaster_ym10", "y": 180 },
+    "facing=west,rotation=8": { "model": "zpl:block/photon_pulse_blaster_ym10", "y": 270 },
+    "facing=east,rotation=8": { "model": "zpl:block/photon_pulse_blaster_ym10", "y": 90 },
+    "facing=up,rotation=8": { "model": "zpl:block/photon_pulse_blaster_ym10", "x": 270 },
+    "facing=down,rotation=8": { "model": "zpl:block/photon_pulse_blaster_ym10", "x": 90 }
   }
 }
