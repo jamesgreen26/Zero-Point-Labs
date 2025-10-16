@@ -63,4 +63,9 @@ public class ModBlocks {
             () -> new EnergyOrbLauncherBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> LAUNCH_PLATFORM = BLOCKS.register("launch_platform",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
 } 

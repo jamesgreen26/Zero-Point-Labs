@@ -39,4 +39,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> ENERGY_ORB_LAUNCHER_ITEM = ITEMS.register("photon_pulse_blaster",
             () -> new BlockItem(ModBlocks.ENERGY_ORB_LAUNCHER.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> LAUNCH_PLATFORM_ITEM = ITEMS.register("launch_platform",
+            () -> new BlockItem(ModBlocks.LAUNCH_PLATFORM.get(), new Item.Properties()));
 } 
