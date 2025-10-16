@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "zpl:block/launch_button"
+    },
+    "powered=true": {
+      "model": "zpl:block/launch_button_pressed"
+    }
+  }
+}

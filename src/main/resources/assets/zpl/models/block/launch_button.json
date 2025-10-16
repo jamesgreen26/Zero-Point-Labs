@@ -1,6 +1,6 @@
 {
 	"format_version": "1.21.6",
-	"credit": "Made with Blockbench",
+	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "zpl:block/launch_button",

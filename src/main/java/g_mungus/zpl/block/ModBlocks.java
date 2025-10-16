@@ -4,6 +4,7 @@ import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.gyro.GyroscopeBlock;
 import g_mungus.zpl.block.hover.MassSuspensionMatrixBlock;
 import g_mungus.zpl.block.launcher.EnergyOrbLauncherBlock;
+import g_mungus.zpl.block.assembly.LaunchButtonBlock;
 import g_mungus.zpl.block.thruster.IonModulatorBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import net.minecraft.core.registries.Registries;
@@ -66,6 +67,11 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> LAUNCH_PLATFORM = BLOCKS.register("launch_platform",
             () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> LAUNCH_BUTTON = BLOCKS.register("launch_button",
+            () -> new LaunchButtonBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
 } 
