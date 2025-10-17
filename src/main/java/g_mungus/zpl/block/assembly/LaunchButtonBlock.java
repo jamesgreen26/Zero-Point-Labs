@@ -1,5 +1,8 @@
 package g_mungus.zpl.block.assembly;
 
+import g_mungus.vlib.api.VLibGameUtils;
+import g_mungus.zpl.ZeroPointLabsMod;
+import g_mungus.zpl.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +29,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class LaunchButtonBlock extends Block {
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -91,6 +98,47 @@ public class LaunchButtonBlock extends Block {
         this.playSound(player, level, pos, true);
         level.gameEvent(player, GameEvent.BLOCK_ACTIVATE, pos);
         level.scheduleTick(pos, this, this.ticksToStayPressed);
+
+        tryAssembly(level, pos);
+    }
+
+    private void tryAssembly(Level level, BlockPos pos) {
+        if (level instanceof ServerLevel serverLevel) {
+
+            Block launchButton = ModBlocks.LAUNCH_BUTTON.get();
+            Block launchPlatform = ModBlocks.LAUNCH_PLATFORM.get();
+
+            final Set<BlockPos> checked = new HashSet<>();
+            final java.util.Queue<BlockPos> toCheck = new java.util.LinkedList<>();
+
+            toCheck.add(pos.below());
+
+            while (!toCheck.isEmpty()) {
+                BlockPos current = toCheck.poll();
+
+                if (checked.contains(current)) {
+                    continue;
+                }
+
+                if (!level.getBlockState(current).is(launchPlatform)) {
+                    continue;
+                }
+
+                checked.add(current);
+
+                BlockState aboveState = level.getBlockState(current.above());
+
+                if (!aboveState.is(launchButton) && !aboveState.isAir()) {
+                    VLibGameUtils.INSTANCE.assembleByConnectivity(serverLevel, current.above(), List.of(launchPlatform, launchButton));
+                    return;
+                }
+
+                toCheck.add(current.north());
+                toCheck.add(current.south());
+                toCheck.add(current.east());
+                toCheck.add(current.west());
+            }
+        }
     }
 
     protected void playSound(@Nullable Player player, LevelAccessor level, BlockPos pos, boolean pressed) {
