@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "functional",
+  "key": {
+    "Y": {
+      "item": "minecraft:redstone_block"
+    },
+    "B": {
+      "item": "zpl:space_plating"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " Y ",
+    "BRB",
+    "BBB"
+  ],
+  "result": {
+    "item": "zpl:launch_button",
+    "count": 1
+  },
+  "show_notification": true
+}

@@ -2,24 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "functional",
   "key": {
-    "L": {
-      "item": "minecraft:lapis_block"
+    "Y": {
+      "item": "minecraft:gray_concrete"
     },
-    "V": {
+    "B": {
       "item": "zpl:space_plating"
-    },
-    "I": {
-      "item": "minecraft:redstone"
     }
   },
   "pattern": [
-    " R ",
-    "PLP",
-    " R "
+    "YB",
+    "BY"
   ],
   "result": {
-    "item": "zpl:ion_thrust_modulator",
-    "count": 1
+    "item": "zpl:launch_platform",
+    "count": 4
   },
   "show_notification": true
 }
