@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "functional",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "III"
+  ],
+  "result": {
+    "item": "zpl:space_plating_slab",
+    "count": 6
+  },
+  "show_notification": true
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "functional",
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "P": {
+      "item": "zpl:space_plating"
+    }
+  },
+  "pattern": [
+    "CGC",
+    "P P",
+    "P P"
+  ],
+  "result": {
+    "item": "zpl:ion_thruster_exhaust",
+    "count": 1
+  },
+  "show_notification": true
+}

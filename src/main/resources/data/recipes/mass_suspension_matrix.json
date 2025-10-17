@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "functional",
+  "key": {
+    "P": {
+      "item": "zpl:space_plating"
+    },
+    "L": {
+      "item": "minecraft:lapis_block"
+    },
+    "M": {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
+  "pattern": [
+    "PLP",
+    "LML",
+    "PLP"
+  ],
+  "result": {
+    "item": "zpl:mass_suspension_matrix",
+    "count": 1
+  },
+  "show_notification": true
+}

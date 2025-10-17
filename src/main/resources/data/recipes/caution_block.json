@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "functional",
+  "key": {
+    "P": {
+      "item": "zpl:space_plating"
+    },
+    "Y": {
+      "item": "minecraft:yellow_dye"
+    },
+    "B": {
+      "item": "minecraft:black_dye"
+    }
+  },
+  "pattern": [
+    "YPB",
+    "P P",
+    "BPY"
+  ],
+  "result": {
+    "item": "zpl:caution_block",
+    "count": 4
+  },
+  "show_notification": true
+}
