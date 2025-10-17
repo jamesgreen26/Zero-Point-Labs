@@ -97,7 +97,7 @@ public class EnergyOrbEntity extends Projectile {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
-        this.explode();
+        this.explode(result.getBlockPos().getCenter());
     }
 
     @Override
@@ -107,12 +107,12 @@ public class EnergyOrbEntity extends Projectile {
         // Deal damage to the entity
         result.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 5.0F);
 
-        this.explode();
+        this.explode(result.getEntity().position());
     }
 
-    private void explode() {
+    private void explode(Vec3 position) {
         if (!this.level().isClientSide) {
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2.0f, Level.ExplosionInteraction.BLOCK);
+            this.level().explode(this, position.x, position.y, position.z, 2.0f, Level.ExplosionInteraction.BLOCK);
         }
 
         this.discard();
