@@ -155,7 +155,7 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
             Matrix4dc transform = ship.getTransform().getShipToWorld();
             Vector3d newVelocity = transform.transformDirection(VectorConversionsMCKt.toJOML(velocity));
             Vector3d newPosition = transform.transformPosition(VectorConversionsMCKt.toJOML(blockCenter));
-            newPosition = newPosition.add(newVelocity.normalize(0.6, new Vector3d()));
+            newPosition = newPosition.add(newVelocity.normalize(0.6 * scale, new Vector3d()));
 
             Vector3dc shipVelocity = ship.getVelocity();
             Vector3d velocityDirection = newVelocity.normalize(new Vector3d());
