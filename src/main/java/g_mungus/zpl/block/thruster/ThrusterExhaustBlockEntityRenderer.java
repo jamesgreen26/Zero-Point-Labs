@@ -16,7 +16,7 @@ import team.lodestar.lodestone.systems.rendering.StateShards;
 
 import java.util.List;
 
-import static g_mungus.zpl.ShaderRegistry.THRUST_SHADER;
+import static g_mungus.zpl.ClientRegistry.THRUST_SHADER;
 
 public class ThrusterExhaustBlockEntityRenderer implements BlockEntityRenderer<ThrusterExhaustBlockEntity> {
     private static LodestoneRenderType THRUST;

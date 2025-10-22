@@ -1,6 +1,5 @@
 package g_mungus.zpl;
 
-import g_mungus.vlib.VLib;
 import g_mungus.vlib.dimension.DimensionSettingsManager;
 import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.block.ModBlocks;
@@ -36,21 +35,9 @@ public final class ZeroPointLabsMod {
         ModParticles.PARTICLE_TYPES.register(eventBus);
         ModEntities.ENTITY_TYPES.register(eventBus);
         ModSounds.SOUND_EVENTS.register(eventBus);
-
-        eventBus.addListener(this::registerRenderers);
-        eventBus.addListener(this::registerParticleProviders);
     }
 
     public static double getDimensionScale(Level level) {
         return DimensionSettingsManager.INSTANCE.getSettingsForLevel("minecraft:dimension:" + level.dimension().location()).getShipScale();
-    }
-
-    private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
-        event.registerEntityRenderer(ModEntities.ENERGY_ORB.get(), EnergyOrbEntityRenderer::new);
-    }
-
-    private void registerParticleProviders(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.ENERGY_ORB.get(), EnergyOrbParticle.Provider::new);
     }
 }
