@@ -140,13 +140,7 @@ public class EnergyOrbLauncherBlockEntity extends BlockEntity {
         Vec3 blockCenter = Vec3.atCenterOf(pos);
         Vec3 spawnPos = blockCenter.add(direction.scale(0.6));
 
-        Vec3 velocity;
-
-        if (scale < 0.5) {
-            velocity = direction.scale(7.0);
-        } else {
-            velocity = direction.scale(3.5);
-        }
+        Vec3 velocity = direction.scale(7.0);
 
         EnergyOrbEntity energyOrb;
 

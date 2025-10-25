@@ -7,7 +7,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import org.valkyrienskies.core.api.ships.Ship;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
-public class EnergyOrbEntity extends Projectile {
+public class EnergyOrbEntity extends FastProjectileEntity {
     private static final EntityDataAccessor<Long> EXCLUDED_SHIP_ID =
         SynchedEntityData.defineId(EnergyOrbEntity.class, EntityDataSerializers.LONG);
 
@@ -46,6 +45,7 @@ public class EnergyOrbEntity extends Projectile {
 
     @Override
     protected void defineSynchedData() {
+        super.defineSynchedData();
         this.entityData.define(EXCLUDED_SHIP_ID, NO_SHIP_ID);
     }
 
