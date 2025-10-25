@@ -29,13 +29,13 @@ public class ClientRegistry {
     }
 
     @SubscribeEvent
-    public void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.ENERGY_ORB.get(), EnergyOrbEntityRenderer::new);
     }
 
     @SubscribeEvent
-    public void registerParticleProviders(RegisterParticleProvidersEvent event) {
+    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.ENERGY_ORB.get(), EnergyOrbParticle.Provider::new);
     }
 }
