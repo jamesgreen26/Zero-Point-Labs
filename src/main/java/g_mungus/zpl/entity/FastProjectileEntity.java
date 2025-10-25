@@ -10,7 +10,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-
+/// Handles velocity packets differently than regular entities to avoid mojank
 public class FastProjectileEntity extends Projectile {
 
     protected static final EntityDataAccessor<Vector3f> DELTA_MOVEMENT_SYNCED =
