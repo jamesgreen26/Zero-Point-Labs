@@ -79,7 +79,7 @@ public class DroidCoreBlockEntity extends BlockEntity {
     }
 
     private void updateThrust(double dist, double dot) {
-        int thrust = (int) Math.min(15, Math.max((dot * dist) - 32, 0.0) / 60);
+        int thrust = (int) Math.min(15, Math.max((dot * dist) - 32, 0.0) / 32);
 
         Direction facing = getBlockState().getValue(DroidCoreBlock.FACING);
 
