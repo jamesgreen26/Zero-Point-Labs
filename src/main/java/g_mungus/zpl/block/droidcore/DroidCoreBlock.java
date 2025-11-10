@@ -20,19 +20,30 @@ import org.jetbrains.annotations.Nullable;
 
 public class DroidCoreBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final IntegerProperty POWER = BlockStateProperties.POWER;
+    public static final IntegerProperty FRONT_POWER = IntegerProperty.create("front", 0, 15);
+    public static final IntegerProperty BACK_POWER = IntegerProperty.create("back", 0, 15);
+    public static final IntegerProperty LEFT_POWER = IntegerProperty.create("left", 0, 15);
+    public static final IntegerProperty RIGHT_POWER = IntegerProperty.create("right", 0, 15);
+    public static final IntegerProperty UP_POWER = IntegerProperty.create("up", 0, 15);
+    public static final IntegerProperty DOWN_POWER = IntegerProperty.create("down", 0, 15);
+
 
     public DroidCoreBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
-                .setValue(POWER, 0)
+                .setValue(BACK_POWER, 0)
+                .setValue(FRONT_POWER, 0)
+                .setValue(LEFT_POWER, 0)
+                .setValue(RIGHT_POWER, 0)
+                .setValue(UP_POWER, 0)
+                .setValue(DOWN_POWER, 0)
         );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, POWER);
+        builder.add(FACING, BACK_POWER, FRONT_POWER, LEFT_POWER, RIGHT_POWER, UP_POWER, DOWN_POWER);
     }
 
     @Nullable
@@ -75,7 +86,7 @@ public class DroidCoreBlock extends Block implements EntityBlock {
         // Provide strong power from the back face (opposite of facing direction)
         Direction facing = state.getValue(FACING);
         if (direction == facing) {
-            return state.getValue(POWER);
+            return state.getValue(BACK_POWER);
         }
         return 0;
     }

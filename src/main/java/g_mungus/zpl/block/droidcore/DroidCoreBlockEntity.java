@@ -47,11 +47,11 @@ public class DroidCoreBlockEntity extends BlockEntity {
         int thrust = (int) Math.min(15, Math.max((dot * dist) - 32, 0.0) / 60);
 
         BlockState state = getBlockState();
-        int currentPower = state.getValue(DroidCoreBlock.POWER);
+        int currentPower = state.getValue(DroidCoreBlock.BACK_POWER);
 
         // Only update if power level changed
         if (currentPower != thrust) {
-            level.setBlock(getBlockPos(), state.setValue(DroidCoreBlock.POWER, thrust), 3);
+            level.setBlock(getBlockPos(), state.setValue(DroidCoreBlock.BACK_POWER, thrust), 3);
 
             // Notify neighbors of power change
             level.updateNeighborsAt(getBlockPos(), getBlockState().getBlock());
