@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": { "model": "zpl:block/droid_core" },
+    "facing=south": { "model": "zpl:block/droid_core", "y": 180 },
+    "facing=west": { "model": "zpl:block/droid_core", "y": 270 },
+    "facing=east": { "model": "zpl:block/droid_core", "y": 90 },
+    "facing=up": { "model": "zpl:block/droid_core", "x": 270 },
+    "facing=down": { "model": "zpl:block/droid_core", "x": 90 }
+  }
+}

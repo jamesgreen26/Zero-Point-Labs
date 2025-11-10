@@ -4,6 +4,7 @@ import g_mungus.zpl.block.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3d;
@@ -12,15 +13,49 @@ import org.joml.primitives.AABBd;
 import org.valkyrienskies.core.api.ships.Ship;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class DroidCoreBlockEntity extends BlockEntity {
 
+    private final Map<Direction, Integer> powerLevels = new EnumMap<>(Direction.class);
+
     public DroidCoreBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DROID_CORE_BLOCK_ENTITY.get(), pos, state);
+        // Initialize all power levels to 0
+        for (Direction dir : Direction.values()) {
+            powerLevels.put(dir, 0);
+        }
     }
 
     private static final int searchDistance = 1024;
+
+    public int getPowerForDirection(Direction direction) {
+        return powerLevels.getOrDefault(direction, 0);
+    }
+
+    public void setPowerForDirection(Direction direction, int power) {
+        int clampedPower = Math.max(0, Math.min(15, power));
+        if (powerLevels.get(direction) != clampedPower) {
+            powerLevels.put(direction, clampedPower);
+            setChanged();
+
+            // Notify neighbors when power changes
+            if (level != null && !level.isClientSide()) {
+                BlockPos poweredPos = getBlockPos().relative(direction);
+
+                // Notify neighbors at this block's position
+                level.updateNeighborsAt(getBlockPos(), getBlockState().getBlock());
+
+                // Notify the powered block itself
+                level.neighborChanged(poweredPos, getBlockState().getBlock(), getBlockPos());
+
+                // Also update neighbors of the powered block
+                level.updateNeighborsAt(poweredPos, getBlockState().getBlock());
+            }
+        }
+    }
 
 
     public void tick() {
@@ -46,20 +81,10 @@ public class DroidCoreBlockEntity extends BlockEntity {
     private void updateThrust(double dist, double dot) {
         int thrust = (int) Math.min(15, Math.max((dot * dist) - 32, 0.0) / 60);
 
-        BlockState state = getBlockState();
-        int currentPower = state.getValue(DroidCoreBlock.BACK_POWER);
+        Direction facing = getBlockState().getValue(DroidCoreBlock.FACING);
 
-        // Only update if power level changed
-        if (currentPower != thrust) {
-            level.setBlock(getBlockPos(), state.setValue(DroidCoreBlock.BACK_POWER, thrust), 3);
-
-            // Notify neighbors of power change
-            level.updateNeighborsAt(getBlockPos(), getBlockState().getBlock());
-
-            // Also update the block behind (where power is output from)
-            Direction facing = state.getValue(DroidCoreBlock.FACING);
-            level.updateNeighborsAt(getBlockPos().relative(facing.getOpposite()), getBlockState().getBlock());
-        }
+        // setPowerForDirection will handle neighbor notifications automatically
+        setPowerForDirection(facing.getOpposite(), thrust);
     }
 
 
@@ -88,4 +113,27 @@ public class DroidCoreBlockEntity extends BlockEntity {
     }
 
     private record Target(Ship ship, Vector3dc pos, double dist) {}
+
+    @Override
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        CompoundTag powerTag = new CompoundTag();
+        for (Direction dir : Direction.values()) {
+            powerTag.putInt(dir.getName(), powerLevels.get(dir));
+        }
+        tag.put("PowerLevels", powerTag);
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        if (tag.contains("PowerLevels")) {
+            CompoundTag powerTag = tag.getCompound("PowerLevels");
+            for (Direction dir : Direction.values()) {
+                if (powerTag.contains(dir.getName())) {
+                    powerLevels.put(dir, powerTag.getInt(dir.getName()));
+                }
+            }
+        }
+    }
 }

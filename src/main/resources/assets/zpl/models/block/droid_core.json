@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "zpl:block/gyroscope_side",
+    "up": "zpl:block/gyroscope_side",
+    "north": "zpl:block/droid_core_face",
+    "south": "zpl:block/gyroscope_side",
+    "west": "zpl:block/gyroscope_side",
+    "east": "zpl:block/gyroscope_side",
+    "particle": "zpl:block/droid_core_face"
+  }
+}
