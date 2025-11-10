@@ -10,6 +10,7 @@
   "item.zpl.photon_pulse_blaster": "Photon Pulse Blaster",
   "item.zpl.launch_platform": "Launch Platform",
   "item.zpl.launch_button": "Launch Button",
+  "item.zpl.droid_core": "Droid Core",
   "block.zpl.caution_block": "Caution Block",
   "block.zpl.gyroscope": "Gyroscope",
   "block.zpl.ion_thrust_modulator": "Ion Thrust Modulator",
@@ -21,5 +22,6 @@
   "block.zpl.photon_pulse_blaster": "Photon Pulse Blaster",
   "block.zpl.launch_platform": "Launch Platform",
   "block.zpl.launch_button": "Launch Button",
+  "block.zpl.droid_core": "Droid Core",
   "subtitles.zpl.photon_pulse_shoot": "Photon Pulse fired"
 }

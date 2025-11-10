@@ -1,6 +1,7 @@
 package g_mungus.zpl.block;
 
 import g_mungus.zpl.ZeroPointLabsMod;
+import g_mungus.zpl.block.droidcore.DroidCoreBlockEntity;
 import g_mungus.zpl.block.gyro.GyroscopeBlockEntity;
 import g_mungus.zpl.block.hover.MassSuspensionMatrixBlockEntity;
 import g_mungus.zpl.block.launcher.EnergyOrbLauncherBlockEntity;
@@ -34,4 +35,8 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<EnergyOrbLauncherBlockEntity>> ENERGY_ORB_LAUNCHER =
             BLOCK_ENTITIES.register("photon_pulse_blaster_block_entity",
                     () -> BlockEntityType.Builder.of(EnergyOrbLauncherBlockEntity::new, ModBlocks.ENERGY_ORB_LAUNCHER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<DroidCoreBlockEntity>> DROID_CORE_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("droid_core_block_entity",
+                    () -> BlockEntityType.Builder.of(DroidCoreBlockEntity::new, ModBlocks.DROID_CORE_BLOCK.get()).build(null));
 } 

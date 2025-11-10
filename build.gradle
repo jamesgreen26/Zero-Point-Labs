@@ -54,6 +54,8 @@ dependencies {
     compileOnly ("org.valkyrienskies.core:util:$vs_core_version") { transitive = false }
     compileOnly ("org.valkyrienskies.core:impl:$vs_core_version") { transitive = false }
 
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+
     implementation("org.joml:joml-primitives:1.10.0")
 
     modImplementation("maven.modrinth:valkyrien-skies:1.20.1-forge-2.3.0-beta.7")

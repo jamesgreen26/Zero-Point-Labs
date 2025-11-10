@@ -1,6 +1,7 @@
 package g_mungus.zpl.block;
 
 import g_mungus.zpl.ZeroPointLabsMod;
+import g_mungus.zpl.block.droidcore.DroidCoreBlock;
 import g_mungus.zpl.block.gyro.GyroscopeBlock;
 import g_mungus.zpl.block.hover.MassSuspensionMatrixBlock;
 import g_mungus.zpl.block.launcher.EnergyOrbLauncherBlock;
@@ -72,6 +73,11 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> LAUNCH_BUTTON = BLOCKS.register("launch_button",
             () -> new LaunchButtonBlock(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> DROID_CORE_BLOCK = BLOCKS.register("droid_core",
+            () -> new DroidCoreBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
 } 

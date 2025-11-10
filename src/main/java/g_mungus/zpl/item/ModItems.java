@@ -45,4 +45,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> LAUNCH_BUTTON_ITEM = ITEMS.register("launch_button",
             () -> new BlockItem(ModBlocks.LAUNCH_BUTTON.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> DROID_CORE_ITEM = ITEMS.register("droid_core",
+            () -> new BlockItem(ModBlocks.DROID_CORE_BLOCK.get(), new Item.Properties()));
 } 
