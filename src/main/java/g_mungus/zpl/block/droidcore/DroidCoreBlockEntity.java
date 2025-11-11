@@ -22,6 +22,12 @@ public class DroidCoreBlockEntity extends BlockEntity {
 
     private final Map<Direction, Integer> powerLevels = new EnumMap<>(Direction.class);
 
+    // Static blacklist shared across all droid cores
+    private static final Set<Long> shipBlacklist = new HashSet<>();
+
+    // Track this droid's ship ID for cleanup
+    private Long ownShipId = null;
+
     public DroidCoreBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DROID_CORE_BLOCK_ENTITY.get(), pos, state);
         // Initialize all power levels to 0
@@ -64,6 +70,12 @@ public class DroidCoreBlockEntity extends BlockEntity {
 
         Ship ship = VSGameUtilsKt.getShipManagingPos(level, getBlockPos());
         if (ship == null) return;
+
+        // Register this ship to the blacklist on first tick
+        if (ownShipId == null) {
+            ownShipId = ship.getId();
+            shipBlacklist.add(ownShipId);
+        }
 
         Vector3dc shipCenter = ship.getWorldAABB().center(new Vector3d());
 
@@ -165,6 +177,9 @@ public class DroidCoreBlockEntity extends BlockEntity {
         for (Ship candidate : VSGameUtilsKt.getShipObjectWorld(level).getLoadedShips().getIntersecting(searchBox)) {
             if (candidate.getId() == ship.getId()) continue;
 
+            // Skip blacklisted ships
+            if (shipBlacklist.contains(candidate.getId())) continue;
+
             Vector3dc candidateCenter = candidate.getWorldAABB().center(new Vector3d());
             double distance = candidateCenter.distance(shipCenter);
 
@@ -178,6 +193,15 @@ public class DroidCoreBlockEntity extends BlockEntity {
     }
 
     private record Target(Ship ship, Vector3dc pos, double dist) {}
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+        // Remove this ship from the blacklist when the droid core is destroyed
+        if (ownShipId != null) {
+            shipBlacklist.remove(ownShipId);
+        }
+    }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
