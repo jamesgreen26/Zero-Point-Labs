@@ -96,7 +96,7 @@ public class DroidCoreBlockEntity extends BlockEntity {
 
             // Update droidData with current target and ship-space facing direction
             if (droidData != null) {
-                droidData.setTarget(target.ship, target.pos, target.dist, facingShipVec);
+                droidData.setTarget(ship, target.ship, target.pos, target.dist, facingShipVec);
             }
 
             Vector3dc targetDir = target.pos.sub(shipCenter, new Vector3d()).normalize();

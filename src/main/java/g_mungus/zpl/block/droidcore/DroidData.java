@@ -4,12 +4,14 @@ import org.joml.Vector3dc;
 import org.valkyrienskies.core.api.ships.Ship;
 
 public class DroidData {
+    public Ship ownShip;
     public Ship targetShip;
     public Vector3dc targetPos;
     public double targetDist;
     public Vector3dc facingDirection;
 
     public DroidData() {
+        this.ownShip = null;
         this.targetShip = null;
         this.targetPos = null;
         this.targetDist = 0.0;
@@ -20,7 +22,8 @@ public class DroidData {
         return targetShip != null && targetPos != null;
     }
 
-    public void setTarget(Ship ship, Vector3dc pos, double dist, Vector3dc facing) {
+    public void setTarget(Ship ownShip, Ship ship, Vector3dc pos, double dist, Vector3dc facing) {
+        this.ownShip = ownShip;
         this.targetShip = ship;
         this.targetPos = pos;
         this.targetDist = dist;
@@ -28,6 +31,7 @@ public class DroidData {
     }
 
     public void clearTarget() {
+        this.ownShip = null;
         this.targetShip = null;
         this.targetPos = null;
         this.targetDist = 0.0;

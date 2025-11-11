@@ -48,8 +48,56 @@ public class DroidForceApplier implements IForceApplier {
         Vector3d dampingTorque = facingAxis.mul(omegaDotFacing * torqueScaleFactor, new Vector3d());
         ship.applyRotDependentTorque(dampingTorque);
 
-        if (droidData.hasTarget()) {
-            // Force application will be implemented later
+        if (droidData.hasTarget() && droidData.ownShip != null) {
+            // Get ship center in world space from AABB
+            Vector3dc shipPos = droidData.ownShip.getWorldAABB().center(new Vector3d());
+            Vector3dc targetPos = droidData.targetPos;
+
+            // Calculate direction to target in world space
+            Vector3d toTargetWorld = targetPos.sub(shipPos, new Vector3d()).normalize();
+
+            // Get facing direction in world space
+            Vector3d facingWorld = transform.getShipToWorld().transformDirection(facingAxis, new Vector3d()).normalize();
+
+            if (droidData.targetDist > 32) {
+                // Dampen rotation in all axes to prevent oscillation
+                Vector3d dampingTorqueAll = shipSpaceOmega.mul(torqueScaleFactor, new Vector3d());
+                ship.applyRotDependentTorque(dampingTorqueAll.mul(1.0));
+
+                // Apply torque to face towards target
+                // Cross product gives us the axis to rotate around
+                Vector3d torqueAxis = facingWorld.cross(toTargetWorld, new Vector3d());
+                double torqueMagnitude = torqueAxis.length() * torqueScaleFactor * 40000.0;
+
+                if (torqueMagnitude > 0.00001) {
+                    // Transform torque axis to ship space (reuse worldToShip from earlier)
+                    Vector3d torqueShipSpace = rotPart.transform(torqueAxis.normalize(), new Vector3d());
+
+                    ship.applyRotDependentTorque(torqueShipSpace.mul(torqueMagnitude));
+                }
+
+                // Cancel perpendicular velocity
+                Vector3dc velocity = ship.getPoseVel().getVel();
+
+                // Project velocity onto target direction
+                double velocityParallel = velocity.dot(toTargetWorld);
+                Vector3d parallelComponent = toTargetWorld.mul(velocityParallel, new Vector3d());
+
+                // Perpendicular component is what we want to cancel
+                Vector3d perpendicularVelocity = velocity.sub(parallelComponent, new Vector3d());
+
+                // Apply force to cancel perpendicular velocity
+                double dampingStrength = (ship.get_inertia().getShipMass() / scaling.x()) / 16.0;
+                Vector3d dampingForce = perpendicularVelocity.mul(-dampingStrength, new Vector3d());
+
+                ship.applyInvariantForce(dampingForce);
+
+                // Apply equal magnitude force towards target
+                double forwardForceMagnitude = dampingForce.length();
+                Vector3d forwardForce = toTargetWorld.mul(forwardForceMagnitude, new Vector3d());
+
+                ship.applyInvariantForce(forwardForce);
+            }
         }
     }
 }
