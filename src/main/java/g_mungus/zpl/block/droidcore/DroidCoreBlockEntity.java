@@ -28,6 +28,9 @@ public class DroidCoreBlockEntity extends BlockEntity {
     // Track this droid's ship ID for cleanup
     private Long ownShipId = null;
 
+    // Data shared with force applier
+    public DroidData droidData;
+
     public DroidCoreBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DROID_CORE_BLOCK_ENTITY.get(), pos, state);
         // Initialize all power levels to 0
@@ -77,13 +80,24 @@ public class DroidCoreBlockEntity extends BlockEntity {
             shipBlacklist.add(ownShipId);
         }
 
+        // Initialize droidData if needed (similar to gyroscope thrust)
+        if (droidData == null) {
+            DroidCoreBlock.addApplier(getBlockState(), level, getBlockPos());
+        }
+
         Vector3dc shipCenter = ship.getWorldAABB().center(new Vector3d());
 
         updateTarget(shipCenter, ship).ifPresentOrElse(target -> {
             Direction facingDir = getBlockState().getValue(DroidCoreBlock.FACING);
             Vec3i facingShip = facingDir.getNormal();
             Direction.Axis facingAxis = facingDir.getAxis();
-            Vector3dc facingWorld = ship.getShipToWorld().transformDirection(new Vector3d(facingShip.getX(), facingShip.getY(), facingShip.getZ()), new Vector3d());
+            Vector3dc facingShipVec = new Vector3d(facingShip.getX(), facingShip.getY(), facingShip.getZ());
+            Vector3dc facingWorld = ship.getShipToWorld().transformDirection(facingShipVec, new Vector3d());
+
+            // Update droidData with current target and ship-space facing direction
+            if (droidData != null) {
+                droidData.setTarget(target.ship, target.pos, target.dist, facingShipVec);
+            }
 
             Vector3dc targetDir = target.pos.sub(shipCenter, new Vector3d()).normalize();
 
@@ -98,7 +112,11 @@ public class DroidCoreBlockEntity extends BlockEntity {
             updateFront(dot, facingDir);
 
             updateThrust(target.dist / ship.getTransform().getShipToWorldScaling().x(), dot);
-        }, () ->{
+        }, () -> {
+            // Clear target when no target found
+            if (droidData != null) {
+                droidData.clearTarget();
+            }
             for (var dir: Direction.values()) {
                 setPowerForDirection(dir, 0);
             }
