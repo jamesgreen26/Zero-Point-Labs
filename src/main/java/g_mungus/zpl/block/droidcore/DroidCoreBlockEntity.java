@@ -15,6 +15,7 @@ import org.joml.primitives.AABBd;
 import org.valkyrienskies.core.api.ships.Ship;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 public class DroidCoreBlockEntity extends BlockEntity {
@@ -66,9 +67,10 @@ public class DroidCoreBlockEntity extends BlockEntity {
 
         Vector3dc shipCenter = ship.getWorldAABB().center(new Vector3d());
 
-        updateTarget(shipCenter, ship).ifPresent(target -> {
-            Vec3i facingShip = getBlockState().getValue(DroidCoreBlock.FACING).getNormal();
-            Direction.Axis facingAxis = getBlockState().getValue(DroidCoreBlock.FACING).getAxis();
+        updateTarget(shipCenter, ship).ifPresentOrElse(target -> {
+            Direction facingDir = getBlockState().getValue(DroidCoreBlock.FACING);
+            Vec3i facingShip = facingDir.getNormal();
+            Direction.Axis facingAxis = facingDir.getAxis();
             Vector3dc facingWorld = ship.getShipToWorld().transformDirection(new Vector3d(facingShip.getX(), facingShip.getY(), facingShip.getZ()), new Vector3d());
 
             Vector3dc targetDir = target.pos.sub(shipCenter, new Vector3d()).normalize();
@@ -81,8 +83,22 @@ public class DroidCoreBlockEntity extends BlockEntity {
 
             double dot = facingWorld.normalize(new Vector3d()).dot(targetDir);
 
+            updateFront(dot, facingDir);
+
             updateThrust(target.dist / ship.getTransform().getShipToWorldScaling().x(), dot);
+        }, () ->{
+            for (var dir: Direction.values()) {
+                setPowerForDirection(dir, 0);
+            }
         });
+    }
+
+    private void updateFront(double dot, Direction facingDir) {
+        if (dot > 0.985) {
+            setPowerForDirection(facingDir, 15);
+        } else {
+            setPowerForDirection(facingDir, 0);
+        }
     }
 
     private void updateSidePower(Direction side, Ship ship, Vector3dc targetDir) {
