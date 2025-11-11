@@ -121,7 +121,24 @@ public class DroidCoreBlockEntity extends BlockEntity {
             relativeVelocity.mul(leadTimeFactor, new Vector3d())
         ).normalize();
 
-        double dot = normalDWorld.dot(adjustedTargetDir);
+        // Calculate perpendicular velocity component to prevent orbiting
+        // Project our velocity onto the target direction to get parallel component
+        double parallelVelocity = ourVelocity.dot(targetDir);
+        Vector3dc parallelComponent = new Vector3d(targetDir).mul(parallelVelocity);
+
+        // Perpendicular component is what causes orbiting - we need to cancel this
+        Vector3dc perpendicularVelocity = ourVelocity.sub(parallelComponent, new Vector3d());
+
+        // Damping factor - how aggressively we cancel perpendicular velocity
+        double dampingFactor = 0.15;
+
+        // Combine target steering with velocity damping
+        // Subtract perpendicular velocity to create a corrective steering vector
+        Vector3dc correctedTargetDir = new Vector3d(adjustedTargetDir).sub(
+            perpendicularVelocity.mul(dampingFactor, new Vector3d())
+        ).normalize();
+
+        double dot = normalDWorld.dot(correctedTargetDir);
         int power = Math.max(Math.min(15, (int) (15 * Math.sqrt(dot))), 0);
         setPowerForDirection(side, power);
     }
