@@ -1,5 +1,6 @@
 package g_mungus.zpl.block.droidcore;
 
+import g_mungus.vlib.dimension.DimensionSettingsManager;
 import g_mungus.zpl.block.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -80,7 +81,7 @@ public class DroidCoreBlockEntity extends BlockEntity {
 
             double dot = facingWorld.normalize(new Vector3d()).dot(targetDir);
 
-            updateThrust(target.dist, dot);
+            updateThrust(target.dist / ship.getTransform().getShipToWorldScaling().x(), dot);
         });
     }
 
