@@ -78,7 +78,7 @@ public class DroidCoreBlockEntity extends BlockEntity {
             List<Direction> sides = Arrays.stream(Direction.values()).filter(it -> it.getAxis() != facingAxis).toList();
 
             for (var side : sides) {
-                updateSidePower(side, ship, targetDir);
+                updateSidePower(side, ship, target.ship, targetDir);
             }
 
             double dot = facingWorld.normalize(new Vector3d()).dot(targetDir);
@@ -101,17 +101,33 @@ public class DroidCoreBlockEntity extends BlockEntity {
         }
     }
 
-    private void updateSidePower(Direction side, Ship ship, Vector3dc targetDir) {
+    private void updateSidePower(Direction side, Ship ship, Ship targetShip, Vector3dc targetDir) {
         Vec3i normal = side.getNormal();
         Vector3d normalD = new Vector3d(normal.getX(), normal.getY(), normal.getZ());
         Vector3dc normalDWorld = ship.getShipToWorld().transformDirection(normalD).normalize();
-        double dot = normalDWorld.dot(targetDir);
-        int power = Math.max(Math.min(15, (int) (15 * dot)), 0);
+
+        // Calculate relative velocity to improve following accuracy
+        Vector3dc ourVelocity = ship.getVelocity();
+        Vector3dc targetVelocity = targetShip.getVelocity();
+        Vector3dc relativeVelocity = targetVelocity.sub(ourVelocity, new Vector3d());
+
+        // Lead time factor - adjust this to tune how much we lead the target
+        // Higher values = more aggressive leading for fast-moving targets
+        double leadTimeFactor = 0.25;
+
+        // Calculate adjusted target direction accounting for relative velocity
+        // This helps us steer towards where the target will be, not where it is
+        Vector3dc adjustedTargetDir = new Vector3d(targetDir).add(
+            relativeVelocity.mul(leadTimeFactor, new Vector3d())
+        ).normalize();
+
+        double dot = normalDWorld.dot(adjustedTargetDir);
+        int power = Math.max(Math.min(15, (int) (15 * Math.sqrt(dot))), 0);
         setPowerForDirection(side, power);
     }
 
     private void updateThrust(double dist, double dot) {
-        int thrust = (int) Math.min(15, Math.max((dot * dist) - 32, 0.0) / 32);
+        int thrust = (int) Math.min(15, Math.max(((dot + 0.2) * dist) - 32, 0.0) / 32);
 
         Direction facing = getBlockState().getValue(DroidCoreBlock.FACING);
 
