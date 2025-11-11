@@ -7,15 +7,14 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 import org.joml.primitives.AABBd;
 import org.valkyrienskies.core.api.ships.Ship;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class DroidCoreBlockEntity extends BlockEntity {
 
@@ -68,14 +67,30 @@ public class DroidCoreBlockEntity extends BlockEntity {
 
         updateTarget(shipCenter, ship).ifPresent(target -> {
             Vec3i facingShip = getBlockState().getValue(DroidCoreBlock.FACING).getNormal();
+            Direction.Axis facingAxis = getBlockState().getValue(DroidCoreBlock.FACING).getAxis();
             Vector3dc facingWorld = ship.getShipToWorld().transformDirection(new Vector3d(facingShip.getX(), facingShip.getY(), facingShip.getZ()), new Vector3d());
 
-            Vector3dc targetDir = target.pos.sub(shipCenter, new Vector3d());
+            Vector3dc targetDir = target.pos.sub(shipCenter, new Vector3d()).normalize();
 
-            double dot = facingWorld.normalize(new Vector3d()).dot(targetDir.normalize(new Vector3d()));
+            List<Direction> sides = Arrays.stream(Direction.values()).filter(it -> it.getAxis() != facingAxis).toList();
+
+            for (var side : sides) {
+                updateSidePower(side, ship, targetDir);
+            }
+
+            double dot = facingWorld.normalize(new Vector3d()).dot(targetDir);
 
             updateThrust(target.dist, dot);
         });
+    }
+
+    private void updateSidePower(Direction side, Ship ship, Vector3dc targetDir) {
+        Vec3i normal = side.getNormal();
+        Vector3d normalD = new Vector3d(normal.getX(), normal.getY(), normal.getZ());
+        Vector3dc normalDWorld = ship.getShipToWorld().transformDirection(normalD).normalize();
+        double dot = normalDWorld.dot(targetDir);
+        int power = Math.max(Math.min(15, (int) (15 * dot)), 0);
+        setPowerForDirection(side, power);
     }
 
     private void updateThrust(double dist, double dot) {
