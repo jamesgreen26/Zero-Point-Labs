@@ -23,7 +23,7 @@ public class GyroForceApplier implements IForceApplier {
         double massScaleFactor = scaling.x() * scaling.y() * scaling.z();
         double torqueScaleFactor = massScaleFactor * scaling.x() * scaling.z() * 1.5;
 
-        Vector3d invOmega = ship.getPoseVel().getOmega().mul(-8000, new Vector3d());
+        Vector3d invOmega = ship.getAngularVelocity().mul(-8000, new Vector3d());
 
         Matrix4dc worldToShip = transform.getWorldToShip();
         Matrix3d rotPart = new Matrix3d();

@@ -10,6 +10,7 @@ import g_mungus.zpl.item.ModCreativeTabs;
 import g_mungus.zpl.item.ModItems;
 import g_mungus.zpl.particle.EnergyOrbParticle;
 import g_mungus.zpl.particle.ModParticles;
+import g_mungus.zpl.ship.ZPLShipAttachment;
 import g_mungus.zpl.sound.ModSounds;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.valkyrienskies.mod.api.ValkyrienSkies;
 
 @Mod(ZeroPointLabsMod.MOD_ID)
 public final class ZeroPointLabsMod {
@@ -35,6 +37,8 @@ public final class ZeroPointLabsMod {
         ModParticles.PARTICLE_TYPES.register(eventBus);
         ModEntities.ENTITY_TYPES.register(eventBus);
         ModSounds.SOUND_EVENTS.register(eventBus);
+
+        ValkyrienSkies.api().registerAttachment(ZPLShipAttachment.class);
     }
 
     public static double getDimensionScale(Level level) {

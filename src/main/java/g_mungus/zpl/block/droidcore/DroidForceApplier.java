@@ -27,7 +27,7 @@ public class DroidForceApplier implements IForceApplier {
         double torqueScaleFactor = massScaleFactor * scaling.x() * scaling.z() * 1.5;
 
         // Get angular velocity in world space, then transform to ship space
-        Vector3d invOmega = ship.getPoseVel().getOmega().mul(-8000, new Vector3d());
+        Vector3d invOmega = ship.getAngularVelocity().mul(-8000, new Vector3d());
 
         Matrix4dc worldToShip = transform.getWorldToShip();
         Matrix3d rotPart = new Matrix3d();
@@ -77,7 +77,7 @@ public class DroidForceApplier implements IForceApplier {
                 }
 
                 // Cancel perpendicular velocity
-                Vector3dc velocity = ship.getPoseVel().getVel();
+                Vector3dc velocity = ship.getVelocity();
 
                 // Project velocity onto target direction
                 double velocityParallel = velocity.dot(toTargetWorld);

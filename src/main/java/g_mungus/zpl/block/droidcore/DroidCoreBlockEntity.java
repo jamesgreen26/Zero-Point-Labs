@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -82,7 +83,7 @@ public class DroidCoreBlockEntity extends BlockEntity {
 
         // Initialize droidData if needed (similar to gyroscope thrust)
         if (droidData == null) {
-            DroidCoreBlock.addApplier(getBlockState(), level, getBlockPos());
+            DroidCoreBlock.addApplier(getBlockState(), (ServerLevel) level, getBlockPos());
         }
 
         Vector3dc shipCenter = ship.getWorldAABB().center(new Vector3d());

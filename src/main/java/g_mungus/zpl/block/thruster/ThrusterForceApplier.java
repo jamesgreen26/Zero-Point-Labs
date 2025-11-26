@@ -29,7 +29,7 @@ public class ThrusterForceApplier implements IForceApplier {
             transform.getShipToWorld().transformDirection(thrust.direction, worldForceDirection);
             ship.applyInvariantForce(worldForceDirection.normalize(thrust.strength * 800_000).mul(massScaleFactor).mul(scaling));
 
-            Vector3dc worldVelocity = ship.getPoseVel().getVel();
+            Vector3dc worldVelocity = ship.getVelocity();
 
             Vector3d shipSpaceVelocity = transform.getWorldToShip().transformDirection(worldVelocity, new Vector3d());
 
@@ -49,6 +49,6 @@ public class ThrusterForceApplier implements IForceApplier {
             ship.applyInvariantForce(dampingForce);
         }
 
-        ship.applyInvariantForce(ship.getPoseVel().getVel().mul(-2400, new Vector3d()).mul(massScaleFactor));
+        ship.applyInvariantForce(ship.getVelocity().mul(-2400, new Vector3d()).mul(massScaleFactor));
     }
 }

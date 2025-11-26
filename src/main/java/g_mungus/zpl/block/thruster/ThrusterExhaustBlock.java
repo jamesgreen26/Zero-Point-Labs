@@ -115,33 +115,36 @@ public class ThrusterExhaustBlock extends Block implements EntityBlock {
 
     @Override
     public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
-        if (!level.isClientSide()) {
-            addApplier(state, level, pos);
+        if (level instanceof ServerLevel serverLevel) {
+            addApplier(state, serverLevel, pos);
         }
         super.onPlace(state, level, pos, oldState, isMoving);
     }
 
-    public static void addApplier(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
-        ZPLShipAttachment attachment = ZPLShipAttachment.get(level, pos);
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (attachment != null && blockEntity instanceof ThrusterExhaustBlockEntity thrusterBlockEntity) {
-            thrusterBlockEntity.thrust = new ThrusterData(VectorConversionsMCKt.toJOMLD(state.getValue(FACING).getOpposite().getNormal()), 0.0);
+    public static void addApplier(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos) {
+        ZPLShipAttachment.get(level, pos).ifPresent(attachment -> {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof ThrusterExhaustBlockEntity thrusterBlockEntity) {
+                thrusterBlockEntity.thrust = new ThrusterData(VectorConversionsMCKt.toJOMLD(state.getValue(FACING).getOpposite().getNormal()), 0.0);
 
-            ThrusterForceApplier applier = new ThrusterForceApplier(thrusterBlockEntity.thrust);
-            attachment.addApplier(pos, applier);
-        }
+                ThrusterForceApplier applier = new ThrusterForceApplier(thrusterBlockEntity.thrust);
+                attachment.addApplier(pos, applier);
+            }
+        });
     }
 
     @Override
     public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
-        if (!level.isClientSide()) {
-            ZPLShipAttachment ship = ZPLShipAttachment.get(level, pos);
-            if (ship != null) {
-                ship.removeApplier((ServerLevel) level, pos);
-            }
-        }
+        removeApplier(level, pos);
 
         super.onRemove(state, level, pos, newState, isMoving);
     }
 
+    private static void removeApplier(@NotNull Level level, @NotNull BlockPos pos) {
+        if (level instanceof ServerLevel serverLevel) {
+            ZPLShipAttachment.get(serverLevel, pos).ifPresent(attachment ->
+                    attachment.removeApplier(serverLevel, pos)
+            );
+        }
+    }
 }

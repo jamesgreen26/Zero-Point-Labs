@@ -1,6 +1,5 @@
 package g_mungus.zpl.block.hover;
 
-import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.thruster.ThrusterData;
 import g_mungus.zpl.ship.ZPLShipAttachment;
 import net.minecraft.core.BlockPos;
@@ -37,23 +36,24 @@ public class MassSuspensionMatrixBlock extends Block implements EntityBlock {
 
     @Override
     public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
-        if (!level.isClientSide()) {
-            addApplier(level, pos);
+        if (level instanceof ServerLevel serverLevel) {
+            addApplier(serverLevel, pos);
         }
         super.onPlace(state, level, pos, oldState, isMoving);
     }
 
-    public static void addApplier(@NotNull Level level, @NotNull BlockPos pos) {
-        ZPLShipAttachment attachment = ZPLShipAttachment.get(level, pos);
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (attachment != null && blockEntity instanceof MassSuspensionMatrixBlockEntity matrixBlockEntity) {
-            matrixBlockEntity.thrust = new ThrusterData(new Vector3d(), 0.0);
+    public static void addApplier(@NotNull ServerLevel level, @NotNull BlockPos pos) {
+        ZPLShipAttachment.get(level, pos).ifPresent(attachment -> {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof MassSuspensionMatrixBlockEntity matrixBlockEntity) {
+                matrixBlockEntity.thrust = new ThrusterData(new Vector3d(), 0.0);
 
-            String dimension = "minecraft:dimension:" + level.dimension().location();
+                String dimension = "minecraft:dimension:" + level.dimension().location();
 
-            HoverForceApplier applier = new HoverForceApplier(dimension, matrixBlockEntity.thrust);
-            attachment.addApplier(pos, applier);
-        }
+                HoverForceApplier applier = new HoverForceApplier(dimension, matrixBlockEntity.thrust);
+                attachment.addApplier(pos, applier);
+            }
+        });
     }
 
     @Override
@@ -64,11 +64,10 @@ public class MassSuspensionMatrixBlock extends Block implements EntityBlock {
     }
 
     private static void removeApplier(@NotNull Level level, @NotNull BlockPos pos) {
-        if (!level.isClientSide()) {
-            ZPLShipAttachment ship = ZPLShipAttachment.get(level, pos);
-            if (ship != null) {
-                ship.removeApplier((ServerLevel) level, pos);
-            }
+        if (level instanceof ServerLevel serverLevel) {
+            ZPLShipAttachment.get(serverLevel, pos).ifPresent(attachment ->
+                    attachment.removeApplier(serverLevel, pos)
+            );
         }
     }
 }

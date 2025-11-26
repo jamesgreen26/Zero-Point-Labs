@@ -5,6 +5,7 @@ import g_mungus.zpl.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -40,7 +41,7 @@ public class ThrusterExhaustBlockEntity extends BlockEntity {
             level.setBlock(getBlockPos(), getBlockState().setValue(ThrusterExhaustBlock.POWER, current), 3);
         }
         if (thrust == null) {
-            ThrusterExhaustBlock.addApplier(getBlockState(), level, getBlockPos());
+            ThrusterExhaustBlock.addApplier(getBlockState(), (ServerLevel) level, getBlockPos());
         }
         if (thrust != null) {
             thrust.strength = force_strength;
