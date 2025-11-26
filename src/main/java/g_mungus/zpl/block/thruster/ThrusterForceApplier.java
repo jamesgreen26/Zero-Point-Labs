@@ -1,5 +1,6 @@
 package g_mungus.zpl.block.thruster;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
 import org.joml.Vector3d;
@@ -11,7 +12,11 @@ public class ThrusterForceApplier implements IForceApplier {
 
     public ThrusterData thrust;
 
+    @JsonIgnore
     private final Vector3d worldForceDirection = new Vector3d();
+
+    public ThrusterForceApplier() {
+    }
 
     public ThrusterForceApplier(ThrusterData thrust) {
         this.thrust = thrust;

@@ -11,6 +11,9 @@ public class GyroForceApplier implements IForceApplier {
 
     public ThrusterData thrust;
 
+    public GyroForceApplier() {
+    }
+
     public GyroForceApplier(ThrusterData thrust) {
         this.thrust = thrust;
     }

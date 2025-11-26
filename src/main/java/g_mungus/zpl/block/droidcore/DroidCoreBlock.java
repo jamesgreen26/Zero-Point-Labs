@@ -93,29 +93,19 @@ public class DroidCoreBlock extends Block implements EntityBlock {
     }
 
     public static void addApplier(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos) {
-        ZPLShipAttachment.get(level, pos).ifPresent(attachment -> {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof DroidCoreBlockEntity droidCore) {
-                droidCore.droidData = new DroidData();
-
-                DroidForceApplier applier = new DroidForceApplier(droidCore.droidData);
-                attachment.addApplier(pos, applier);
-            }
-        });
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof DroidCoreBlockEntity droidCore) {
+            droidCore.droidData = new DroidData();
+            DroidAttachment.addNew(level, pos, droidCore.droidData);
+        }
     }
 
     @Override
     public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
-        removeApplier(level, pos);
+        if (level instanceof ServerLevel serverLevel) {
+        DroidAttachment.removeApplier(serverLevel, pos);
+        }
 
         super.onRemove(state, level, pos, newState, isMoving);
-    }
-
-    private static void removeApplier(@NotNull Level level, @NotNull BlockPos pos) {
-        if (level instanceof ServerLevel serverLevel) {
-            ZPLShipAttachment.get(serverLevel, pos).ifPresent(attachment ->
-                    attachment.removeApplier(serverLevel, pos)
-            );
-        }
     }
 }

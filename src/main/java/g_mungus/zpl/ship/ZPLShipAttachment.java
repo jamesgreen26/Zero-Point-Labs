@@ -5,14 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.valkyrienskies.core.api.ships.*;
 import org.valkyrienskies.core.api.world.PhysLevel;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
-import org.valkyrienskies.mod.common.VSGameUtilsKt;
 import org.valkyrienskies.mod.common.jackson.BlockPosKeyDeserializer;
 import org.valkyrienskies.mod.common.jackson.BlockPosKeySerializer;
 
@@ -20,6 +17,8 @@ import org.valkyrienskies.mod.common.jackson.BlockPosKeySerializer;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static g_mungus.zpl.ZeroPointLabsMod.getShipAt;
 
 @JsonAutoDetect(
         fieldVisibility = JsonAutoDetect.Visibility.NONE,
@@ -56,37 +55,7 @@ public final class ZPLShipAttachment implements ShipPhysicsListener {
         }
     }
 
-    public static Optional<ZPLShipAttachment> get(ServerLevel level, BlockPos pos) {
-        try {
-            Optional<LoadedServerShip> ship = getShipAt(level, pos);
-            return ship.map(it -> it.getOrPutAttachment(ZPLShipAttachment.class, ZPLShipAttachment::new));
-        } catch (Exception e) {
-            Optional<LoadedServerShip> ship = getShipAt(level, pos);
-            String slug = "<unknown>";
-            if (ship.isPresent()) {
-                slug = ship.get().getSlug();
-            }
-            final ServerPlayer player = level.getRandomPlayer();
-            if (player != null) {
-                player.sendSystemMessage(Component.literal(
-                        "Ship " +
-                                slug +
-                                "has invalid ship attachments."
-                ), true);
-            }
-            throw e;
-        }
-    }
-
-    private static Optional<LoadedServerShip> getShipAt(ServerLevel serverLevel, BlockPos pos) {
-
-        ServerShip ship = VSGameUtilsKt.getShipObjectManagingPos(serverLevel, pos);
-        if (ship == null){
-            ship = VSGameUtilsKt.getShipManagingPos(serverLevel, pos);
-        }
-        if (ship instanceof LoadedServerShip loadedServerShip) {
-            return Optional.of(loadedServerShip);
-        }
-        return Optional.empty();
+    public static Optional<ZPLShipAttachment> getOrCreate(ServerLevel level, BlockPos pos) {
+            return getShipAt(level, pos).map(it -> it.getOrPutAttachment(ZPLShipAttachment.class, ZPLShipAttachment::new));
     }
 }

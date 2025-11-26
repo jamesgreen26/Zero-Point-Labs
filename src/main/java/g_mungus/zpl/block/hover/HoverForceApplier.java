@@ -8,7 +8,17 @@ import net.minecraft.core.BlockPos;
 import org.joml.Vector3d;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
 
-public record HoverForceApplier(String dimension, ThrusterData thrusterData) implements IForceApplier {
+public class HoverForceApplier implements IForceApplier {
+
+    public String dimension;
+    public ThrusterData thrusterData;
+
+    public HoverForceApplier() {}
+
+    public HoverForceApplier(String dimension, ThrusterData thrusterData) {
+        this.dimension = dimension;
+        this.thrusterData = thrusterData;
+    }
 
     @Override
     public void applyForces(BlockPos pos, PhysShipImpl ship) {

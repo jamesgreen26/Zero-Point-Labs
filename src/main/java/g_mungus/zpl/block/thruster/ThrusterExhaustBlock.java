@@ -122,7 +122,7 @@ public class ThrusterExhaustBlock extends Block implements EntityBlock {
     }
 
     public static void addApplier(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos) {
-        ZPLShipAttachment.get(level, pos).ifPresent(attachment -> {
+        ZPLShipAttachment.getOrCreate(level, pos).ifPresent(attachment -> {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof ThrusterExhaustBlockEntity thrusterBlockEntity) {
                 thrusterBlockEntity.thrust = new ThrusterData(VectorConversionsMCKt.toJOMLD(state.getValue(FACING).getOpposite().getNormal()), 0.0);
@@ -142,7 +142,7 @@ public class ThrusterExhaustBlock extends Block implements EntityBlock {
 
     private static void removeApplier(@NotNull Level level, @NotNull BlockPos pos) {
         if (level instanceof ServerLevel serverLevel) {
-            ZPLShipAttachment.get(serverLevel, pos).ifPresent(attachment ->
+            ZPLShipAttachment.getOrCreate(serverLevel, pos).ifPresent(attachment ->
                     attachment.removeApplier(serverLevel, pos)
             );
         }

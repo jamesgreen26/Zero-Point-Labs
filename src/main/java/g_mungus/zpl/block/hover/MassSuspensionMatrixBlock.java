@@ -43,7 +43,7 @@ public class MassSuspensionMatrixBlock extends Block implements EntityBlock {
     }
 
     public static void addApplier(@NotNull ServerLevel level, @NotNull BlockPos pos) {
-        ZPLShipAttachment.get(level, pos).ifPresent(attachment -> {
+        ZPLShipAttachment.getOrCreate(level, pos).ifPresent(attachment -> {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof MassSuspensionMatrixBlockEntity matrixBlockEntity) {
                 matrixBlockEntity.thrust = new ThrusterData(new Vector3d(), 0.0);
@@ -65,7 +65,7 @@ public class MassSuspensionMatrixBlock extends Block implements EntityBlock {
 
     private static void removeApplier(@NotNull Level level, @NotNull BlockPos pos) {
         if (level instanceof ServerLevel serverLevel) {
-            ZPLShipAttachment.get(serverLevel, pos).ifPresent(attachment ->
+            ZPLShipAttachment.getOrCreate(serverLevel, pos).ifPresent(attachment ->
                     attachment.removeApplier(serverLevel, pos)
             );
         }

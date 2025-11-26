@@ -1,23 +1,28 @@
 package g_mungus.zpl.block.droidcore;
 
-import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import org.jetbrains.annotations.NotNull;
 import org.joml.*;
+import org.valkyrienskies.core.api.ships.PhysShip;
+import org.valkyrienskies.core.api.ships.ShipPhysicsListener;
 import org.valkyrienskies.core.api.ships.properties.ShipTransform;
-import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
+import org.valkyrienskies.core.api.world.PhysLevel;
 
 import java.lang.Math;
 
-public class DroidForceApplier implements IForceApplier {
+import static g_mungus.zpl.ZeroPointLabsMod.getShipAt;
+
+public final class DroidAttachment implements ShipPhysicsListener {
 
     public DroidData droidData;
 
-    public DroidForceApplier(DroidData droidData) {
+    public DroidAttachment(DroidData droidData) {
         this.droidData = droidData;
     }
 
     @Override
-    public void applyForces(BlockPos pos, PhysShipImpl ship) {
+    public void physTick (@NotNull PhysShip ship, @NotNull PhysLevel physLevel){
         if (droidData.facingDirection == null) return;
 
         final ShipTransform transform = ship.getTransform();
@@ -87,7 +92,7 @@ public class DroidForceApplier implements IForceApplier {
                 Vector3d perpendicularVelocity = velocity.sub(parallelComponent, new Vector3d());
 
                 // Apply force to cancel perpendicular velocity
-                double dampingStrength = (ship.get_inertia().getShipMass() / scaling.x()) / 16.0;
+                double dampingStrength = (ship.getMass() / scaling.x()) / 16.0;
                 Vector3d dampingForce = perpendicularVelocity.mul(-dampingStrength, new Vector3d());
 
                 ship.applyInvariantForce(dampingForce);
@@ -99,5 +104,18 @@ public class DroidForceApplier implements IForceApplier {
                 ship.applyInvariantForce(forwardForce);
             }
         }
+    }
+
+    public static void removeApplier(ServerLevel level, BlockPos pos){
+        getShipAt(level, pos).ifPresent(ship -> {
+            ship.removeAttachment(DroidAttachment.class);
+        });
+    }
+
+    public static void addNew(ServerLevel level, BlockPos pos, DroidData droidData) {
+        getShipAt(level, pos).ifPresent(ship -> {
+            ship.removeAttachment(DroidAttachment.class);
+            ship.setAttachment(new DroidAttachment(droidData));
+        });
     }
 }
