@@ -1,24 +1,36 @@
 package g_mungus.zpl.ship;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.valkyrienskies.core.api.ships.*;
 import org.valkyrienskies.core.api.world.PhysLevel;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
+import org.valkyrienskies.mod.common.jackson.BlockPosKeyDeserializer;
+import org.valkyrienskies.mod.common.jackson.BlockPosKeySerializer;
 
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-
+@JsonAutoDetect(
+        fieldVisibility = JsonAutoDetect.Visibility.NONE,
+        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+        getterVisibility = JsonAutoDetect.Visibility.NONE,
+        setterVisibility = JsonAutoDetect.Visibility.NONE
+)
 public final class ZPLShipAttachment implements ShipPhysicsListener {
+    @JsonProperty
+    @JsonSerialize(keyUsing = BlockPosKeySerializer.class)
+    @JsonDeserialize(keyUsing = BlockPosKeyDeserializer.class)
     public Map<BlockPos, IForceApplier> appliersMapping = new ConcurrentHashMap<>();
     public ZPLShipAttachment() {}
 
@@ -62,7 +74,7 @@ public final class ZPLShipAttachment implements ShipPhysicsListener {
                                 "has invalid ship attachments."
                 ), true);
             }
-            return Optional.empty();
+            throw e;
         }
     }
 

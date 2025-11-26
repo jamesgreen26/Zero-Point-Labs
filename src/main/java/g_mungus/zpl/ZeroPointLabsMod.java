@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.valkyrienskies.core.api.attachment.AttachmentRegistration;
 import org.valkyrienskies.mod.api.ValkyrienSkies;
 
 @Mod(ZeroPointLabsMod.MOD_ID)
