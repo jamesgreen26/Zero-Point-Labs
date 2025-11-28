@@ -14,7 +14,6 @@ import org.valkyrienskies.mod.common.jackson.BlockPosKeyDeserializer;
 import org.valkyrienskies.mod.common.jackson.BlockPosKeySerializer;
 
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,7 +29,7 @@ public final class ZPLShipAttachment implements ShipPhysicsListener {
     @JsonProperty
     @JsonSerialize(keyUsing = BlockPosKeySerializer.class)
     @JsonDeserialize(keyUsing = BlockPosKeyDeserializer.class)
-    public Map<BlockPos, IForceApplier> appliersMapping = new ConcurrentHashMap<>();
+    public ConcurrentHashMap<BlockPos, IForceApplier> appliersMapping = new ConcurrentHashMap<>();
     public ZPLShipAttachment() {}
 
     @Override
@@ -47,12 +46,6 @@ public final class ZPLShipAttachment implements ShipPhysicsListener {
 
     public void removeApplier(ServerLevel level, BlockPos pos){
         appliersMapping.remove(pos);
-
-        if (appliersMapping.isEmpty()) {
-            getShipAt(level, pos).ifPresent(ship -> {
-                ship.removeAttachment(ZPLShipAttachment.class);
-            });
-        }
     }
 
     public static Optional<ZPLShipAttachment> getOrCreate(ServerLevel level, BlockPos pos) {
