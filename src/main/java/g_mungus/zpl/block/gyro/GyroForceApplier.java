@@ -21,10 +21,8 @@ public class GyroForceApplier implements IForceApplier {
     @Override
     public void applyForces(BlockPos pos, PhysShipImpl ship) {
         final ShipTransform transform = ship.getTransform();
-        Vector3dc scaling = transform.getShipToWorldScaling();
 
-        double massScaleFactor = scaling.x() * scaling.y() * scaling.z();
-        double torqueScaleFactor = massScaleFactor * scaling.x() * scaling.z() * 1.5;
+        double torqueScaleFactor = 1.5;
 
         Vector3d invOmega = ship.getAngularVelocity().mul(-8000, new Vector3d());
 

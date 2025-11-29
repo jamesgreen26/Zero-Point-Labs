@@ -28,8 +28,7 @@ public final class DroidAttachment implements ShipPhysicsListener {
         final ShipTransform transform = ship.getTransform();
         Vector3dc scaling = transform.getShipToWorldScaling();
 
-        double massScaleFactor = scaling.x() * scaling.y() * scaling.z();
-        double torqueScaleFactor = massScaleFactor * scaling.x() * scaling.z() * 1.5;
+        double torqueScaleFactor = 1.5;
 
         // Get angular velocity in world space, then transform to ship space
         Vector3d invOmega = ship.getAngularVelocity().mul(-8000, new Vector3d());
