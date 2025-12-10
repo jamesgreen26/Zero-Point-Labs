@@ -1,11 +1,16 @@
 package g_mungus.zpl.block.gyro;
 
+import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.thruster.ThrusterData;
 import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
 import org.joml.*;
+import org.joml.primitives.AABBic;
 import org.valkyrienskies.core.api.ships.properties.ShipTransform;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
+import org.valkyrienskies.mod.common.ValkyrienSkiesMod;
+
+import java.lang.Math;
 
 public class GyroForceApplier implements IForceApplier {
 
@@ -21,8 +26,16 @@ public class GyroForceApplier implements IForceApplier {
     @Override
     public void applyForces(BlockPos pos, PhysShipImpl ship) {
         final ShipTransform transform = ship.getTransform();
-
         double torqueScaleFactor = 1.5;
+
+        try {
+            AABBic aabb = ValkyrienSkiesMod.getApi().getServerShipWorld(ValkyrienSkiesMod.getCurrentServer()).getAllShips().getById(ship.getId()).getShipAABB();
+            if (aabb != null) {
+                Vector3d extent = aabb.extent(new Vector3d());
+
+                torqueScaleFactor = 0.75 + Math.pow(extent.x * extent.y * extent.z, 1 / 3d) / (transform.getShipToWorldScaling().x() * 12);
+            }
+        } catch (Throwable ignored) {}
 
         Vector3d invOmega = ship.getAngularVelocity().mul(-8000, new Vector3d());
 
