@@ -1,6 +1,5 @@
 package g_mungus.zpl.block.gyro;
 
-import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.thruster.ThrusterData;
 import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
@@ -33,7 +32,7 @@ public class GyroForceApplier implements IForceApplier {
             if (aabb != null) {
                 Vector3d extent = aabb.extent(new Vector3d());
 
-                torqueScaleFactor = 0.75 + Math.pow(extent.x * extent.y * extent.z, 1 / 3d) / (transform.getShipToWorldScaling().x() * 12);
+                torqueScaleFactor = 0.75 + Math.pow(extent.x * extent.y * extent.z, 1 / 3d);
             }
         } catch (Throwable ignored) {}
 
@@ -53,14 +52,14 @@ public class GyroForceApplier implements IForceApplier {
         double omegaDotThrust = shipSpaceOmega.dot(thrustAxis);
 
         if (thrust.strength > 0.01) {
-            ship.applyRotDependentTorque(thrust.direction.normalize(thrust.strength).mul(torqueScaleFactor));
+            ship.applyBodyTorque(thrust.direction.normalize(thrust.strength).mul(torqueScaleFactor));
             Vector3d dampingTorque = thrustAxis.mul(omegaDotThrust * torqueScaleFactor, new Vector3d());
-            ship.applyRotDependentTorque(dampingTorque);
+            ship.applyBodyTorque(dampingTorque);
         } else {
             double thrustDotOmega = thrustAxis.dot(shipSpaceOmega);
             if (thrustDotOmega < 0) {
                 Vector3d strongDampingTorque = thrustAxis.mul(omegaDotThrust * torqueScaleFactor * 16.0, new Vector3d());
-                ship.applyRotDependentTorque(strongDampingTorque);
+                ship.applyBodyTorque(strongDampingTorque);
             }
         }
     }
