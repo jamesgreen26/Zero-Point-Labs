@@ -1,6 +1,7 @@
 package g_mungus.zpl.block.thruster;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import g_mungus.zpl.config.ZPLConfig;
 import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
 import org.joml.Vector3d;
@@ -32,7 +33,7 @@ public class ThrusterForceApplier implements IForceApplier {
         if (thrust.strength > 0.01) {
 
             transform.getShipToWorld().transformDirection(thrust.direction, worldForceDirection);
-            ship.applyInvariantForce(worldForceDirection.normalize(thrust.strength * 800_000).mul(massScaleFactor).mul(scaling));
+            ship.applyInvariantForce(worldForceDirection.normalize(thrust.strength * ZPLConfig.getThrusterStrength()).mul(massScaleFactor).mul(scaling));
 
             Vector3dc worldVelocity = ship.getVelocity();
 

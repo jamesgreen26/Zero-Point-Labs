@@ -5,6 +5,7 @@ import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.droidcore.DroidAttachment;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntityRenderer;
+import g_mungus.zpl.config.ZPLConfig;
 import g_mungus.zpl.entity.EnergyOrbEntityRenderer;
 import g_mungus.zpl.entity.ModEntities;
 import g_mungus.zpl.item.ModCreativeTabs;
@@ -20,6 +21,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,8 @@ public final class ZeroPointLabsMod {
 
     public ZeroPointLabsMod(FMLJavaModLoadingContext context) {
         IEventBus eventBus = context.getModEventBus();
+
+        context.registerConfig(ModConfig.Type.SERVER, ZPLConfig.CONFIG_SPEC);
 
         ModBlocks.BLOCKS.register(eventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(eventBus);

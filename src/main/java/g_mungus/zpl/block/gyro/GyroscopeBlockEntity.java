@@ -2,6 +2,7 @@ package g_mungus.zpl.block.gyro;
 
 import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.block.thruster.ThrusterData;
+import g_mungus.zpl.config.ZPLConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +23,7 @@ public class GyroscopeBlockEntity extends BlockEntity {
             GyroscopeBlock.addApplier(getBlockState(), (ServerLevel) level, getBlockPos());
         }
         if (thrust != null) {
-            thrust.strength = level.getBestNeighborSignal(getBlockPos()) * 64_000;
+            thrust.strength = level.getBestNeighborSignal(getBlockPos()) * ZPLConfig.getGyroStrength();
         }
     }
 
