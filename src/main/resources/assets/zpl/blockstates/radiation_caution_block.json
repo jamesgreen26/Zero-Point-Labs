@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "zpl:block/radiation_caution_block"
+    }
+  }
+}

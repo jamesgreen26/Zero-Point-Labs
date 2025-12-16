@@ -9,9 +9,7 @@ import g_mungus.zpl.block.assembly.LaunchButtonBlock;
 import g_mungus.zpl.block.thruster.IonModulatorBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -24,37 +22,124 @@ public class ModBlocks {
     public static final RegistryObject<Block> THRUSTER_EXHAUST_BLOCK = BLOCKS.register("ion_thruster_exhaust",
         () -> new ThrusterExhaustBlock(BlockBehaviour.Properties.of()
             .strength(3.0f)
-            .requiresCorrectToolForDrops()));
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.NETHERITE_BLOCK)
+        )
+    );
 
     public static final RegistryObject<Block> ION_MODULATOR_BLOCK = BLOCKS.register("ion_thrust_modulator",
-            () -> new IonModulatorBlock(BlockBehaviour.Properties.of()
-                    .strength(3.0f)
-                    .requiresCorrectToolForDrops()));
+        () -> new IonModulatorBlock(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.NETHERITE_BLOCK)
+        )
+    );
 
     public static final RegistryObject<Block> GYROSCOPE_BLOCK = BLOCKS.register("gyroscope",
-            () -> new GyroscopeBlock(BlockBehaviour.Properties.of()
-                    .strength(3.0f)
-                    .requiresCorrectToolForDrops()));
+        () -> new GyroscopeBlock(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.NETHERITE_BLOCK)
+        )
+    );
 
     public static final RegistryObject<Block> CAUTION_BLOCK = BLOCKS.register("caution_block",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(3.0f)
-                    .requiresCorrectToolForDrops()));
+        () -> new Block(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+        )
+    );
+
+    public static final RegistryObject<Block> RADIATION_CAUTION_BLOCK = BLOCKS.register("radiation_caution_block",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+        )
+    );
+
+    public static final RegistryObject<Block> VOID_CAUTION_BLOCK = BLOCKS.register("void_caution_block",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+        )
+    );
 
     public static final RegistryObject<Block> SPACE_PLATING = BLOCKS.register("space_plating",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(3.0f)
-                    .requiresCorrectToolForDrops()));
+        () -> new Block(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
+        )
+    );
 
     public static final RegistryObject<Block> SPACE_PLATING_SLAB = BLOCKS.register("space_plating_slab",
-            () -> new SlabBlock(BlockBehaviour.Properties.of()
-                    .strength(3.0f)
-                    .requiresCorrectToolForDrops()));
+        () -> new SlabBlock(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
+        )
+    );
 
     public static final RegistryObject<Block> SPACE_PLATING_STAIRS = BLOCKS.register("space_plating_stairs",
-            () -> new StairBlock(() -> SPACE_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of()
-                    .strength(3.0f)
-                    .requiresCorrectToolForDrops()));
+        () -> new StairBlock(() -> SPACE_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
+        )
+    );
+
+    public static final RegistryObject<Block> RIVETED_SPACE_PLATING = BLOCKS.register("riveted_space_plating",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
+        )
+    );
+
+    public static final RegistryObject<Block> RIVETED_SPACE_PLATING_SLAB = BLOCKS.register("riveted_space_plating_slab",
+        () -> new SlabBlock(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
+        )
+    );
+
+    public static final RegistryObject<Block> RIVETED_SPACE_PLATING_STAIRS = BLOCKS.register("riveted_space_plating_stairs",
+        () -> new StairBlock(() -> SPACE_PLATING.get().defaultBlockState(), BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
+        )
+    );
+
+    public static final RegistryObject<Block> SPACE_TRUSS = BLOCKS.register("space_truss",
+        () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.NETHERITE_BLOCK)
+            .noOcclusion()
+        )
+    );
+
+    public static final RegistryObject<Block> SPACE_SCAFFOLD = BLOCKS.register("space_scaffold",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.NETHERITE_BLOCK)
+            .noOcclusion()
+        )
+    );
+
+    public static final RegistryObject<Block> SPACE_WALKWAY = BLOCKS.register("space_walkway",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .strength(3.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.NETHERITE_BLOCK)
+            .noOcclusion()
+        )
+    );
+
+
 
     public static final RegistryObject<Block> MASS_SUSPENSION_MATRIX_BLOCK = BLOCKS.register("mass_suspension_matrix",
             () -> new MassSuspensionMatrixBlock(BlockBehaviour.Properties.of()

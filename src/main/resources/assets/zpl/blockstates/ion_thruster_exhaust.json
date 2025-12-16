@@ -1,27 +1,27 @@
 {
     "variants": {
         "facing=up": {
-            "model": "zpl:block/exhaust"
+            "model": "zpl:block/ion_exhaust"
         },
         "facing=down": {
-            "model": "zpl:block/exhaust",
+            "model": "zpl:block/ion_exhaust",
             "x": 180
         },
         "facing=north": {
-            "model": "zpl:block/exhaust",
+            "model": "zpl:block/ion_exhaust",
             "x": 90
         },
         "facing=south": {
-            "model": "zpl:block/exhaust",
+            "model": "zpl:block/ion_exhaust",
             "x": 270
         },
         "facing=east": {
-            "model": "zpl:block/exhaust",
+            "model": "zpl:block/ion_exhaust",
             "x": 90,
             "y": 90
         },
         "facing=west": {
-            "model": "zpl:block/exhaust",
+            "model": "zpl:block/ion_exhaust",
             "x": 90,
             "y": 270
         }

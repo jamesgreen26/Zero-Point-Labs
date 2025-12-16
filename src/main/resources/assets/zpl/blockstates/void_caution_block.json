@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "zpl:block/void_caution_block"
+    }
+  }
+}

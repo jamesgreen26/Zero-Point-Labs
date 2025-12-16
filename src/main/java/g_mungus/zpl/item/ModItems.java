@@ -37,8 +37,27 @@ public class ModItems {
     public static final RegistryObject<Item> SPACE_PLATING_STAIRS_ITEM = ITEMS.register("space_plating_stairs",
             () -> new BlockItem(ModBlocks.SPACE_PLATING_STAIRS.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> RIVETED_SPACE_PLATING_ITEM = ITEMS.register("riveted_space_plating",
+            () -> new BlockItem(ModBlocks.RIVETED_SPACE_PLATING.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> RIVETED_SPACE_PLATING_SLAB_ITEM = ITEMS.register("riveted_space_plating_slab",
+            () -> new BlockItem(ModBlocks.RIVETED_SPACE_PLATING_SLAB.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> RIVETED_SPACE_PLATING_STAIRS_ITEM = ITEMS.register("riveted_space_plating_stairs",
+            () -> new BlockItem(ModBlocks.RIVETED_SPACE_PLATING_STAIRS.get(), new Item.Properties()));
+
+
     public static final RegistryObject<Item> CAUTION_BLOCK_ITEM = ITEMS.register("caution_block",
             () -> new BlockItem(ModBlocks.CAUTION_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RADIATION_CAUTION_BLOCK_ITEM = ITEMS.register("radiation_caution_block",
+            () -> new BlockItem(ModBlocks.RADIATION_CAUTION_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> VOID_CAUTION_BLOCK = ITEMS.register("void_caution_block",
+            () -> new BlockItem(ModBlocks.VOID_CAUTION_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> SPACE_TRUSS = ITEMS.register("space_truss",
+            () -> new BlockItem(ModBlocks.SPACE_TRUSS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SPACE_SCAFFOLD = ITEMS.register("space_scaffold",
+            () -> new BlockItem(ModBlocks.SPACE_SCAFFOLD.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> LAUNCH_PLATFORM_ITEM = ITEMS.register("launch_platform",
             () -> new BlockItem(ModBlocks.LAUNCH_PLATFORM.get(), new Item.Properties()));

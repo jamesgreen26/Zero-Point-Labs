@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "zpl:block/riveted_plating",
+    "top": "zpl:block/riveted_plating",
+    "side": "zpl:block/riveted_plating"
+  }
+}
