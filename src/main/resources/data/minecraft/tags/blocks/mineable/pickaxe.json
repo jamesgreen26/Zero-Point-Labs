@@ -11,6 +11,13 @@
     "zpl:mass_suspension_matrix",
     "zpl:photon_pulse_blaster",
     "zpl:launch_platform",
-    "zpl:launch_button"
+    "zpl:launch_button",
+    "zpl:riveted_space_plating",
+    "zpl:riveted_space_plating_slab",
+    "zpl:riveted_space_plating_stairs",
+    "zpl:space_scaffold",
+    "zpl:space_truss",
+    "zpl:radiation_caution_block",
+    "zpl:void_caution_block"
   ]
 }

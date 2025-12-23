@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "functional",
+  "key": {
+    "R": {
+      "item": "zpl:riveted_space_plating"
+    }
+  },
+  "pattern": [
+    "R  ",
+    "RR ",
+    "RRR"
+  ],
+  "result": {
+    "item": "zpl:riveted_space_plating_stairs",
+    "count": 4
+  },
+  "show_notification": true
+}

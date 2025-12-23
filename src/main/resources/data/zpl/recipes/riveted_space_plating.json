@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "functional",
+  "key": {
+    "S": {
+      "item": "zpl:space_plating"
+    }
+  },
+  "pattern": [
+    "SS",
+    "SS"
+  ],
+  "result": {
+    "item": "zpl:riveted_space_plating",
+    "count": 4
+  },
+  "show_notification": true
+}

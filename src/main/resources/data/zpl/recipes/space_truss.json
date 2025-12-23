@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "functional",
+  "key": {
+    "S": {
+      "item": "zpl:space_scaffold"
+    }
+  },
+  "pattern": [
+    "S",
+    "S",
+    "S"
+  ],
+  "result": {
+    "item": "zpl:space_truss",
+    "count": 3
+  },
+  "show_notification": true
+}
