@@ -3,6 +3,7 @@ package g_mungus.zpl.item;
 import g_mungus.zpl.ZeroPointLabsMod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,7 +21,9 @@ public class ModCreativeTabs {
                     .displayItems((parameters, output) -> {
                         // Add all our items to the tab
                         ModItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
-                            output.accept(itemRegistryObject.get());
+                            if (!ResourceLocation.parse("zpl:droid_core").equals(itemRegistryObject.getId())) {
+                                output.accept(itemRegistryObject.get());
+                            }
                         });
                     }).build());
 
