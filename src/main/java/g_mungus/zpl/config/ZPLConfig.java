@@ -1,21 +1,22 @@
 package g_mungus.zpl.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import org.valkyrienskies.mod.common.config.VSGameConfig;
 
 public class ZPLConfig {
 
     private static ForgeConfigSpec.ConfigValue<Double> thrusterStrength;
-    private static final double thrusterStrengthDefault = 800_000d;
+    private static final double thrusterStrengthDefault = 720d;
 
     private static ForgeConfigSpec.ConfigValue<Double> gyroscopeStrength;
-    private static final double gyroscopeStrengthDefault = 64_000d;
+    private static final double gyroscopeStrengthDefault = 128d;
 
     public static double getThrusterStrength() {
         double result = thrusterStrengthDefault;
         try {
             result = thrusterStrength.get();
         } catch (Exception ignored) { }
-        return result;
+        return result * 10 * VSGameConfig.SERVER.getDefaultBlockMass();
     }
 
     public static double getGyroStrength() {
@@ -23,7 +24,7 @@ public class ZPLConfig {
         try {
             result = gyroscopeStrength.get();
         } catch (Exception ignored) { }
-        return result;
+        return result * VSGameConfig.SERVER.getDefaultBlockMass();
     }
 
 
