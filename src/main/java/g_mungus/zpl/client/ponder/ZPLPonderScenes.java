@@ -1,10 +1,17 @@
 package g_mungus.zpl.client.ponder;
 
+import net.createmod.ponder.api.element.ElementLink;
+import net.createmod.ponder.api.element.WorldSectionElement;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
+import net.createmod.ponder.foundation.PonderSceneBuilder;
+import net.createmod.ponder.foundation.instruction.DisplayWorldSectionInstruction;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ZPLPonderScenes {
     public static void assemblyTutorial(SceneBuilder builder, SceneBuildingUtil util) {
@@ -42,9 +49,33 @@ public class ZPLPonderScenes {
     }
 
     public static void thrusterTutorial(SceneBuilder builder, SceneBuildingUtil util) {
-        builder.configureBasePlate(0, 0, 5);
+        builder.configureBasePlate(0, 0, 13);
         builder.title("thruster", "Ion Thrusters");
-        builder.showBasePlate();
-        builder.idle(5);
+
+        Selection floor = util.select().fromTo(0, 0, 0, 12, 0, 12);
+        builder.addInstruction(new DisplayWorldSectionInstruction(0, Direction.UP, floor, builder.getScene()::getBaseWorldSection));
+        builder.removeShadow();
+        builder.overlay().showText(55).text("Ion Thrusters can be used to propel a ship.");
+
+        Selection ship = util.select().everywhere().substract(floor);
+        builder.world().showSection(ship, Direction.DOWN);
+
+//        List<ElementLink<WorldSectionElement>> floorElements = new ArrayList<>(13);
+//
+//        for (int i = 0; i < 13; i++) {
+//            Selection selection = util.select().fromTo(i, 0, 0, i, 0, 12);
+//            floorElements.add(builder.world().makeSectionIndependent(selection));
+//        }
+//
+//        int speed = 10;
+//        int cycles = 10;
+//
+//        for (int j = 0; j < cycles; j++) {
+//            for (int i = 0; i < 13; i++) {
+//                builder.world().moveSection(floorElements.get(i), new Vec3(-1, 0, 0), speed);
+//            }
+//            builder.idle(speed);
+//            builder.world().moveSection(floorElements.get(j), new Vec3(12, 0, 0), 0);
+//        }
     }
 }

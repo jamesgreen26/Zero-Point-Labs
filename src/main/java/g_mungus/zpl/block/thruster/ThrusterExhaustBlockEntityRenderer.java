@@ -2,7 +2,9 @@ package g_mungus.zpl.block.thruster;
 
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import g_mungus.zpl.mixin.RenderStateShardAccessor;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
@@ -29,6 +31,10 @@ public class ThrusterExhaustBlockEntityRenderer implements BlockEntityRenderer<T
             THRUST = LodestoneRenderTypeRegistry.createGenericRenderType("thruster_render_type", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, LodestoneRenderTypeRegistry.builder()
                     .setShaderState(THRUST_SHADER)
                     .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
+                    .setDepthTestState(new RenderStateShard.DepthTestStateShard("<=", 515))
+                    .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
+                    .setOutputState(RenderStateShardAccessor.getTRANSLUCENT_TARGET())
+                    .setLayeringState(RenderStateShardAccessor.getVIEW_OFFSET_Z_LAYERING())
             );
         }
         return THRUST;
@@ -60,32 +66,35 @@ public class ThrusterExhaustBlockEntityRenderer implements BlockEntityRenderer<T
 
         poseStack.pushPose();
 
-        poseStack.translate(0.5, 0.5, 0.5);
+        try {
+            poseStack.translate(0.5, 0.5, 0.5);
 
-        Direction direction = blockState.getValue(ThrusterExhaustBlock.FACING);
-        switch (direction) {
-            case UP -> {}
-            case DOWN -> poseStack.mulPose(Axis.XP.rotationDegrees(180f));
-            case NORTH -> poseStack.mulPose(Axis.XP.rotationDegrees(-90f));
-            case SOUTH -> poseStack.mulPose(Axis.XP.rotationDegrees(90f));
-            case WEST -> {
-                poseStack.mulPose(Axis.ZP.rotationDegrees(90f));
+            Direction direction = blockState.getValue(ThrusterExhaustBlock.FACING);
+            switch (direction) {
+                case UP -> {}
+                case DOWN -> poseStack.mulPose(Axis.XP.rotationDegrees(180f));
+                case NORTH -> poseStack.mulPose(Axis.XP.rotationDegrees(-90f));
+                case SOUTH -> poseStack.mulPose(Axis.XP.rotationDegrees(90f));
+                case WEST -> {
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(90f));
+                }
+                case EAST -> {
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(-90f));
+                }
             }
-            case EAST -> {
-                poseStack.mulPose(Axis.ZP.rotationDegrees(-90f));
-            }
+
+            poseStack.translate(-0.5, -0.5, -0.5);
+
+            poseStack.translate(-0.5f * power, 1, -0.5f * power);
+            poseStack.scale(2 * hScale, 6 * power, 2 * hScale);
+
+            Matrix4f matrix4f = poseStack.last().pose();
+
+            VertexConsumer consumer = bufferSource.getBuffer(getThrustRenderType());
+            this.renderCube(blockEntity, matrix4f, consumer);
+        } finally {
+            poseStack.popPose();
         }
-
-        poseStack.translate(-0.5, -0.5, -0.5);
-
-        poseStack.translate(-0.5f * power, 1, -0.5f * power);
-        poseStack.scale(2 * hScale, 6 * power, 2 * hScale);
-
-        Matrix4f matrix4f = poseStack.last().pose();
-
-        this.renderCube(blockEntity, matrix4f, bufferSource.getBuffer(getThrustRenderType()));
-
-        poseStack.popPose();
     }
 
 
