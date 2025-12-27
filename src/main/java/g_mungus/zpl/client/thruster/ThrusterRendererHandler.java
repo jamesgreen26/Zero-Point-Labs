@@ -29,13 +29,21 @@ public class ThrusterRendererHandler {
 
     private static LodestoneRenderType getThrustRenderType() {
         if (THRUST == null) {
-            THRUST = LodestoneRenderTypeRegistry.createGenericRenderType("thruster_render_type", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, LodestoneRenderTypeRegistry.builder()
-                    .setShaderState(THRUST_SHADER)
-                    .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
-                    .setDepthTestState(new RenderStateShard.DepthTestStateShard("<=", 515))
-                    .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
-                    .setOutputState(RenderStateShardAccessor.getTRANSLUCENT_TARGET())
-                    .setLayeringState(RenderStateShardAccessor.getVIEW_OFFSET_Z_LAYERING())
+            THRUST = LodestoneRenderTypeRegistry.copyWithUniformChanges(
+                    LodestoneRenderTypeRegistry.createGenericRenderType("thruster_render_type", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, LodestoneRenderTypeRegistry.builder()
+                            .setShaderState(THRUST_SHADER)
+                            .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
+                            .setDepthTestState(new RenderStateShard.DepthTestStateShard("<=", 515))
+                            .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
+                            .setOutputState(RenderStateShardAccessor.getTRANSLUCENT_TARGET())
+                            .setLayeringState(RenderStateShardAccessor.getVIEW_OFFSET_Z_LAYERING())
+                    ), shader -> {
+                        if (initialTime == -1) {
+                            initialTime = System.currentTimeMillis();
+                        }
+                        float time = (System.currentTimeMillis() - initialTime) / 50f;
+                        shader.safeGetUniform("ThrusterTime").set((time % 24000f) / 24000f);
+                    }
             );
         }
         return THRUST;
@@ -48,14 +56,7 @@ public class ThrusterRendererHandler {
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
 
-        LodestoneRenderType thrustType = LodestoneRenderTypeRegistry.copyWithUniformChanges(getThrustRenderType(), shader -> {
-                    if (initialTime == -1) {
-                        initialTime = System.currentTimeMillis();
-                    }
-                    float time = (System.currentTimeMillis() - initialTime) / 50f;
-                    shader.safeGetUniform("ThrusterTime").set((time % 24000f) / 24000f);
-                }
-        );
+        LodestoneRenderType thrustType = getThrustRenderType();
         VertexConsumer consumer = buffer.getBuffer(thrustType);
 
         for (ThrusterRenderData data : ThrusterRenderQueue.getQueue()) {
@@ -70,14 +71,7 @@ public class ThrusterRendererHandler {
     public static void renderForPonderLevel() {
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
-        LodestoneRenderType thrustType = LodestoneRenderTypeRegistry.copyWithUniformChanges(getThrustRenderType(), shader -> {
-                    if (initialTime == -1) {
-                        initialTime = System.currentTimeMillis();
-                    }
-                    float time = (System.currentTimeMillis() - initialTime) / 50f;
-                    shader.safeGetUniform("ThrusterTime").set((time % 24000f) / 24000f);
-                }
-        );
+        LodestoneRenderType thrustType = getThrustRenderType();
         VertexConsumer consumer = buffer.getBuffer(thrustType);
 
         for (ThrusterRenderData data : ThrusterRenderQueuePonder.getQueue()) {
