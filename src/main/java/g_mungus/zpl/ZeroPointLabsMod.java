@@ -5,6 +5,7 @@ import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.droidcore.DroidAttachment;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntityRenderer;
+import g_mungus.zpl.client.ponder.ZPLPonderPlugin;
 import g_mungus.zpl.config.ZPLConfig;
 import g_mungus.zpl.entity.EnergyOrbEntityRenderer;
 import g_mungus.zpl.entity.ModEntities;
@@ -17,9 +18,11 @@ import g_mungus.zpl.sound.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -58,6 +61,8 @@ public final class ZeroPointLabsMod {
                 .useTransientSerializer()
                 .build()
         );
+
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ZPLPonderPlugin::registerPlugin);
     }
 
     public static double getDimensionScale(Level level) {

@@ -37,5 +37,10 @@
   "block.zpl.launch_platform": "Launch Platform",
   "block.zpl.launch_button": "Launch Button",
   "block.zpl.droid_core": "Droid Core",
-  "subtitles.zpl.photon_pulse_shoot": "Photon Pulse fired"
+  "subtitles.zpl.photon_pulse_shoot": "Photon Pulse fired",
+
+  "zpl.ponder.assembly.header": "Ship Assembly",
+  "zpl.ponder.assembly.text_1": "To assemble a ship, first build a Launch Platform.",
+  "zpl.ponder.assembly.text_2": "Next, build your ship on top.",
+  "zpl.ponder.assembly.text_3": "Then, place a Launch Button on the platform, and press it to assemble your ship."
 }
