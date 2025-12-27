@@ -4,10 +4,12 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
+import net.createmod.ponder.api.level.PonderLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -61,12 +63,22 @@ public class ThrusterExhaustBlockEntityRenderer implements BlockEntityRenderer<T
             poseStack.translate(-0.5f * power, 1, -0.5f * power);
             poseStack.scale(2 * hScale, 6 * power, 2 * hScale);
 
-            ThrusterRenderQueue.enqueue(new ThrusterRenderData(
-                    Vec3.atCenterOf(blockEntity.getBlockPos()),
-                    direction,
-                    power,
-                    poseStack
-            ));
+            Level level = blockEntity.getLevel();
+            if (level instanceof PonderLevel) {
+                ThrusterRenderQueuePonder.enqueue(new ThrusterRenderData(
+                        Vec3.atCenterOf(blockEntity.getBlockPos()),
+                        direction,
+                        power,
+                        poseStack
+                ));
+            } else {
+                ThrusterRenderQueue.enqueue(new ThrusterRenderData(
+                        Vec3.atCenterOf(blockEntity.getBlockPos()),
+                        direction,
+                        power,
+                        poseStack
+                ));
+            }
         } finally {
             poseStack.popPose();
         }

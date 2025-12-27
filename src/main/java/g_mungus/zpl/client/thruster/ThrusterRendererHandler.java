@@ -58,6 +58,21 @@ public class ThrusterRendererHandler {
         ThrusterRenderQueue.clear();
     }
 
+    public static void renderForPonderLevel() {
+        MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+
+        LodestoneRenderType thrustType = getThrustRenderType();
+        VertexConsumer consumer = buffer.getBuffer(thrustType);
+
+        for (ThrusterRenderData data : ThrusterRenderQueuePonder.getQueue()) {
+            // Use the captured transformation matrix
+            renderCube(data.matrix, consumer);
+        }
+
+        buffer.endBatch(thrustType);
+        ThrusterRenderQueuePonder.clear();
+    }
+
     private static void renderCube(Matrix4f matrix4f, VertexConsumer vertexConsumer) {
         renderHex(matrix4f, vertexConsumer, 0);
         renderHex(matrix4f, vertexConsumer, 7);
