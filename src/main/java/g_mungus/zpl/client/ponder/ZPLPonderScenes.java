@@ -5,13 +5,10 @@ import net.createmod.ponder.api.element.WorldSectionElement;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
-import net.createmod.ponder.foundation.PonderSceneBuilder;
 import net.createmod.ponder.foundation.instruction.DisplayWorldSectionInstruction;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ZPLPonderScenes {
     public static void assemblyTutorial(SceneBuilder builder, SceneBuildingUtil util) {
@@ -49,36 +46,26 @@ public class ZPLPonderScenes {
     }
 
     public static void thrusterTutorial(SceneBuilder builder, SceneBuildingUtil util) {
-        int size = 21;
-        int maxX = 20;
-        int maxZ = 20;
+        int size = 13;
         builder.configureBasePlate(0, 0, size);
         builder.title("thruster", "Ion Thrusters");
 
-        Selection floor = util.select().fromTo(0, 0, 0, maxX, 0, maxZ);
-        builder.addInstruction(new DisplayWorldSectionInstruction(0, Direction.UP, floor, builder.getScene()::getBaseWorldSection));
+        Selection floor = util.select().fromTo(0, 0, 0, 12, 0, 12);
         builder.removeShadow();
         builder.overlay().showText(55).text("Ion Thrusters can be used to propel a ship.");
 
         Selection ship = util.select().everywhere().substract(floor);
-        builder.world().showSection(ship, Direction.DOWN);
+        builder.addInstruction(new DisplayWorldSectionInstruction(0, Direction.UP, ship, builder.getScene()::getBaseWorldSection));
+        ElementLink<WorldSectionElement> shipElement = builder.world().makeSectionIndependent(ship);
 
-        List<ElementLink<WorldSectionElement>> floorElements = new ArrayList<>(size);
-
-        for (int i = 0; i < size; i++) {
-            Selection selection = util.select().fromTo(0, 0, i, maxX, 0, i);
-            floorElements.add(builder.world().makeSectionIndependent(selection));
+        for (int i = 0; i < 180; i++) {
+            particle(builder);
+            builder.idle(1);
         }
 
-        int speed = 5;
-        int cycles = 40;
+    }
 
-        for (int j = 0; j < cycles; j++) {
-            for (int i = 0; i < size; i++) {
-                builder.world().moveSection(floorElements.get(i), new Vec3(0, 0, -1), speed);
-            }
-            builder.idle(speed);
-            builder.world().moveSection(floorElements.get(j % size), new Vec3(0, 0, maxZ), 0);
-        }
+    private static void particle(SceneBuilder builder) {
+        builder.effects().emitParticles(new Vec3(7 + Math.random() * 7, Math.random() * 7, Math.random() * 13), builder.effects().simpleParticleEmitter(ParticleTypes.END_ROD, new Vec3(-2.5, (Math.random() - 0.5) / 10, (Math.random() - 0.5) / 10)), 1, 1);
     }
 }
