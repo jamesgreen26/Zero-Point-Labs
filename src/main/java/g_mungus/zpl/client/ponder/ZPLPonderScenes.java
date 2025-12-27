@@ -49,10 +49,13 @@ public class ZPLPonderScenes {
     }
 
     public static void thrusterTutorial(SceneBuilder builder, SceneBuildingUtil util) {
-        builder.configureBasePlate(0, 0, 13);
+        int size = 21;
+        int maxX = 20;
+        int maxZ = 20;
+        builder.configureBasePlate(0, 0, size);
         builder.title("thruster", "Ion Thrusters");
 
-        Selection floor = util.select().fromTo(0, 0, 0, 12, 0, 12);
+        Selection floor = util.select().fromTo(0, 0, 0, maxX, 0, maxZ);
         builder.addInstruction(new DisplayWorldSectionInstruction(0, Direction.UP, floor, builder.getScene()::getBaseWorldSection));
         builder.removeShadow();
         builder.overlay().showText(55).text("Ion Thrusters can be used to propel a ship.");
@@ -60,22 +63,22 @@ public class ZPLPonderScenes {
         Selection ship = util.select().everywhere().substract(floor);
         builder.world().showSection(ship, Direction.DOWN);
 
-//        List<ElementLink<WorldSectionElement>> floorElements = new ArrayList<>(13);
-//
-//        for (int i = 0; i < 13; i++) {
-//            Selection selection = util.select().fromTo(i, 0, 0, i, 0, 12);
-//            floorElements.add(builder.world().makeSectionIndependent(selection));
-//        }
-//
-//        int speed = 10;
-//        int cycles = 10;
-//
-//        for (int j = 0; j < cycles; j++) {
-//            for (int i = 0; i < 13; i++) {
-//                builder.world().moveSection(floorElements.get(i), new Vec3(-1, 0, 0), speed);
-//            }
-//            builder.idle(speed);
-//            builder.world().moveSection(floorElements.get(j), new Vec3(12, 0, 0), 0);
-//        }
+        List<ElementLink<WorldSectionElement>> floorElements = new ArrayList<>(size);
+
+        for (int i = 0; i < size; i++) {
+            Selection selection = util.select().fromTo(0, 0, i, maxX, 0, i);
+            floorElements.add(builder.world().makeSectionIndependent(selection));
+        }
+
+        int speed = 5;
+        int cycles = 40;
+
+        for (int j = 0; j < cycles; j++) {
+            for (int i = 0; i < size; i++) {
+                builder.world().moveSection(floorElements.get(i), new Vec3(0, 0, -1), speed);
+            }
+            builder.idle(speed);
+            builder.world().moveSection(floorElements.get(j % size), new Vec3(0, 0, maxZ), 0);
+        }
     }
 }
