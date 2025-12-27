@@ -4,6 +4,8 @@ import g_mungus.zpl.block.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -60,7 +62,8 @@ public class EnergyOrbLauncherBlock extends Block implements EntityBlock {
     @Override
     @SuppressWarnings("deprecation")
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
-        if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
+        if (player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown() ||
+                BuiltInRegistries.ITEM.getKey(player.getItemInHand(hand).getItem()).equals(ResourceLocation.fromNamespaceAndPath("create", "wrench"))) {
             level.setBlock(pos, state.setValue(ROTATION, (state.getValue(ROTATION) + 1) % 9), Block.UPDATE_CLIENTS);
             player.swing(hand);
             return InteractionResult.CONSUME;
