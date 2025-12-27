@@ -2,7 +2,7 @@ package g_mungus.zpl;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import g_mungus.zpl.block.ModBlockEntities;
-import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntityRenderer;
+import g_mungus.zpl.client.thruster.ThrusterExhaustBlockEntityRenderer;
 import g_mungus.zpl.entity.EnergyOrbEntityRenderer;
 import g_mungus.zpl.entity.ModEntities;
 import g_mungus.zpl.particle.EnergyOrbParticle;
