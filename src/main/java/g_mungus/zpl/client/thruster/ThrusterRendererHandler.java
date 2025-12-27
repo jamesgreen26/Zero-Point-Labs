@@ -25,6 +25,7 @@ import static g_mungus.zpl.ClientRegistry.THRUST_SHADER;
 public class ThrusterRendererHandler {
 
     private static LodestoneRenderType THRUST;
+    private static long initialTime = -1;
 
     private static LodestoneRenderType getThrustRenderType() {
         if (THRUST == null) {
@@ -46,7 +47,15 @@ public class ThrusterRendererHandler {
 
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
-        LodestoneRenderType thrustType = getThrustRenderType();
+
+        LodestoneRenderType thrustType = LodestoneRenderTypeRegistry.copyWithUniformChanges(getThrustRenderType(), shader -> {
+                    if (initialTime == -1) {
+                        initialTime = System.currentTimeMillis();
+                    }
+                    float time = (System.currentTimeMillis() - initialTime) / 50f;
+                    shader.safeGetUniform("ThrusterTime").set((time % 24000f) / 24000f);
+                }
+        );
         VertexConsumer consumer = buffer.getBuffer(thrustType);
 
         for (ThrusterRenderData data : ThrusterRenderQueue.getQueue()) {
@@ -61,7 +70,14 @@ public class ThrusterRendererHandler {
     public static void renderForPonderLevel() {
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
-        LodestoneRenderType thrustType = getThrustRenderType();
+        LodestoneRenderType thrustType = LodestoneRenderTypeRegistry.copyWithUniformChanges(getThrustRenderType(), shader -> {
+                    if (initialTime == -1) {
+                        initialTime = System.currentTimeMillis();
+                    }
+                    float time = (System.currentTimeMillis() - initialTime) / 50f;
+                    shader.safeGetUniform("ThrusterTime").set((time % 24000f) / 24000f);
+                }
+        );
         VertexConsumer consumer = buffer.getBuffer(thrustType);
 
         for (ThrusterRenderData data : ThrusterRenderQueuePonder.getQueue()) {
