@@ -62,30 +62,44 @@ public class ZPLPonderScenes {
         builder.title("thruster", "Ion Thrusters");
 
         Selection exhaust = util.select().position(2, 4, 6);
+
+        Selection allExhausts = exhaust
+                .add(util.select().position(2, 2, 6))
+                .add(util.select().position(2, 3, 4))
+                .add(util.select().position(2, 3, 8));
+
         Selection modulator = util.select().position(3, 4, 6);
 
         Selection floor = util.select().fromTo(0, 0, 0, 12, 1, 12);
         builder.removeShadow();
 
         Selection ship = util.select().everywhere().substract(floor);
+        ElementLink<WorldSectionElement> shipElement = null;
 
-        builder.world().showSection(ship, Direction.EAST);
+        builder.world().showSection(ship, Direction.UP);
 
-        for (int i = 0; i < 240; i++) {
+        for (int i = 0; i < 275; i++) {
             if (i == 10) {
                 builder.overlay().showText(55).text("Ion Thrusters can be used to propel a ship.");
             } else if (i == 70) {
                 builder.overlay().showOutlineWithText(exhaust.add(modulator), 65).text("To set one up, place an Ion Thrust Modulator in front of an Ion Thruster Exhaust.");
             } else if (i == 150) {
                 builder.overlay().showOutlineWithText(modulator, 65).text("Activate the thruster by providing FE and a Redstone Signal to the Ion Thrust Modulator block.");
-
+                shipElement = builder.world().makeSectionIndependent(ship);
             }
-            particle(builder);
+
+            int moveStart = 230;
+            if (i >= moveStart) {
+
+                int power = Math.min(Math.max(i - moveStart, 0), 15);
+                if (i < moveStart + 16) {
+                    builder.world().setBlocks(allExhausts, ModBlocks.THRUSTER_EXHAUST_BLOCK.get().defaultBlockState().setValue(ThrusterExhaustBlock.FACING, Direction.WEST).setValue(ThrusterExhaustBlock.POWER, power), false);
+                }
+
+                assert shipElement != null;
+                builder.world().moveSection(shipElement, new Vec3((i - moveStart) / 15f, 0, 0), 1);
+            }
             builder.idle(1);
         }
-    }
-
-    private static void particle(SceneBuilder builder) {
-        builder.effects().emitParticles(new Vec3(7 + Math.random() * 7, Math.random() * 7, Math.random() * 13), builder.effects().simpleParticleEmitter(ParticleTypes.END_ROD, new Vec3(-2.5, (Math.random() - 0.5) / 10, (Math.random() - 0.5) / 10)), 1, 1);
     }
 }
