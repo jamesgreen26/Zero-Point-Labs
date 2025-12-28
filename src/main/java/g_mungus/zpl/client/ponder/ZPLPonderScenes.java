@@ -3,6 +3,7 @@ package g_mungus.zpl.client.ponder;
 import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.thruster.IonModulatorBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
+import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.element.ElementLink;
 import net.createmod.ponder.api.element.WorldSectionElement;
 import net.createmod.ponder.api.scene.SceneBuilder;
@@ -60,6 +61,9 @@ public class ZPLPonderScenes {
         builder.setSceneOffsetY(-1.5f);
         builder.title("thruster", "Ion Thrusters");
 
+        Selection exhaust = util.select().position(2, 4, 6);
+        Selection modulator = util.select().position(3, 4, 6);
+
         Selection floor = util.select().fromTo(0, 0, 0, 12, 1, 12);
         builder.removeShadow();
 
@@ -67,55 +71,18 @@ public class ZPLPonderScenes {
 
         builder.world().showSection(ship, Direction.EAST);
 
-        for (int i = 0; i < 80; i++) {
+        for (int i = 0; i < 240; i++) {
             if (i == 10) {
                 builder.overlay().showText(55).text("Ion Thrusters can be used to propel a ship.");
+            } else if (i == 70) {
+                builder.overlay().showOutlineWithText(exhaust.add(modulator), 65).text("To set one up, place an Ion Thrust Modulator in front of an Ion Thruster Exhaust.");
+            } else if (i == 150) {
+                builder.overlay().showOutlineWithText(modulator, 65).text("Activate the thruster by providing FE and a Redstone Signal to the Ion Thrust Modulator block.");
+
             }
             particle(builder);
             builder.idle(1);
         }
-
-        builder.world().hideSection(ship, Direction.WEST);
-        builder.idle(20);
-
-        builder.world().showSection(floor, Direction.UP);
-        builder.idle(10);
-
-        builder.world().setBlock(new BlockPos(6, 1, 4), ModBlocks.ION_MODULATOR_BLOCK.get().defaultBlockState().setValue(IonModulatorBlock.FACING, Direction.NORTH), true);
-
-        builder.idle(10);
-        builder.world().setBlock(new BlockPos(6, 1, 3), ModBlocks.THRUSTER_EXHAUST_BLOCK.get().defaultBlockState().setValue(ThrusterExhaustBlock.FACING, Direction.NORTH), true);
-        builder.idle(10);
-
-        builder.overlay().showText(45).text("To set one up, place an Ion Thrust Modulator in front of an Ion Thruster Exhaust.");
-
-        builder.idle(50);
-
-        builder.effects().emitParticles(new Vec3(6.5, 2.5, 4.5), builder.effects().simpleParticleEmitter(ParticleTypes.ELECTRIC_SPARK, new Vec3(0, -1, 0)), 2, 20);
-
-        builder.idle(25);
-
-        builder.world().setBlock(new BlockPos(5, 1, 4), Blocks.REDSTONE_WIRE.defaultBlockState().setValue(RedStoneWireBlock.EAST, RedstoneSide.SIDE).setValue(RedStoneWireBlock.WEST, RedstoneSide.SIDE), true);
-
-        builder.idle(10);
-
-        builder.world().setBlock(new BlockPos(4, 1, 4), Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACE, AttachFace.FLOOR), true);
-
-        builder.idle(10);
-        builder.world().toggleRedstonePower(util.select().position(5, 1, 4));
-        builder.world().toggleRedstonePower(util.select().position(4, 1, 4));
-
-        builder.idle(10);
-
-        builder.overlay().showText(60).text("Then supply FE and a Redstone Signal to the Ion Thrust Modulator block.");
-
-        builder.idle(10);
-
-        for (int i = 0; i < 16; i++) {
-            builder.world().setBlock(new BlockPos(6, 1, 3), ModBlocks.THRUSTER_EXHAUST_BLOCK.get().defaultBlockState().setValue(ThrusterExhaustBlock.FACING, Direction.NORTH).setValue(ThrusterExhaustBlock.POWER, i), false);
-            builder.idle(1);
-        }
-
     }
 
     private static void particle(SceneBuilder builder) {

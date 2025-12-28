@@ -48,6 +48,6 @@
   "zpl.ponder.thruster.header": "Ion Thruster",
   "zpl.ponder.thruster.text_1": "Ion Thrusters can be used to propel a ship.",
   "zpl.ponder.thruster.text_2": "To set one up, place an Ion Thrust Modulator in front of an Ion Thruster Exhaust.",
-  "zpl.ponder.thruster.text_3": "Then supply FE and a Redstone Signal to the Ion Thrust Modulator block."
+  "zpl.ponder.thruster.text_3": "Activate the thruster by providing FE and a Redstone Signal to the Ion Thrust Modulator block."
 
 }
