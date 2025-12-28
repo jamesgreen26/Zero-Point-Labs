@@ -87,27 +87,29 @@ public class ZPLPonderScenes {
         builder.world().setBlock(new BlockPos(6, 1, 3), ModBlocks.THRUSTER_EXHAUST_BLOCK.get().defaultBlockState().setValue(ThrusterExhaustBlock.FACING, Direction.NORTH), true);
         builder.idle(10);
 
-        builder.overlay().showText(75).text("To set one up, place an Ion Thrust Modulator in front of an Ion Thruster Exhaust.");
+        builder.overlay().showText(45).text("To set one up, place an Ion Thrust Modulator in front of an Ion Thruster Exhaust.");
 
-        builder.idle(80);
-
-        builder.overlay().showText(60).text("Then supply FE and a Redstone Signal to the Ion Thrust Modulator block.");
-
-        builder.idle(10);
+        builder.idle(50);
 
         builder.effects().emitParticles(new Vec3(6.5, 2.5, 4.5), builder.effects().simpleParticleEmitter(ParticleTypes.ELECTRIC_SPARK, new Vec3(0, -1, 0)), 2, 20);
 
-        builder.idle(20);
+        builder.idle(25);
 
         builder.world().setBlock(new BlockPos(5, 1, 4), Blocks.REDSTONE_WIRE.defaultBlockState().setValue(RedStoneWireBlock.EAST, RedstoneSide.SIDE).setValue(RedStoneWireBlock.WEST, RedstoneSide.SIDE), true);
 
-        builder.idle(5);
+        builder.idle(10);
 
         builder.world().setBlock(new BlockPos(4, 1, 4), Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACE, AttachFace.FLOOR), true);
 
         builder.idle(10);
         builder.world().toggleRedstonePower(util.select().position(5, 1, 4));
         builder.world().toggleRedstonePower(util.select().position(4, 1, 4));
+
+        builder.idle(10);
+
+        builder.overlay().showText(60).text("Then supply FE and a Redstone Signal to the Ion Thrust Modulator block.");
+
+        builder.idle(10);
 
         for (int i = 0; i < 16; i++) {
             builder.world().setBlock(new BlockPos(6, 1, 3), ModBlocks.THRUSTER_EXHAUST_BLOCK.get().defaultBlockState().setValue(ThrusterExhaustBlock.FACING, Direction.NORTH).setValue(ThrusterExhaustBlock.POWER, i), false);
