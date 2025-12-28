@@ -7,7 +7,7 @@ license = "Apache 2.0"
 modId = "zpl"
 version = "${version}"
 displayName = "Zero Point Labs"
-authors = "G_Mungus"
+authors = "G_Mungus, Cosmos, Q"
 description = '''
 Innovative technologies for high-performance spacecraft locomotion.
 '''
@@ -24,5 +24,26 @@ side = "BOTH"
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.zpl]]
+modId = "vlib"
+mandatory = true
+versionRange = "[0.1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.zpl]]
+modId = "valkyrienskies"
+mandatory = true
+versionRange = "[2.4.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.zpl]]
+modId = "lodestone"
+mandatory = true
+versionRange = "[1.6.4,)"
 ordering = "NONE"
 side = "BOTH"
