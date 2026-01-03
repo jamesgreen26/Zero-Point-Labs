@@ -3,20 +3,19 @@ package g_mungus.zpl.client.thruster.flywheel;
 import dev.engine_room.flywheel.api.instance.Instance;
 import dev.engine_room.flywheel.api.material.*;
 import dev.engine_room.flywheel.api.model.Model;
-import dev.engine_room.flywheel.api.vertex.MutableVertexList;
 import dev.engine_room.flywheel.api.visualization.VisualizationContext;
 import dev.engine_room.flywheel.lib.material.SimpleMaterial;
 import dev.engine_room.flywheel.lib.material.SimpleMaterialShaders;
 import dev.engine_room.flywheel.lib.model.SimpleModel;
 import dev.engine_room.flywheel.lib.model.SimpleQuadMesh;
-import dev.engine_room.flywheel.lib.model.part.InstanceTree;
-import dev.engine_room.flywheel.lib.model.part.ModelTrees;
 import dev.engine_room.flywheel.lib.visual.AbstractBlockEntityVisual;
-import dev.engine_room.flywheel.lib.visual.SimpleDynamicVisual;
 import dev.engine_room.flywheel.lib.visual.SimpleTickableVisual;
+import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
-import net.minecraft.client.renderer.blockentity.BellRenderer;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 import java.util.List;
@@ -34,6 +33,44 @@ public class ThrusterVisual extends AbstractBlockEntityVisual<ThrusterExhaustBlo
         instance = instancerProvider().instancer(InstanceTypes.THRUSTER, new SimpleModel(List.of(
                 new Model.ConfiguredMesh(MATERIAL, getMesh())
         ))).createInstance();
+
+        // Set initial transform
+        updateTransform();
+    }
+
+    private void updateTransform() {
+        BlockState blockState = blockEntity.getBlockState();
+        float power = blockState.getValue(ThrusterExhaustBlock.POWER) / 15f;
+
+        float hScale = (1 + power) / 2f;
+        Direction direction = blockState.getValue(ThrusterExhaustBlock.FACING);
+
+        Matrix4f matrix = new Matrix4f();
+
+        // Translate to block position
+        matrix.translate(pos.getX(), pos.getY(), pos.getZ());
+
+        // Translate to center of block
+        matrix.translate(0.5f, 0.5f, 0.5f);
+
+        // Apply rotation based on facing direction
+        switch (direction) {
+            case UP -> {}
+            case DOWN -> matrix.rotateX((float) Math.toRadians(180));
+            case NORTH -> matrix.rotateX((float) Math.toRadians(-90));
+            case SOUTH -> matrix.rotateX((float) Math.toRadians(90));
+            case WEST -> matrix.rotateZ((float) Math.toRadians(90));
+            case EAST -> matrix.rotateZ((float) Math.toRadians(-90));
+        }
+
+        // Translate back from center
+        matrix.translate(-0.5f, -0.5f, -0.5f);
+
+        // Apply power-based offset and scale
+        matrix.translate(-0.5f * power, 1, -0.5f * power);
+        matrix.scale(2 * hScale, 6 * power, 2 * hScale);
+
+        instance.setTransform(matrix);
     }
 
     @Override
@@ -62,7 +99,7 @@ public class ThrusterVisual extends AbstractBlockEntityVisual<ThrusterExhaustBlo
 
     @Override
     public void tick(Context context) {
-
+        updateTransform();
     }
 
     private static SimpleQuadMesh getMesh() {

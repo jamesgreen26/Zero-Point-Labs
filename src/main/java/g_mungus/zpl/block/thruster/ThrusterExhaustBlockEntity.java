@@ -1,8 +1,5 @@
 package g_mungus.zpl.block.thruster;
 
-import dev.engine_room.flywheel.api.visual.BlockEntityVisual;
-import dev.engine_room.flywheel.api.visualization.BlockEntityVisualizer;
-import dev.engine_room.flywheel.api.visualization.VisualizationContext;
 import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.block.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -19,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ThrusterExhaustBlockEntity extends BlockEntity implements BlockEntityVisualizer<ThrusterExhaustBlockEntity> {
+public class ThrusterExhaustBlockEntity extends BlockEntity {
     public ThrusterExhaustBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), pos, state);
     }
@@ -111,15 +108,5 @@ public class ThrusterExhaustBlockEntity extends BlockEntity implements BlockEnti
         }
 
         return LazyOptional.empty();
-    }
-
-    @Override
-    public BlockEntityVisual<? super ThrusterExhaustBlockEntity> createVisual(VisualizationContext visualizationContext, ThrusterExhaustBlockEntity thrusterExhaustBlockEntity, float v) {
-        return null;
-    }
-
-    @Override
-    public boolean skipVanillaRender(ThrusterExhaustBlockEntity thrusterExhaustBlockEntity) {
-        return true;
     }
 }

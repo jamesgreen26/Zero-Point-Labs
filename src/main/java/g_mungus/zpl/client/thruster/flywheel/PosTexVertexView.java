@@ -12,6 +12,13 @@ public class PosTexVertexView extends AbstractVertexView implements DefaultVerte
         return STRIDE;
     }
 
+    @Override
+    public void vertexCount(int vertexCount) {
+        super.vertexCount(vertexCount);
+        // Allocate native memory for the vertices
+        ptr = MemoryUtil.nmemAlloc(vertexCount * STRIDE);
+    }
+
     // Position getters
     public float x(int index) { return MemoryUtil.memGetFloat(ptr + index * STRIDE); }
     public float y(int index) { return MemoryUtil.memGetFloat(ptr + index * STRIDE + 4); }

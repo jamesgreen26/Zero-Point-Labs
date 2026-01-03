@@ -1,8 +1,14 @@
 package g_mungus.zpl;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import dev.engine_room.flywheel.api.visual.BlockEntityVisual;
+import dev.engine_room.flywheel.api.visualization.BlockEntityVisualizer;
+import dev.engine_room.flywheel.api.visualization.VisualizationContext;
+import dev.engine_room.flywheel.api.visualization.VisualizerRegistry;
+import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
 import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.client.thruster.ThrusterExhaustBlockEntityRenderer;
+import g_mungus.zpl.client.thruster.flywheel.ThrusterVisual;
 import g_mungus.zpl.entity.EnergyOrbEntityRenderer;
 import g_mungus.zpl.entity.ModEntities;
 import g_mungus.zpl.particle.EnergyOrbParticle;
@@ -14,6 +20,7 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
 import static team.lodestar.lodestone.registry.client.LodestoneShaderRegistry.registerShader;
@@ -30,12 +37,33 @@ public class ClientRegistry {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
+        // Thruster now uses Flywheel visualizer instead
+        // event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.ENERGY_ORB.get(), EnergyOrbEntityRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.ENERGY_ORB.get(), EnergyOrbParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            VisualizerRegistry.setVisualizer(
+                    ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(),
+                    new BlockEntityVisualizer<>() {
+                        @Override
+                        public BlockEntityVisual<? super ThrusterExhaustBlockEntity> createVisual(VisualizationContext ctx, ThrusterExhaustBlockEntity blockEntity, float partialTick) {
+                            return new ThrusterVisual(ctx, blockEntity, partialTick);
+                        }
+
+                        @Override
+                        public boolean skipVanillaRender(ThrusterExhaustBlockEntity blockEntity) {
+                            return true;
+                        }
+                    }
+            );
+        });
     }
 }
