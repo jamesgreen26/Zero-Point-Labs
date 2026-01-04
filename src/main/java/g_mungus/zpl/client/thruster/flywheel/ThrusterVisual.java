@@ -88,7 +88,7 @@ public class ThrusterVisual extends AbstractBlockEntityVisual<ThrusterExhaustBlo
 
     public static final SimpleMaterial MATERIAL = SimpleMaterial.builder()
             .shaders(new SimpleMaterialShaders(asResource("material/thruster.vert"), asResource("material/thruster.frag")))
-            .transparency(Transparency.TRANSLUCENT)
+            .transparency(Transparency.LIGHTNING)
             .depthTest(DepthTest.LEQUAL)
             .writeMask(WriteMask.COLOR)
             .backfaceCulling(true)
