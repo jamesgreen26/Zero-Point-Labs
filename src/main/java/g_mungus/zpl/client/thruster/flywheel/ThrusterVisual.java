@@ -72,6 +72,7 @@ public class ThrusterVisual extends AbstractBlockEntityVisual<ThrusterExhaustBlo
         matrix.scale(2 * hScale, 6 * power, 2 * hScale);
 
         instance.setTransform(matrix);
+        instance.setVisible(power > 0.01);
     }
 
     @Override
