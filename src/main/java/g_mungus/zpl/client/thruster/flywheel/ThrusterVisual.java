@@ -90,7 +90,7 @@ public class ThrusterVisual extends AbstractBlockEntityVisual<ThrusterExhaustBlo
             .transparency(Transparency.ADDITIVE)
             .depthTest(DepthTest.LEQUAL)
             .writeMask(WriteMask.COLOR)
-            .backfaceCulling(true) // currently rendered flipped lmaooo
+            .backfaceCulling(true)
             .useOverlay(true)
             .useLight(false)
 			.cardinalLightingMode(CardinalLightingMode.OFF)
