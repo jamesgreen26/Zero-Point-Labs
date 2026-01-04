@@ -7,7 +7,7 @@ import dev.engine_room.flywheel.api.visualization.VisualizationContext;
 import dev.engine_room.flywheel.api.visualization.VisualizerRegistry;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
 import g_mungus.zpl.block.ModBlockEntities;
-import g_mungus.zpl.client.thruster.ThrusterExhaustBlockEntityRenderer;
+import g_mungus.zpl.client.thruster.flywheel.DummyBERenderer;
 import g_mungus.zpl.client.thruster.flywheel.ThrusterVisual;
 import g_mungus.zpl.entity.EnergyOrbEntityRenderer;
 import g_mungus.zpl.entity.ModEntities;
@@ -37,8 +37,7 @@ public class ClientRegistry {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        // Thruster now uses Flywheel visualizer instead
-        // event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), DummyBERenderer::new);
         event.registerEntityRenderer(ModEntities.ENERGY_ORB.get(), EnergyOrbEntityRenderer::new);
     }
 
