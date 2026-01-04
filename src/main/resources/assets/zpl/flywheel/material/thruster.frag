@@ -1,5 +1,5 @@
 void flw_materialFragment() {
-    float time = 64000.0 * fract(flw_ticks + flw_partialTick);
+    float time = 64000 * mod(flw_renderTicks, 24000.0) / 24000.0;
     vec2 uv = flw_vertexTexCoord;
 
     float alpha = 1.0 - uv.x;
