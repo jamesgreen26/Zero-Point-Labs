@@ -6,6 +6,7 @@ import dev.engine_room.flywheel.api.model.Model;
 import dev.engine_room.flywheel.api.visualization.VisualizationContext;
 import dev.engine_room.flywheel.lib.material.SimpleMaterial;
 import dev.engine_room.flywheel.lib.material.SimpleMaterialShaders;
+import dev.engine_room.flywheel.lib.material.StandardMaterialShaders;
 import dev.engine_room.flywheel.lib.model.SimpleModel;
 import dev.engine_room.flywheel.lib.model.SimpleQuadMesh;
 import dev.engine_room.flywheel.lib.visual.AbstractBlockEntityVisual;
@@ -84,17 +85,18 @@ public class ThrusterVisual extends AbstractBlockEntityVisual<ThrusterExhaustBlo
         instance.delete();
     }
 
-    public static final SimpleMaterial MATERIAL = new SimpleMaterial.Builder()
-            .shaders(new SimpleMaterialShaders(asResource("instance/thruster.vert"), asResource("instance/thruster.frag")))
+    public static final SimpleMaterial MATERIAL = SimpleMaterial.builder()
+			.shaders(new SimpleMaterialShaders(asResource("material/thruster.vert"), asResource("material/thruster.frag")))
             .transparency(Transparency.ADDITIVE)
             .depthTest(DepthTest.LEQUAL)
             .writeMask(WriteMask.COLOR)
-            .backfaceCulling(true)
+            .backfaceCulling(true) // currently rendered flipped lmaooo
             .useOverlay(true)
             .useLight(false)
-            .cardinalLightingMode(CardinalLightingMode.OFF)
-            .texture(null)
-            .build();
+			.cardinalLightingMode(CardinalLightingMode.OFF)
+            // .texture(null)
+			.build();
+
 
 
     @Override
@@ -132,10 +134,10 @@ public class ThrusterVisual extends AbstractBlockEntityVisual<ThrusterExhaustBlo
 
 
     private static int addQuad(PosTexVertexView vertexList, int startIndex, Vector4f a, Vector4f b, Vector4f c, Vector4f d) {
-        vertexList.x(startIndex, a.x); vertexList.y(startIndex, a.y); vertexList.z(startIndex, a.z); vertexList.u(startIndex, a.y); vertexList.v(startIndex, a.w); startIndex++;
-        vertexList.x(startIndex, b.x); vertexList.y(startIndex, b.y); vertexList.z(startIndex, b.z); vertexList.u(startIndex, b.y); vertexList.v(startIndex, b.w); startIndex++;
-        vertexList.x(startIndex, c.x); vertexList.y(startIndex, c.y); vertexList.z(startIndex, c.z); vertexList.u(startIndex, c.y); vertexList.v(startIndex, c.w); startIndex++;
         vertexList.x(startIndex, d.x); vertexList.y(startIndex, d.y); vertexList.z(startIndex, d.z); vertexList.u(startIndex, d.y); vertexList.v(startIndex, d.w); startIndex++;
+        vertexList.x(startIndex, c.x); vertexList.y(startIndex, c.y); vertexList.z(startIndex, c.z); vertexList.u(startIndex, c.y); vertexList.v(startIndex, c.w); startIndex++;
+        vertexList.x(startIndex, b.x); vertexList.y(startIndex, b.y); vertexList.z(startIndex, b.z); vertexList.u(startIndex, b.y); vertexList.v(startIndex, b.w); startIndex++;
+        vertexList.x(startIndex, a.x); vertexList.y(startIndex, a.y); vertexList.z(startIndex, a.z); vertexList.u(startIndex, a.y); vertexList.v(startIndex, a.w); startIndex++;
         return startIndex;
     }
 
