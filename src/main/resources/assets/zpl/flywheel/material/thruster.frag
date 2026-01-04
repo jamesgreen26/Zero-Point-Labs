@@ -4,6 +4,8 @@ void flw_materialFragment() {
 
     float alpha = 1.0 - uv.x;
 
+    flw_fragLight = vec2(1.0);
+
     flw_fragColor = vec4(
         alpha * alpha * 0.5,
         max(1.0 - alpha, alpha * alpha * 0.5),
