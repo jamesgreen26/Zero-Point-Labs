@@ -40,10 +40,3 @@ mandatory = true
 versionRange = "[2.4.0,)"
 ordering = "NONE"
 side = "BOTH"
-
-[[dependencies.zpl]]
-modId = "lodestone"
-mandatory = true
-versionRange = "[1.6.4,)"
-ordering = "NONE"
-side = "BOTH"

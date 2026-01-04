@@ -1,4 +1,4 @@
-package g_mungus.zpl.client.thruster.flywheel;
+package g_mungus.zpl.client.flywheel;
 
 import dev.engine_room.flywheel.api.instance.InstanceHandle;
 import dev.engine_room.flywheel.api.instance.InstanceType;

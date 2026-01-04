@@ -1,4 +1,4 @@
-package g_mungus.zpl.client.thruster.flywheel;
+package g_mungus.zpl.client.flywheel;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;

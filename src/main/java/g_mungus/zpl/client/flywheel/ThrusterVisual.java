@@ -1,4 +1,4 @@
-package g_mungus.zpl.client.thruster.flywheel;
+package g_mungus.zpl.client.flywheel;
 
 import dev.engine_room.flywheel.api.instance.Instance;
 import dev.engine_room.flywheel.api.material.*;
@@ -6,7 +6,6 @@ import dev.engine_room.flywheel.api.model.Model;
 import dev.engine_room.flywheel.api.visualization.VisualizationContext;
 import dev.engine_room.flywheel.lib.material.SimpleMaterial;
 import dev.engine_room.flywheel.lib.material.SimpleMaterialShaders;
-import dev.engine_room.flywheel.lib.material.StandardMaterialShaders;
 import dev.engine_room.flywheel.lib.model.SimpleModel;
 import dev.engine_room.flywheel.lib.model.SimpleQuadMesh;
 import dev.engine_room.flywheel.lib.visual.AbstractBlockEntityVisual;

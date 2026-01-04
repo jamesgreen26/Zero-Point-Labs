@@ -1,4 +1,4 @@
-package g_mungus.zpl.client.thruster.flywheel;
+package g_mungus.zpl.client.flywheel;
 
 import dev.engine_room.flywheel.lib.vertex.AbstractVertexView;
 import dev.engine_room.flywheel.lib.vertex.DefaultVertexList;
