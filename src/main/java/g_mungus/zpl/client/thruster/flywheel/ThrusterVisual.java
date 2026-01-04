@@ -13,6 +13,7 @@ import dev.engine_room.flywheel.lib.visual.AbstractBlockEntityVisual;
 import dev.engine_room.flywheel.lib.visual.SimpleTickableVisual;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlock;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -49,7 +50,8 @@ public class ThrusterVisual extends AbstractBlockEntityVisual<ThrusterExhaustBlo
         Matrix4f matrix = new Matrix4f();
 
         // Translate to block position
-        matrix.translate(pos.getX(), pos.getY(), pos.getZ());
+        BlockPos pos1 = getVisualPosition();
+        matrix.translate(pos1.getX(), pos1.getY(), pos1.getZ());
 
         // Translate to center of block
         matrix.translate(0.5f, 0.5f, 0.5f);
