@@ -9,10 +9,11 @@ import g_mungus.zpl.config.ZPLConfig;
 import g_mungus.zpl.entity.ModEntities;
 import g_mungus.zpl.item.ModCreativeTabs;
 import g_mungus.zpl.item.ModItems;
-import g_mungus.zpl.particle.ModParticles;
+import g_mungus.zpl.client.particle.ModParticles;
 import g_mungus.zpl.ship.ZPLShipAttachment;
 import g_mungus.zpl.sound.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -61,6 +62,10 @@ public final class ZeroPointLabsMod {
 
     public static double getDimensionScale(Level level) {
         return DimensionSettingsManager.INSTANCE.getSettingsForLevel("minecraft:dimension:" + level.dimension().location()).getShipScale();
+    }
+
+    public static ResourceLocation asResource(String id) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, id);
     }
 
 

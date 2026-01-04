@@ -1,7 +1,7 @@
 package g_mungus.zpl.entity;
 
 import g_mungus.zpl.ZeroPointLabsMod;
-import g_mungus.zpl.particle.ModParticles;
+import g_mungus.zpl.client.particle.ModParticles;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
