@@ -9,7 +9,7 @@ import g_mungus.zpl.config.ZPLConfig;
 import g_mungus.zpl.entity.ModEntities;
 import g_mungus.zpl.item.ModCreativeTabs;
 import g_mungus.zpl.item.ModItems;
-import g_mungus.zpl.particle.ModParticles;
+import g_mungus.zpl.client.particle.ModParticles;
 import g_mungus.zpl.ship.ZPLShipAttachment;
 import g_mungus.zpl.sound.ModSounds;
 import net.minecraft.core.BlockPos;

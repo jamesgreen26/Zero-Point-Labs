@@ -1,4 +1,4 @@
-package g_mungus.zpl.particle;
+package g_mungus.zpl.client.particle;
 
 import g_mungus.zpl.ZeroPointLabsMod;
 import net.minecraft.core.particles.ParticleType;
