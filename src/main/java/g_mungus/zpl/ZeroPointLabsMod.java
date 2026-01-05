@@ -1,6 +1,5 @@
 package g_mungus.zpl;
 
-import g_mungus.vlib.dimension.DimensionSettingsManager;
 import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.droidcore.DroidAttachment;
@@ -61,7 +60,16 @@ public final class ZeroPointLabsMod {
     }
 
     public static double getDimensionScale(Level level) {
-        return DimensionSettingsManager.INSTANCE.getSettingsForLevel("minecraft:dimension:" + level.dimension().location()).getShipScale();
+        ResourceLocation dimension = level.dimension().location();
+        if (
+                dimension.equals(ResourceLocation.fromNamespaceAndPath("genesis", "great_unknown")) ||
+                dimension.equals(ResourceLocation.fromNamespaceAndPath("genesis", "nowhere")) ||
+                dimension.equals(ResourceLocation.fromNamespaceAndPath("genesis", "great_unknown"))
+        ) {
+            return 1.0 / 16.0;
+        } else {
+            return 1.0;
+        }
     }
 
     public static ResourceLocation asResource(String id) {
