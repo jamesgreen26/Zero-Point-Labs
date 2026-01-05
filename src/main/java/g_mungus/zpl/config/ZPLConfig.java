@@ -6,7 +6,7 @@ import org.valkyrienskies.mod.common.config.VSGameConfig;
 public class ZPLConfig {
 
     private static ForgeConfigSpec.ConfigValue<Double> thrusterStrength;
-    private static final double thrusterStrengthDefault = 720d;
+    private static final double thrusterStrengthDefault = 512d;
 
     private static ForgeConfigSpec.ConfigValue<Double> gyroscopeStrength;
     private static final double gyroscopeStrengthDefault = 128d;
