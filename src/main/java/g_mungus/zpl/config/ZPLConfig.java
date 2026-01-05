@@ -16,7 +16,7 @@ public class ZPLConfig {
         try {
             result = thrusterStrength.get();
         } catch (Exception ignored) { }
-        return result * 10 * VSGameConfig.SERVER.getDefaultBlockMass();
+        return result * 1000;
     }
 
     public static double getGyroStrength() {
@@ -24,7 +24,7 @@ public class ZPLConfig {
         try {
             result = gyroscopeStrength.get();
         } catch (Exception ignored) { }
-        return result * VSGameConfig.SERVER.getDefaultBlockMass();
+        return result * 500;
     }
 
 

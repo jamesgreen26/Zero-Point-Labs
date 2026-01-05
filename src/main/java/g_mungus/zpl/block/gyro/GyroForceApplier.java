@@ -3,17 +3,13 @@ package g_mungus.zpl.block.gyro;
 import g_mungus.zpl.block.thruster.ThrusterData;
 import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
-import org.joml.Quaterniond;
-import org.joml.Vector3d;
-import org.joml.Vector3dc;
+import org.joml.*;
+import org.valkyrienskies.core.api.ships.properties.ShipTransform;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
 
 public class GyroForceApplier implements IForceApplier {
 
     public ThrusterData thrust;
-
-    private static final double DAMPING_STRENGTH = 2048.0;
-    private static final double MAX_ANGULAR_VELOCITY = 10.0;
 
     public GyroForceApplier() {
     }
@@ -24,28 +20,34 @@ public class GyroForceApplier implements IForceApplier {
 
     @Override
     public void applyForces(BlockPos pos, PhysShipImpl ship) {
-        Vector3d thrustDirection = thrust.direction.normalize(new Vector3d());
-        Vector3d angularVelocity = new Vector3d(ship.getAngularVelocity());
-        ship.getTransform().getShipToWorldRotation().invert(new Quaterniond()).transform(angularVelocity);
-        Vector3dc scaling = ship.getTransform().getShipToWorldScaling();
+        final ShipTransform transform = ship.getTransform();
+        double torqueScaleFactor = 1.5;
 
-        // Clamp angular velocity magnitude to prevent excessive damping after collisions
-        double angularSpeed = angularVelocity.length();
-        if (angularSpeed > MAX_ANGULAR_VELOCITY) {
-            angularVelocity.normalize().mul(MAX_ANGULAR_VELOCITY);
+        Vector3d invOmega = ship.getAngularVelocity().mul(-8000, new Vector3d());
+
+        Matrix4dc worldToShip = transform.getWorldToShip();
+        Matrix3d rotPart = new Matrix3d();
+        worldToShip.get3x3(rotPart);
+
+        double scale = java.lang.Math.sqrt(rotPart.m00() * rotPart.m00() + rotPart.m10() * rotPart.m10() + rotPart.m20() * rotPart.m20());
+
+        rotPart.scale(16.0 / scale);
+
+        Vector3d shipSpaceOmega = rotPart.transform(invOmega, new Vector3d());
+        Vector3d thrustAxis = thrust.direction.normalize(new Vector3d());
+
+        double omegaDotThrust = shipSpaceOmega.dot(thrustAxis);
+
+        if (thrust.strength > 0.01) {
+            ship.applyRotDependentTorque(thrust.direction.normalize(thrust.strength).mul(torqueScaleFactor));
+            Vector3d dampingTorque = thrustAxis.mul(omegaDotThrust * torqueScaleFactor, new Vector3d());
+            ship.applyRotDependentTorque(dampingTorque);
+        } else {
+            double thrustDotOmega = thrustAxis.dot(shipSpaceOmega);
+            if (thrustDotOmega < 0.001) {
+                Vector3d strongDampingTorque = thrustAxis.mul(omegaDotThrust * torqueScaleFactor * 12.0, new Vector3d());
+                ship.applyRotDependentTorque(strongDampingTorque);
+            }
         }
-
-        double torqueScale = Math.sqrt(ship.getMass() / (scaling.x() * scaling.y() * scaling.z())) / 16;
-        double dampingScale = 12.0;
-
-        // Apply thrust torque
-        if (thrust.strength > 0) {
-            ship.applyBodyTorque(thrustDirection.mul(thrust.strength * torqueScale, new Vector3d()));
-            dampingScale = 1.0;
-        }
-
-        // Apply damping torque to oppose rotation
-        Vector3d dampingTorque = angularVelocity.mul(-DAMPING_STRENGTH * dampingScale * torqueScale, new Vector3d());
-        ship.applyBodyTorque(dampingTorque);
     }
 }

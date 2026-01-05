@@ -1,0 +1,82 @@
+[
+  {
+    "block": "zpl:ion_thruster_exhaust",
+    "mass": 465.0
+  },
+  {
+    "block": "zpl:ion_thrust_modulator",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:gyroscope",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:caution_block",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:radiation_caution_block",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:void_caution_block",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:space_plating",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:space_plating_slab",
+    "mass": 500.0
+  },
+  {
+    "block": "zpl:space_plating_stairs",
+    "mass": 750.0
+  },
+  {
+    "block": "zpl:riveted_space_plating",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:riveted_space_plating_slab",
+    "mass": 500.0
+  },
+  {
+    "block": "zpl:riveted_space_plating_stairs",
+    "mass": 750.0
+  },
+  {
+    "block": "zpl:space_truss",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:space_scaffold",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:space_walkway",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:mass_suspension_matrix",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:photon_pulse_blaster",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:launch_platform",
+    "mass": 1000.0
+  },
+  {
+    "block": "zpl:launch_button",
+    "mass": 580.0
+  },
+  {
+    "block": "zpl:droid_core",
+    "mass": 1000.0
+  }
+]
