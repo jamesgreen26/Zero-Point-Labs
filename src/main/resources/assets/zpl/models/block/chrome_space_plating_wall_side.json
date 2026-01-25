@@ -1,0 +1,6 @@
+  {
+    "parent": "minecraft:block/template_wall_side",
+    "textures": {
+      "wall": "zpl:block/chrome_space_plating"
+    }
+  }

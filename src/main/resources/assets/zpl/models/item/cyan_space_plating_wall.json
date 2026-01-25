@@ -1,0 +1,6 @@
+  {
+    "parent": "minecraft:block/wall_inventory",
+    "textures": {
+      "wall": "zpl:block/cyan_space_plating"
+    }
+  }

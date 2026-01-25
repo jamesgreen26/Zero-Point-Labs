@@ -1,0 +1,13 @@
+  {
+    "variants": {
+      "type=bottom": {
+        "model": "zpl:block/light_blue_space_plating_slab"
+      },
+      "type=top": {
+        "model": "zpl:block/light_blue_space_plating_slab_top"
+      },
+      "type=double": {
+        "model": "zpl:block/light_blue_space_plating"
+      }
+    }
+  }

@@ -1,0 +1,6 @@
+  {
+    "parent": "minecraft:block/wall_inventory",
+    "textures": {
+      "wall": "zpl:block/lime_space_plating"
+    }
+  }

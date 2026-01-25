@@ -1,0 +1,6 @@
+  {
+    "parent": "minecraft:block/wall_inventory",
+    "textures": {
+      "wall": "zpl:block/pink_space_plating"
+    }
+  }
