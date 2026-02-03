@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "zpl:block/blue_space_plating",
-    "top": "zpl:block/blue_space_plating",
-    "side": "zpl:block/blue_space_plating"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "loader": "fusion:model",
-  "type": "connecting",
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "zpl:block/space_grating_block"
-  }
-}

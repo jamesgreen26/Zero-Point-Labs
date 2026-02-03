@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "zpl:block/catwalk_stairs" },
-    "facing=south": { "model": "zpl:block/catwalk_stairs", "y": 180 },
-    "facing=west": { "model": "zpl:block/catwalk_stairs", "y": 270 },
-    "facing=east": { "model": "zpl:block/catwalk_stairs", "y": 90 }
-  }
-}

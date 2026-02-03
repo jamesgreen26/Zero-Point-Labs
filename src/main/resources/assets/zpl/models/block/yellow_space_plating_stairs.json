@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "zpl:block/yellow_space_plating",
-    "top": "zpl:block/yellow_space_plating",
-    "side": "zpl:block/yellow_space_plating"
-  }
-}

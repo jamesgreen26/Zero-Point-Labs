@@ -7,7 +7,6 @@
     "BlockElementMixin"
   ],
   "mixins": [
-    "BlockBehaviourAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

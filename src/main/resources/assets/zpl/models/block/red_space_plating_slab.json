@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "zpl:block/red_space_plating",
-    "top": "zpl:block/red_space_plating",
-    "side": "zpl:block/red_space_plating"
-  }
-}

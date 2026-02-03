@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "zpl:block/black_space_plating",
-    "top": "zpl:block/black_space_plating",
-    "side": "zpl:block/black_space_plating"
-  }
-}

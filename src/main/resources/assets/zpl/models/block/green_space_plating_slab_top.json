@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "zpl:block/green_space_plating",
-    "top": "zpl:block/green_space_plating",
-    "side": "zpl:block/green_space_plating"
-  }
-}

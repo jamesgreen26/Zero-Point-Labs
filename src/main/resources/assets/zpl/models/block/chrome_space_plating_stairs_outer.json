@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "zpl:block/chrome_space_plating",
-    "top": "zpl:block/chrome_space_plating",
-    "side": "zpl:block/chrome_space_plating"
-  }
-}
