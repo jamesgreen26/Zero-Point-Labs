@@ -28,13 +28,6 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.zpl]]
-modId = "vlib"
-mandatory = true
-versionRange = "[0.1.0,)"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.zpl]]
 modId = "valkyrienskies"
 mandatory = true
 versionRange = "[2.4.8,)"

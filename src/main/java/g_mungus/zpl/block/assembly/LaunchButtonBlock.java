@@ -1,7 +1,5 @@
 package g_mungus.zpl.block.assembly;
 
-import g_mungus.vlib.api.VLibGameUtils;
-import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,6 +27,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.valkyrienskies.mod.common.assembly.ShipAssembler;
 
 import java.util.HashSet;
 import java.util.List;
@@ -129,7 +128,10 @@ public class LaunchButtonBlock extends Block {
                 BlockState aboveState = level.getBlockState(current.above());
 
                 if (!aboveState.is(launchButton) && !aboveState.isAir()) {
-                    VLibGameUtils.INSTANCE.assembleByConnectivity(serverLevel, current.above(), List.of(launchPlatform, launchButton));
+                    Set<BlockPos> blocksToAssemble = ConnectivityUtils.tryFillByConnectivity(serverLevel, current.above());
+                    if (blocksToAssemble != null) {
+                        ShipAssembler.assembleToShip(serverLevel, blocksToAssemble, 1.0);
+                    }
                     return;
                 }
 

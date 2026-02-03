@@ -1,6 +1,5 @@
 package g_mungus.zpl.block.droidcore;
 
-import g_mungus.vlib.dimension.DimensionSettingsManager;
 import g_mungus.zpl.block.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,14 +8,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 import org.joml.primitives.AABBd;
 import org.valkyrienskies.core.api.ships.Ship;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 public class DroidCoreBlockEntity extends BlockEntity {
