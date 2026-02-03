@@ -40,3 +40,10 @@ mandatory = true
 versionRange = "[2.4.0,)"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.zpl]]
+modId = "zps"
+mandatory = true
+versionRange = "[1.3.0,)"
+ordering = "NONE"
+side = "BOTH"
