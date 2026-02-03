@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 import org.valkyrienskies.core.api.ships.properties.ShipTransform;
+import org.valkyrienskies.core.api.world.PhysLevel;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
 
 public class ThrusterForceApplier implements IForceApplier {
@@ -24,7 +25,7 @@ public class ThrusterForceApplier implements IForceApplier {
     }
 
     @Override
-    public void applyForces(BlockPos pos, PhysShipImpl ship) {
+    public void applyForces(BlockPos pos, PhysShipImpl ship, PhysLevel physLevel) {
         final ShipTransform transform = ship.getTransform();
         Vector3dc scaling = transform.getShipToWorldScaling();
 

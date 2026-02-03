@@ -1,12 +1,13 @@
 package g_mungus.zpl.block.hover;
 
-import g_mungus.vlib.data.DimensionSettings;
-import g_mungus.vlib.dimension.DimensionSettingsManager;
 import g_mungus.zpl.block.thruster.ThrusterData;
 import g_mungus.zpl.ship.IForceApplier;
 import net.minecraft.core.BlockPos;
 import org.joml.Vector3d;
+import org.joml.Vector3dc;
+import org.valkyrienskies.core.api.world.PhysLevel;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
+import org.valkyrienskies.core.internal.world.VsiPhysLevel;
 
 public class HoverForceApplier implements IForceApplier {
 
@@ -21,13 +22,14 @@ public class HoverForceApplier implements IForceApplier {
     }
 
     @Override
-    public void applyForces(BlockPos pos, PhysShipImpl ship) {
-        final DimensionSettings dimensionSettings = DimensionSettingsManager.INSTANCE.getSettingsForLevel(dimension);
+    public void applyForces(BlockPos pos, PhysShipImpl ship, PhysLevel physLevel) {
+        if (physLevel instanceof VsiPhysLevel level) {
+            Vector3dc gravity = level.getGravity();
 
-        if (dimensionSettings.getGravity() != 0.0d && thrusterData.strength > 0) {
-            double gravity = thrusterData.strength * dimensionSettings.getGravity() * 10 * ship.getMass();
+            if (gravity.y() != 0.0d && thrusterData.strength > 0) {
 
-            ship.applyInvariantForce(new Vector3d(0.0, gravity, 0.0));
+                ship.applyInvariantForce(gravity.mul(-1 * thrusterData.strength * ship.getMass(), new Vector3d()));
+            }
         }
     }
 }

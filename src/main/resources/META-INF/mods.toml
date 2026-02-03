@@ -37,7 +37,7 @@ side = "BOTH"
 [[dependencies.zpl]]
 modId = "valkyrienskies"
 mandatory = true
-versionRange = "[2.4.0,)"
+versionRange = "[2.4.8,)"
 ordering = "NONE"
 side = "BOTH"
 

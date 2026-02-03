@@ -36,7 +36,7 @@ public final class ZPLShipAttachment implements ShipPhysicsListener {
     public void physTick (@NotNull PhysShip physicShip, @NotNull PhysLevel physLevel){
         PhysShipImpl ship = (PhysShipImpl)physicShip;
         appliersMapping.forEach((pos, applier) -> {
-            applier.applyForces(pos, ship);
+            applier.applyForces(pos, ship, physLevel);
         });
     }
 

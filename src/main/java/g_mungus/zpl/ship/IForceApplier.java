@@ -6,6 +6,7 @@ import g_mungus.zpl.block.gyro.GyroForceApplier;
 import g_mungus.zpl.block.hover.HoverForceApplier;
 import g_mungus.zpl.block.thruster.ThrusterForceApplier;
 import net.minecraft.core.BlockPos;
+import org.valkyrienskies.core.api.world.PhysLevel;
 import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
 
 @JsonTypeInfo(
@@ -19,5 +20,5 @@ import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
         @JsonSubTypes.Type(value = HoverForceApplier.class, name = "hover"),
 })
 public interface IForceApplier {
-    void applyForces(BlockPos pos, PhysShipImpl ship);
+    void applyForces(BlockPos pos, PhysShipImpl ship, PhysLevel physLevel);
 }
