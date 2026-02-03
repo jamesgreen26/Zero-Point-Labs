@@ -53,7 +53,6 @@ public class ZeroPointLabsModClient {
     }
 
     @SubscribeEvent
-    @SuppressWarnings("removal")
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             VisualizerRegistry.setVisualizer(
@@ -70,10 +69,6 @@ public class ZeroPointLabsModClient {
                         }
                     }
             );
-
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.SPACE_SCAFFOLD.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.SPACE_TRUSS.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.SPACE_WALKWAY.get(), RenderType.cutout());
         });
     }
 }
