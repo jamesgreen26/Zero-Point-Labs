@@ -2,20 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "functional",
   "key": {
-    "G": {
-      "item": "minecraft:gold_ingot"
+    "I": {
+      "item": "zps:space_metal_ingot"
+    },
+    "M": {
+      "item": "zps:space_metal_mesh"
     },
     "C": {
       "item": "minecraft:copper_ingot"
     },
-    "P": {
-      "item": "zpl:space_plating"
+    "R": {
+      "item": "zps:space_metal_rod"
     }
   },
   "pattern": [
-    "CGC",
-    "P P",
-    "P P"
+    "IMI",
+    "RCR",
+    "IMI"
   ],
   "result": {
     "item": "zpl:ion_thruster_exhaust",

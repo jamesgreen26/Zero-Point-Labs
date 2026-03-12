@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "functional",
   "key": {
-    "Y": {
-      "item": "minecraft:redstone_block"
-    },
-    "B": {
-      "item": "zpl:space_plating"
+    "I": {
+      "item": "zps:space_metal_ingot"
     },
     "R": {
       "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "zps:red_space_plating"
     }
   },
   "pattern": [
-    " Y ",
-    "BRB",
-    "BBB"
+    " P ",
+    "IRI",
+    "III"
   ],
   "result": {
     "item": "zpl:launch_button",

@@ -3,10 +3,10 @@
   "category": "functional",
   "key": {
     "P": {
-      "item": "zpl:space_plating"
+      "item": "zps:space_metal_ingot"
     },
     "L": {
-      "item": "minecraft:lapis_block"
+      "item": "minecraft:emerald"
     },
     "M": {
       "item": "minecraft:phantom_membrane"

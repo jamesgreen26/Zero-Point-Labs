@@ -2,20 +2,24 @@
   "type": "minecraft:crafting_shaped",
   "category": "functional",
   "key": {
-    "Y": {
+    "G": {
       "item": "minecraft:gray_concrete"
     },
-    "B": {
-      "item": "zpl:space_plating"
+    "V": {
+      "item": "zps:void_caution_block"
+    },
+    "R": {
+      "item": "zps:riveted_space_plating"
     }
   },
   "pattern": [
-    "YB",
-    "BY"
+    "GGG",
+    "VVV",
+    "RRR"
   ],
   "result": {
     "item": "zpl:launch_platform",
-    "count": 4
+    "count": 16
   },
   "show_notification": true
 }

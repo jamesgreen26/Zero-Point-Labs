@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "functional",
   "key": {
-    "L": {
-      "item": "minecraft:lapis_block"
+    "I": {
+      "item": "zps:space_metal_ingot"
     },
-    "P": {
-      "item": "zpl:space_plating"
+    "M": {
+      "item": "zps:space_metal_mesh"
     },
-    "R": {
-      "item": "minecraft:redstone"
+    "C": {
+      "item": "minecraft:copper_ingot"
     }
   },
   "pattern": [
-    " R ",
-    "PLP",
-    " R "
+    "IMI",
+    "MCM",
+    "IMI"
   ],
   "result": {
     "item": "zpl:ion_thrust_modulator",

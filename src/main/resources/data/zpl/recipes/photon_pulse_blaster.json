@@ -2,27 +2,24 @@
   "type": "minecraft:crafting_shaped",
   "category": "functional",
   "key": {
-    "M": {
-      "item": "zpl:ion_thrust_modulator"
-    },
     "I": {
-      "item": "minecraft:iron_ingot"
+      "item": "zps:space_metal_ingot"
     },
-    "P": {
-      "item": "minecraft:ender_pearl"
+    "N": {
+      "item": "minecraft:nether_star"
     },
     "A": {
       "item": "minecraft:amethyst_shard"
     }
   },
   "pattern": [
-    " I ",
-    "MPA",
-    " I "
+    "II ",
+    "INA",
+    "II "
   ],
   "result": {
     "item": "zpl:photon_pulse_blaster",
-    "count": 1
+    "count": 2
   },
   "show_notification": true
 }
