@@ -4,20 +4,9 @@
     "zpl:ion_thruster_exhaust",
     "zpl:ion_thrust_modulator",
     "zpl:gyroscope",
-    "zpl:caution_block",
-    "zpl:space_plating",
-    "zpl:space_plating_slab",
-    "zpl:space_plating_stairs",
     "zpl:mass_suspension_matrix",
     "zpl:photon_pulse_blaster",
     "zpl:launch_platform",
-    "zpl:launch_button",
-    "zpl:riveted_space_plating",
-    "zpl:riveted_space_plating_slab",
-    "zpl:riveted_space_plating_stairs",
-    "zpl:space_scaffold",
-    "zpl:space_truss",
-    "zpl:radiation_caution_block",
-    "zpl:void_caution_block"
+    "zpl:launch_button"
   ]
 }
