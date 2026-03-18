@@ -1,7 +1,6 @@
 package g_mungus.zpl.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import org.valkyrienskies.mod.common.config.VSGameConfig;
 
 public class ZPLConfig {
 
@@ -11,12 +10,23 @@ public class ZPLConfig {
     private static ForgeConfigSpec.ConfigValue<Double> gyroscopeStrength;
     private static final double gyroscopeStrengthDefault = 128d;
 
+    private static ForgeConfigSpec.ConfigValue<Double> thrusterDrag;
+    private static final double thrusterDragDefault = 2400d;
+
     public static double getThrusterStrength() {
         double result = thrusterStrengthDefault;
         try {
             result = thrusterStrength.get();
         } catch (Exception ignored) { }
         return result * 1000;
+    }
+
+    public static double getThrusterDrag() {
+        double result = thrusterDragDefault;
+        try {
+            result = thrusterDrag.get();
+        } catch (Exception ignored) { }
+        return result;
     }
 
     public static double getGyroStrength() {
@@ -34,6 +44,7 @@ public class ZPLConfig {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         thrusterStrength = builder.define("ThrusterBaseStrength", thrusterStrengthDefault);
         gyroscopeStrength = builder.define("GyroscopeBaseStrength", gyroscopeStrengthDefault);
+        thrusterDrag = builder.define("ThrusterDrag", thrusterDragDefault);
         return builder.build();
     }
 }
