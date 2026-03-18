@@ -54,8 +54,10 @@ public class ThrusterForceApplier implements IForceApplier {
 
             Vector3d dampingForce = offAxisVelocityWorld.mul(massScaleFactor * -8000 * thrust.strength, new Vector3d());
             ship.applyInvariantForce(dampingForce);
-        }
 
-        ship.applyInvariantForce(ship.getVelocity().mul(-ZPLConfig.getThrusterDrag(), new Vector3d()).mul(massScaleFactor));
+            ship.applyInvariantForce(ship.getVelocity().mul(-2400, new Vector3d()).mul(massScaleFactor));
+        } else {
+            ship.applyInvariantForce(ship.getVelocity().mul(-ZPLConfig.getThrusterDrag(), new Vector3d()).mul(massScaleFactor));
+        }
     }
 }
