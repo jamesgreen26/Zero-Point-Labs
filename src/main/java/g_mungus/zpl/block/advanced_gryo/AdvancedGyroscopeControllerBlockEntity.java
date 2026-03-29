@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +23,8 @@ import javax.annotation.Nonnull;
 
 public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implements MenuProvider {
     private static final int SLOT_COUNT = 1;
+    public static final int MAX_ENERGY = 24_000;
+    public static final int MAX_TRANSFER = 2_000;
 
     private final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
         @Override
@@ -30,6 +33,8 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         }
     };
     private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> items);
+    private final EnergyStorage energyStorage = new EnergyStorage(MAX_ENERGY, MAX_TRANSFER, MAX_TRANSFER);
+    private final LazyOptional<EnergyStorage> energyHandler = LazyOptional.of(() -> energyStorage);
 
     public AdvancedGyroscopeControllerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.ADVANCED_GYROSCOPE_CONTROLLER.get(), pos, state);
@@ -50,8 +55,19 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         return items;
     }
 
+    public int getEnergyStored() {
+        return energyStorage.getEnergyStored();
+    }
+
+    public int getMaxEnergyStored() {
+        return energyStorage.getMaxEnergyStored();
+    }
+
     @Override
     public <T> @Nonnull LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable net.minecraft.core.Direction side) {
+        if (cap == ForgeCapabilities.ENERGY) {
+            return energyHandler.cast();
+        }
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return itemHandler.cast();
         }
@@ -62,6 +78,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
     public void setRemoved() {
         super.setRemoved();
         itemHandler.invalidate();
+        energyHandler.invalidate();
     }
 
     @Nullable
@@ -76,11 +93,15 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         if (tag.contains("Items")) {
             items.deserializeNBT(tag.getCompound("Items"));
         }
+        if (tag.contains("Energy")) {
+            energyStorage.deserializeNBT(tag.get("Energy"));
+        }
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.put("Items", items.serializeNBT());
+        tag.put("Energy", energyStorage.serializeNBT());
     }
 }

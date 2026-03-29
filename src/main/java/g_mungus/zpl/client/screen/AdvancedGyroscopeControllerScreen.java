@@ -25,6 +25,14 @@ public class AdvancedGyroscopeControllerScreen extends AbstractContainerScreen<A
     }
 
     @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        int energy = menu.getEnergyStored();
+        int maxEnergy = menu.getMaxEnergyStored();
+        String text = "Energy: " + energy + " / " + maxEnergy + " FE";
+        guiGraphics.drawString(font, text, 8, 6, 0x404040, false);
+    }
+
+    @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, partialTick);

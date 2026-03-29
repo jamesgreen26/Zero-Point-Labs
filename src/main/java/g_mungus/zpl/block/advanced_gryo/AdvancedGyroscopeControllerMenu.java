@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -27,6 +28,8 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
     private final Level level;
     private final ContainerLevelAccess access;
     private final IItemHandler itemHandler;
+    private int energyStored;
+    private int maxEnergyStored;
 
     public AdvancedGyroscopeControllerMenu(int id, Inventory playerInventory, FriendlyByteBuf buffer) {
         this(id, playerInventory, getBlockEntity(playerInventory, buffer));
@@ -40,10 +43,12 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
                 ? ContainerLevelAccess.NULL
                 : ContainerLevelAccess.create(level, blockEntity.getBlockPos());
         this.itemHandler = resolveItemHandler(blockEntity);
+        this.maxEnergyStored = resolveMaxEnergy(blockEntity);
 
         addSlot(new SlotItemHandler(itemHandler, 0, SLOT_X, SLOT_Y));
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
+        addDataSlot(createEnergySlot(blockEntity));
     }
 
     private static BlockEntity getBlockEntity(Inventory playerInventory, FriendlyByteBuf buffer) {
@@ -56,6 +61,30 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
             return controller.getItemHandler();
         }
         return new ItemStackHandler(SLOT_COUNT);
+    }
+
+    private static int resolveMaxEnergy(@Nullable BlockEntity blockEntity) {
+        if (blockEntity instanceof AdvancedGyroscopeControllerBlockEntity controller) {
+            return controller.getMaxEnergyStored();
+        }
+        return AdvancedGyroscopeControllerBlockEntity.MAX_ENERGY;
+    }
+
+    private DataSlot createEnergySlot(@Nullable BlockEntity blockEntity) {
+        return new DataSlot() {
+            @Override
+            public int get() {
+                if (blockEntity instanceof AdvancedGyroscopeControllerBlockEntity controller) {
+                    return controller.getEnergyStored();
+                }
+                return energyStored;
+            }
+
+            @Override
+            public void set(int value) {
+                energyStored = value;
+            }
+        };
     }
 
     @Override
@@ -87,6 +116,14 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
             }
         }
         return stack;
+    }
+
+    public int getEnergyStored() {
+        return energyStored;
+    }
+
+    public int getMaxEnergyStored() {
+        return maxEnergyStored;
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
