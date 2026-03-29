@@ -30,6 +30,7 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
     private final IItemHandler itemHandler;
     private int energyStored;
     private int maxEnergyStored;
+    private int energyUsage;
 
     public AdvancedGyroscopeControllerMenu(int id, Inventory playerInventory, FriendlyByteBuf buffer) {
         this(id, playerInventory, getBlockEntity(playerInventory, buffer));
@@ -49,6 +50,7 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
         addDataSlot(createEnergySlot(blockEntity));
+        addDataSlot(createEnergyUsageSlot(blockEntity));
     }
 
     private static BlockEntity getBlockEntity(Inventory playerInventory, FriendlyByteBuf buffer) {
@@ -83,6 +85,23 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
             @Override
             public void set(int value) {
                 energyStored = value;
+            }
+        };
+    }
+
+    private DataSlot createEnergyUsageSlot(@Nullable BlockEntity blockEntity) {
+        return new DataSlot() {
+            @Override
+            public int get() {
+                if (blockEntity instanceof AdvancedGyroscopeControllerBlockEntity controller) {
+                    return controller.getEnergyUsage();
+                }
+                return energyUsage;
+            }
+
+            @Override
+            public void set(int value) {
+                energyUsage = value;
             }
         };
     }
@@ -124,6 +143,10 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
 
     public int getMaxEnergyStored() {
         return maxEnergyStored;
+    }
+
+    public int getEnergyUsage() {
+        return energyUsage;
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

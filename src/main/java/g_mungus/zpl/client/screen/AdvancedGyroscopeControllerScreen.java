@@ -30,6 +30,10 @@ public class AdvancedGyroscopeControllerScreen extends AbstractContainerScreen<A
         int maxEnergy = menu.getMaxEnergyStored();
         String text = "Energy: " + energy + " / " + maxEnergy + " FE";
         guiGraphics.drawString(font, text, 8, 6, 0x404040, false);
+
+        int usage = menu.getEnergyUsage();
+        String usageText = "Usage: " + usage + " FE/t";
+        guiGraphics.drawString(font, usageText, 8, 16, 0x404040, false);
     }
 
     @Override

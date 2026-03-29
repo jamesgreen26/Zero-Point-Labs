@@ -11,13 +11,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import org.valkyrienskies.mod.common.BlockStateInfo;
 import org.jetbrains.annotations.Nullable;
+import kotlin.Pair;
 
 import javax.annotation.Nonnull;
 
@@ -61,6 +65,22 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
 
     public int getMaxEnergyStored() {
         return energyStorage.getMaxEnergyStored();
+    }
+
+    public int getEnergyUsage() {
+        ItemStack stack = items.getStackInSlot(0);
+        if (stack.isEmpty()) {
+            return 0;
+        }
+        if (stack.getItem() instanceof BlockItem blockItem) {
+            BlockState state = blockItem.getBlock().defaultBlockState();
+            Pair<Double, ?> data = BlockStateInfo.INSTANCE.get(state);
+            if (data != null) {
+                double mass = data.getFirst();
+                return (int) Math.max(0, Math.round(mass / 100.0));
+            }
+        }
+        return 0;
     }
 
     @Override
