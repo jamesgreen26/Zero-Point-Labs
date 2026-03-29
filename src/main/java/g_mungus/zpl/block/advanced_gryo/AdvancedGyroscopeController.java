@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.Containers;
@@ -23,19 +24,65 @@ import org.jetbrains.annotations.Nullable;
 
 public class AdvancedGyroscopeController extends BaseEntityBlock {
 
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public AdvancedGyroscopeController(Properties arg) {
         super(arg);
+        registerDefaultState(stateDefinition.any().setValue(FACING, net.minecraft.core.Direction.NORTH));
     }
 
     public void update(ServerLevel level, BlockPos self) {
-        // do not implement yet
+        BlockState state = level.getBlockState(self);
+        if (!(state.getBlock() instanceof AdvancedGyroscopeController)) return;
+
+        BlockPos center = self.offset(state.getValue(FACING).getOpposite().getNormal());
+
+        boolean valid = true;
+        for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
+            BlockPos pos = expected.resolve(center);
+            BlockState blockState = level.getBlockState(pos);
+            if (!(blockState.getBlock() instanceof AdvancedGyroscopeFrame)) {
+                valid = false;
+                break;
+            }
+            GyroFrameState current = blockState.getValue(AdvancedGyroscopeFrame.FRAME_STATE);
+            if (current != GyroFrameState.DISASSEMBLED && current != expected) {
+                valid = false;
+                break;
+            }
+        }
+
+        if (valid) {
+            for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
+                BlockPos pos = expected.resolve(center);
+                level.setBlock(pos, level.getBlockState(pos).setValue(AdvancedGyroscopeFrame.FRAME_STATE, expected), 3);
+            }
+        } else {
+            // Release any frames previously claimed by this controller
+            for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
+                BlockPos pos = expected.resolve(center);
+                BlockState blockState = level.getBlockState(pos);
+                if (blockState.getBlock() instanceof AdvancedGyroscopeFrame &&
+                        blockState.getValue(AdvancedGyroscopeFrame.FRAME_STATE) == expected) {
+                    level.setBlock(pos, blockState.setValue(AdvancedGyroscopeFrame.FRAME_STATE, GyroFrameState.DISASSEMBLED), 3);
+                }
+            }
+        }
     }
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
+    }
+
+    @Override
+    public BlockState getStateForPlacement(net.minecraft.world.item.context.BlockPlaceContext context) {
+        return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
     @Nullable

@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "frame_state=disassembled": { "model": "zpl:block/advanced_gyroscope_frame_red" },
+    "frame_state=edge_northeast": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_northwest": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_southeast": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_southwest": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_top_north": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_top_south": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_top_east": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_top_west": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_bottom_north": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_bottom_south": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_bottom_east": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=edge_bottom_west": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=corner_top_northeast": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=corner_top_northwest": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=corner_top_southeast": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=corner_top_southwest": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=corner_bottom_northeast": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=corner_bottom_northwest": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=corner_bottom_southeast": { "model": "zpl:block/advanced_gyroscope_frame_green" },
+    "frame_state=corner_bottom_southwest": { "model": "zpl:block/advanced_gyroscope_frame_green" }
+  }
+}
