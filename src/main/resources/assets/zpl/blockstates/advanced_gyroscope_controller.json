@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "assembled=false,facing=north": { "model": "zpl:block/advanced_gyroscope_controller" },
+    "assembled=false,facing=south": { "model": "zpl:block/advanced_gyroscope_controller", "y": 180 },
+    "assembled=false,facing=east":  { "model": "zpl:block/advanced_gyroscope_controller", "y": 90 },
+    "assembled=false,facing=west":  { "model": "zpl:block/advanced_gyroscope_controller", "y": 270 },
+    "assembled=true,facing=north":  { "model": "zpl:block/advanced_gyroscope_controller_assembled" },
+    "assembled=true,facing=south":  { "model": "zpl:block/advanced_gyroscope_controller_assembled", "y": 180 },
+    "assembled=true,facing=east":   { "model": "zpl:block/advanced_gyroscope_controller_assembled", "y": 90 },
+    "assembled=true,facing=west":   { "model": "zpl:block/advanced_gyroscope_controller_assembled", "y": 270 }
+  }
+}

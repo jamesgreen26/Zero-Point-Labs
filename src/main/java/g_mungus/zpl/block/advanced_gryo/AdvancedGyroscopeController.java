@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
@@ -25,10 +26,11 @@ import org.jetbrains.annotations.Nullable;
 public class AdvancedGyroscopeController extends BaseEntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty ASSEMBLED = BooleanProperty.create("assembled");
 
     public AdvancedGyroscopeController(Properties arg) {
         super(arg);
-        registerDefaultState(stateDefinition.any().setValue(FACING, net.minecraft.core.Direction.NORTH));
+        registerDefaultState(stateDefinition.any().setValue(FACING, net.minecraft.core.Direction.NORTH).setValue(ASSEMBLED, false));
     }
 
     public void update(ServerLevel level, BlockPos self) {
@@ -57,6 +59,7 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
                 BlockPos pos = expected.resolve(center);
                 level.setBlock(pos, level.getBlockState(pos).setValue(AdvancedGyroscopeFrame.FRAME_STATE, expected), 3);
             }
+            level.setBlock(self, state.setValue(ASSEMBLED, true), 3);
         } else {
             // Release any frames previously claimed by this controller
             for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
@@ -67,6 +70,7 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
                     level.setBlock(pos, blockState.setValue(AdvancedGyroscopeFrame.FRAME_STATE, GyroFrameState.DISASSEMBLED), 3);
                 }
             }
+            level.setBlock(self, state.setValue(ASSEMBLED, false), 3);
         }
     }
 
@@ -82,7 +86,7 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, ASSEMBLED);
     }
 
     @Nullable
@@ -113,8 +117,29 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
                 container.setItem(0, controller.getItemHandler().getStackInSlot(0));
                 Containers.dropContents(level, pos, container);
             }
+
+            if (state.getValue(ASSEMBLED) && level instanceof ServerLevel serverLevel) {
+                BlockPos center = pos.offset(state.getValue(FACING).getOpposite().getNormal());
+                for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
+                    BlockPos framePos = expected.resolve(center);
+                    BlockState frameState = level.getBlockState(framePos);
+                    if (frameState.getBlock() instanceof AdvancedGyroscopeFrame &&
+                            frameState.getValue(AdvancedGyroscopeFrame.FRAME_STATE) == expected) {
+                        serverLevel.setBlock(framePos, frameState.setValue(AdvancedGyroscopeFrame.FRAME_STATE, GyroFrameState.DISASSEMBLED), 3);
+                    }
+                }
+            }
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onPlace(BlockState arg, Level level, BlockPos pos, BlockState arg4, boolean bl) {
+        super.onPlace(arg, level, pos, arg4, bl);
+        if (level instanceof ServerLevel serverLevel) {
+            update(serverLevel, pos);
+        }
     }
 
     @Nullable
