@@ -11,11 +11,13 @@ import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
 import g_mungus.zpl.block.ModBlockEntities;
 import g_mungus.zpl.client.flywheel.DummyBERenderer;
 import g_mungus.zpl.client.flywheel.ThrusterVisual;
+import g_mungus.zpl.client.screen.AdvancedGyroscopeControllerScreen;
 import g_mungus.zpl.client.thruster.ThrusterExhaustBlockEntityRenderer;
 import g_mungus.zpl.entity.EnergyOrbEntityRenderer;
 import g_mungus.zpl.entity.ModEntities;
 import g_mungus.zpl.client.particle.EnergyOrbParticle;
 import g_mungus.zpl.client.particle.ModParticles;
+import g_mungus.zpl.menu.ModMenuTypes;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +29,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
+import net.minecraft.client.gui.screens.MenuScreens;
 
 import static team.lodestar.lodestone.registry.client.LodestoneShaderRegistry.registerShader;
 
@@ -55,6 +58,7 @@ public class ZeroPointLabsModClient {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            MenuScreens.register(ModMenuTypes.ADVANCED_GYROSCOPE_CONTROLLER.get(), AdvancedGyroscopeControllerScreen::new);
             VisualizerRegistry.setVisualizer(
                     ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(),
                     new BlockEntityVisualizer<>() {

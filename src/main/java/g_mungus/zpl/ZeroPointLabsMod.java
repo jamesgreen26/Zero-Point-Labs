@@ -8,6 +8,7 @@ import g_mungus.zpl.config.ZPLConfig;
 import g_mungus.zpl.entity.ModEntities;
 import g_mungus.zpl.item.ModCreativeTabs;
 import g_mungus.zpl.item.ModItems;
+import g_mungus.zpl.menu.ModMenuTypes;
 import g_mungus.zpl.client.particle.ModParticles;
 import g_mungus.zpl.ship.ZPLShipAttachment;
 import g_mungus.zpl.sound.ModSounds;
@@ -43,6 +44,7 @@ public final class ZeroPointLabsMod {
         ModBlocks.BLOCKS.register(eventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(eventBus);
         ModItems.ITEMS.register(eventBus);
+        ModMenuTypes.MENU_TYPES.register(eventBus);
         ModCreativeTabs.register(eventBus);
         ModParticles.PARTICLE_TYPES.register(eventBus);
         ModEntities.ENTITY_TYPES.register(eventBus);

@@ -38,4 +38,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> DROID_CORE_ITEM = ITEMS.register("droid_core",
             () -> new BlockItem(ModBlocks.DROID_CORE_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ADVANCED_GYROSCOPE_CONTROLLER_ITEM = ITEMS.register("advanced_gyroscope_controller",
+            () -> new BlockItem(ModBlocks.ADVANCED_GYROSCOPE_CONTROLLER.get(), new Item.Properties()));
 } 

@@ -2,6 +2,7 @@ package g_mungus.zpl.block;
 
 import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.droidcore.DroidCoreBlock;
+import g_mungus.zpl.block.advanced_gryo.AdvancedGyroscopeController;
 import g_mungus.zpl.block.gyro.GyroscopeBlock;
 import g_mungus.zpl.block.hover.MassSuspensionMatrixBlock;
 import g_mungus.zpl.block.launcher.EnergyOrbLauncherBlock;
@@ -67,4 +68,10 @@ public class ModBlocks {
             () -> new DroidCoreBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
                     .requiresCorrectToolForDrops()));
-} 
+
+    public static final RegistryObject<Block> ADVANCED_GYROSCOPE_CONTROLLER = BLOCKS.register("advanced_gyroscope_controller",
+            () -> new AdvancedGyroscopeController(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.NETHERITE_BLOCK)));
+}
