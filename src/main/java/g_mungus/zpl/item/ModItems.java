@@ -44,4 +44,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> ADVANCED_GYROSCOPE_FRAME_ITEM = ITEMS.register("advanced_gyroscope_frame",
             () -> new BlockItem(ModBlocks.ADVANCED_GYROSCOPE_FRAME.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ADVANCED_GYROSCOPE_INPUT_MODULE_ITEM = ITEMS.register("advanced_gyroscope_input_module",
+            () -> new BlockItem(ModBlocks.ADVANCED_GYROSCOPE_INPUT_MODULE.get(), new Item.Properties()));
 } 

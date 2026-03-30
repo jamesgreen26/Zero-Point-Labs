@@ -9,6 +9,7 @@
   "item.zpl.droid_core": "Droid Core",
   "item.zpl.advanced_gyroscope_controller": "Advanced Gyroscope Controller",
   "item.zpl.advanced_gyroscope_frame": "Advanced Gyroscope Frame",
+  "item.zpl.advanced_gyroscope_input_module": "Advanced Gyroscope Input Module",
   "block.zpl.gyroscope": "Gyroscope",
   "block.zpl.ion_thrust_modulator": "Ion Thrust Modulator",
   "block.zpl.ion_thruster_exhaust": "Ion Thruster Exhaust",
@@ -19,6 +20,7 @@
   "block.zpl.droid_core": "Droid Core",
   "block.zpl.advanced_gyroscope_controller": "Advanced Gyroscope Controller",
   "block.zpl.advanced_gyroscope_frame": "Advanced Gyroscope Frame",
+  "block.zpl.advanced_gyroscope_input_module": "Advanced Gyroscope Input Module",
   "container.zpl.advanced_gyroscope_controller": "Advanced Gyroscope Controller",
   "subtitles.zpl.photon_pulse_shoot": "Photon Pulse fired",
 
