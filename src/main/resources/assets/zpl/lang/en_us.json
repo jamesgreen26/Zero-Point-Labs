@@ -22,6 +22,9 @@
   "block.zpl.advanced_gyroscope_frame": "Advanced Gyroscope Frame",
   "block.zpl.advanced_gyroscope_input_module": "Advanced Gyroscope Input Module",
   "container.zpl.advanced_gyroscope_controller": "Advanced Gyroscope Controller",
+  "screen.zpl.advanced_gyroscope_controller_config": "Input Config",
+  "button.zpl.advanced_gyroscope_controller_config": "Configure",
+  "button.zpl.advanced_gyroscope_controller_close": "Close",
   "subtitles.zpl.photon_pulse_shoot": "Photon Pulse fired",
 
   "zpl.ponder.assembly.header": "Ship Assembly",
