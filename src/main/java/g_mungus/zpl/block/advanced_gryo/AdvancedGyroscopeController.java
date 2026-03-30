@@ -59,6 +59,7 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
                 BlockPos pos = expected.resolve(center);
                 level.setBlock(pos, level.getBlockState(pos).setValue(AdvancedGyroscopeFrame.FRAME_STATE, expected), 3);
             }
+            //todo: only assemble itself if there are no other assembled controllers
             level.setBlock(self, state.setValue(ASSEMBLED, true), 3);
         } else {
             // Release any frames previously claimed by this controller
@@ -107,6 +108,7 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
+    //todo: properly handle other controller present
     @Override
     @SuppressWarnings("deprecation")
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
