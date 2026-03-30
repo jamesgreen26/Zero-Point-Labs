@@ -1,6 +1,7 @@
 package g_mungus.zpl.block.advanced_gryo;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -39,9 +40,17 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
 
         BlockPos center = self.offset(state.getValue(FACING).getOpposite().getNormal());
 
-        boolean valid = true;
+        Direction facing = state.getValue(FACING);
+        BlockPos rightPos = self.relative(facing.getClockWise());
+        BlockPos leftPos = self.relative(facing.getCounterClockWise());
+
+        boolean valid = level.getBlockState(rightPos).getBlock() instanceof AdvancedGyroscopeInputModule
+                && level.getBlockState(leftPos).getBlock() instanceof AdvancedGyroscopeInputModule;
+
         for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
+            if (!valid) break;
             BlockPos pos = expected.resolve(center);
+            if (pos.equals(rightPos) || pos.equals(leftPos)) continue;
             BlockState blockState = level.getBlockState(pos);
             if (!(blockState.getBlock() instanceof AdvancedGyroscopeFrame)) {
                 valid = false;
@@ -50,21 +59,35 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
             GyroFrameState current = blockState.getValue(AdvancedGyroscopeFrame.FRAME_STATE);
             if (current != GyroFrameState.DISASSEMBLED && current != expected) {
                 valid = false;
-                break;
+            }
+        }
+
+        if (valid) {
+            for (Direction dir : Direction.Plane.HORIZONTAL) {
+                BlockPos otherPos = center.relative(dir);
+                if (otherPos.equals(self)) continue;
+                BlockState otherState = level.getBlockState(otherPos);
+                if (otherState.getBlock() instanceof AdvancedGyroscopeController
+                        && otherState.getValue(ASSEMBLED)
+                        && otherState.getValue(FACING) == dir) {
+                    valid = false;
+                    break;
+                }
             }
         }
 
         if (valid) {
             for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
                 BlockPos pos = expected.resolve(center);
+                if (pos.equals(rightPos) || pos.equals(leftPos)) continue;
                 level.setBlock(pos, level.getBlockState(pos).setValue(AdvancedGyroscopeFrame.FRAME_STATE, expected), 3);
             }
-            //todo: only assemble itself if there are no other assembled controllers
             level.setBlock(self, state.setValue(ASSEMBLED, true), 3);
         } else {
             // Release any frames previously claimed by this controller
             for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
                 BlockPos pos = expected.resolve(center);
+                if (pos.equals(rightPos) || pos.equals(leftPos)) continue;
                 BlockState blockState = level.getBlockState(pos);
                 if (blockState.getBlock() instanceof AdvancedGyroscopeFrame &&
                         blockState.getValue(AdvancedGyroscopeFrame.FRAME_STATE) == expected) {
@@ -121,9 +144,13 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
             }
 
             if (state.getValue(ASSEMBLED) && level instanceof ServerLevel serverLevel) {
-                BlockPos center = pos.offset(state.getValue(FACING).getOpposite().getNormal());
+                Direction removedFacing = state.getValue(FACING);
+                BlockPos center = pos.offset(removedFacing.getOpposite().getNormal());
+                BlockPos rightPos = pos.relative(removedFacing.getClockWise());
+                BlockPos leftPos = pos.relative(removedFacing.getCounterClockWise());
                 for (GyroFrameState expected : GyroFrameState.OUTLINE_POSITIONS) {
                     BlockPos framePos = expected.resolve(center);
+                    if (framePos.equals(rightPos) || framePos.equals(leftPos)) continue;
                     BlockState frameState = level.getBlockState(framePos);
                     if (frameState.getBlock() instanceof AdvancedGyroscopeFrame &&
                             frameState.getValue(AdvancedGyroscopeFrame.FRAME_STATE) == expected) {
