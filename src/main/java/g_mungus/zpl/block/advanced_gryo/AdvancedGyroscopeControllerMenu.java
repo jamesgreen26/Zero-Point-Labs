@@ -145,6 +145,10 @@ public class AdvancedGyroscopeControllerMenu extends AbstractContainerMenu {
         return maxEnergyStored;
     }
 
+    public @Nullable BlockEntity getBlockEntity() {
+        return blockEntity;
+    }
+
     public int getEnergyUsage() {
         return energyUsage;
     }

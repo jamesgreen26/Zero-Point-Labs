@@ -1,6 +1,7 @@
 package g_mungus.zpl;
 
 import g_mungus.zpl.block.ModBlockEntities;
+import g_mungus.zpl.network.ModPackets;
 import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.droidcore.DroidAttachment;
 import g_mungus.zpl.client.ponder.ZPLPonderPlugin;
@@ -59,6 +60,8 @@ public final class ZeroPointLabsMod {
         );
 
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ZPLPonderPlugin::registerPlugin);
+
+        ModPackets.register();
     }
 
     public static double getDimensionScale(Level level) {

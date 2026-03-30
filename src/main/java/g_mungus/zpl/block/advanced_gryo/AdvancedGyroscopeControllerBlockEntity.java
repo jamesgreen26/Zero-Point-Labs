@@ -30,6 +30,8 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
     public static final int MAX_ENERGY = 24_000;
     public static final int MAX_TRANSFER = 2_000;
 
+    private int[] inputFunctionMapping = new int[]{-1, -1, -1, -1, -1, -1, -1, -1};
+
     private final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
         @Override
         protected void onContentsChanged(int slot) {
@@ -65,6 +67,15 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
 
     public int getMaxEnergyStored() {
         return energyStorage.getMaxEnergyStored();
+    }
+
+    public int[] getInputFunctionMapping() {
+        return inputFunctionMapping.clone();
+    }
+
+    public void setInputFunctionMapping(int[] mapping) {
+        this.inputFunctionMapping = mapping.clone();
+        setChanged();
     }
 
     public int getEnergyUsage() {
@@ -116,6 +127,12 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         if (tag.contains("Energy")) {
             energyStorage.deserializeNBT(tag.get("Energy"));
         }
+        if (tag.contains("InputFunctionMapping")) {
+            int[] loaded = tag.getIntArray("InputFunctionMapping");
+            if (loaded.length == 8) {
+                inputFunctionMapping = loaded.clone();
+            }
+        }
     }
 
     @Override
@@ -123,5 +140,6 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         super.saveAdditional(tag);
         tag.put("Items", items.serializeNBT());
         tag.put("Energy", energyStorage.serializeNBT());
+        tag.putIntArray("InputFunctionMapping", inputFunctionMapping);
     }
 }
