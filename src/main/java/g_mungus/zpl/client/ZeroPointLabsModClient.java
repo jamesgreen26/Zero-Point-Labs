@@ -9,6 +9,7 @@ import g_mungus.zpl.ZeroPointLabsMod;
 import g_mungus.zpl.block.ModBlocks;
 import g_mungus.zpl.block.thruster.ThrusterExhaustBlockEntity;
 import g_mungus.zpl.block.ModBlockEntities;
+import g_mungus.zpl.client.advanced_gryo.AdvancedGyroscopeControllerBlockEntityRenderer;
 import g_mungus.zpl.client.flywheel.DummyBERenderer;
 import g_mungus.zpl.client.flywheel.ThrusterVisual;
 import g_mungus.zpl.client.screen.AdvancedGyroscopeControllerScreen;
@@ -47,6 +48,7 @@ public class ZeroPointLabsModClient {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.THRUSTER_EXHAUST_BLOCK_ENTITY.get(), ThrusterExhaustBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.ADVANCED_GYROSCOPE_CONTROLLER.get(), AdvancedGyroscopeControllerBlockEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.ENERGY_ORB.get(), EnergyOrbEntityRenderer::new);
     }
 
