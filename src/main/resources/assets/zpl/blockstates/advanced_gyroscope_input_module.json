@@ -1,26 +1,51 @@
 {
   "variants": {
-    "facing=up": {
+    "facing=up,connected=false": {
       "model": "zpl:block/advanced_gyroscope_input_module",
       "x": 180
     },
-    "facing=down": {
+    "facing=up,connected=true": {
+      "model": "zpl:block/advanced_gyroscope_input_module",
+      "x": 180
+    },
+    "facing=down,connected=false": {
       "model": "zpl:block/advanced_gyroscope_input_module"
     },
-    "facing=north": {
+    "facing=down,connected=true": {
+      "model": "zpl:block/advanced_gyroscope_input_module"
+    },
+    "facing=north,connected=false": {
       "model": "zpl:block/advanced_gyroscope_input_module",
       "x": 270
     },
-    "facing=south": {
+    "facing=north,connected=true": {
+      "model": "zpl:block/advanced_gyroscope_input_module",
+      "x": 270
+    },
+    "facing=south,connected=false": {
       "model": "zpl:block/advanced_gyroscope_input_module",
       "x": 90
     },
-    "facing=east": {
+    "facing=south,connected=true": {
+      "model": "zpl:block/advanced_gyroscope_input_module",
+      "x": 90
+    },
+    "facing=east,connected=false": {
       "model": "zpl:block/advanced_gyroscope_input_module",
       "x": 90,
       "y": 270
     },
-    "facing=west": {
+    "facing=east,connected=true": {
+      "model": "zpl:block/advanced_gyroscope_input_module",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,connected=false": {
+      "model": "zpl:block/advanced_gyroscope_input_module",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,connected=true": {
       "model": "zpl:block/advanced_gyroscope_input_module",
       "x": 90,
       "y": 90

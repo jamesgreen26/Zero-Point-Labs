@@ -1,6 +1,7 @@
 package g_mungus.zpl.block;
 
 import g_mungus.zpl.ZeroPointLabsMod;
+import g_mungus.zpl.block.advanced_gryo.AdvancedGyroInputModuleBlockEntity;
 import g_mungus.zpl.block.droidcore.DroidCoreBlockEntity;
 import g_mungus.zpl.block.advanced_gryo.AdvancedGyroscopeControllerBlockEntity;
 import g_mungus.zpl.block.gyro.GyroscopeBlockEntity;
@@ -44,4 +45,8 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<AdvancedGyroscopeControllerBlockEntity>> ADVANCED_GYROSCOPE_CONTROLLER =
             BLOCK_ENTITIES.register("advanced_gyroscope_controller_block_entity",
                     () -> BlockEntityType.Builder.of(AdvancedGyroscopeControllerBlockEntity::new, ModBlocks.ADVANCED_GYROSCOPE_CONTROLLER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<AdvancedGyroInputModuleBlockEntity>> ADVANCED_GYRO_INPUT_MODULE =
+            BLOCK_ENTITIES.register("advanced_gyro_input_module_block_entity",
+                    () -> BlockEntityType.Builder.of(AdvancedGyroInputModuleBlockEntity::new, ModBlocks.ADVANCED_GYROSCOPE_INPUT_MODULE.get()).build(null));
 } 
