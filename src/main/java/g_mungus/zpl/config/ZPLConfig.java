@@ -23,7 +23,7 @@ public class ZPLConfig {
     private static final double advGyroProportionalGainDefault = 256d;
 
     private static ForgeConfigSpec.ConfigValue<Double> advGyroMaxTorqueFactor;
-    private static final double advGyroMaxTorqueFactorDefault = 512d;
+    private static final double advGyroMaxTorqueFactorDefault = 2048d;
 
     public static double getThrusterStrength() {
         double result = thrusterStrengthDefault;
