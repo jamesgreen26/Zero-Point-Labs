@@ -255,11 +255,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         Vector3d shipOmega = rotToShip.transform(new Vector3d(angularVelocity));
 
         // target omega from spin signals (ship-space X/Y/Z axes)
-        double maxSpin = ZPLConfig.getAdvGyroMaxSpin();
-        double tX = (gyroFunctions.rotXPos() - gyroFunctions.rotXNeg()) / 15.0 * maxSpin;
-        double tY = (gyroFunctions.rotYPos() - gyroFunctions.rotYNeg()) / 15.0 * maxSpin;
-        double tZ = (gyroFunctions.rotZPos() - gyroFunctions.rotZNeg()) / 15.0 * maxSpin;
-        Vector3d targetOmega = new Vector3d(tX, tY, tZ);
+        Vector3d targetOmega = getTargetOmega(gyroFunctions);
 
         targetOmega.add(stabilizeContribution(physShip, rotToShip, gyroFunctions.stabilize(), shipOmega));
 
@@ -270,13 +266,30 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         // bypass scales down gyro authority
         controlTorque.mul(1.0 - (gyroFunctions.bypass() / 15.0));
 
-        // clamp magnitude to maxTorque
-        double torqueMag = controlTorque.length();
-        if (torqueMag > maxTorque && torqueMag > 0) {
-            controlTorque.mul(maxTorque / torqueMag);
-        }
+        // clamp each axis independently; allow 4x if torque opposes omega on that axis
+        double clampX = (controlTorque.x * shipOmega.x < 0) ? maxTorque * 4.0 : maxTorque;
+        double clampY = (controlTorque.y * shipOmega.y < 0) ? maxTorque * 4.0 : maxTorque;
+        double clampZ = (controlTorque.z * shipOmega.z < 0) ? maxTorque * 4.0 : maxTorque;
+        controlTorque.set(
+            Math.max(-clampX, Math.min(clampX, controlTorque.x)),
+            Math.max(-clampY, Math.min(clampY, controlTorque.y)),
+            Math.max(-clampZ, Math.min(clampZ, controlTorque.z))
+        );
 
         physShip.applyBodyTorque(controlTorque);
+    }
+
+    private static @NotNull Vector3d getTargetOmega(GyroFunctions gyroFunctions) {
+        double maxSpin = ZPLConfig.getAdvGyroMaxSpin();
+        double tX = (gyroFunctions.rotXPos() - gyroFunctions.rotXNeg()) / 15.0 * maxSpin;
+        double tY = (gyroFunctions.rotYPos() - gyroFunctions.rotYNeg()) / 15.0 * maxSpin;
+        double tZ = (gyroFunctions.rotZPos() - gyroFunctions.rotZNeg()) / 15.0 * maxSpin;
+        Vector3d targetOmega = new Vector3d(tX, tY, tZ);
+
+        if (targetOmega.lengthSquared() > maxSpin * maxSpin) {
+            targetOmega.normalize(maxSpin);
+        }
+        return targetOmega;
     }
 
     /**
