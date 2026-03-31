@@ -14,13 +14,13 @@ public class ZPLConfig {
     private static final double thrusterDragDefault = 2400d;
 
     private static ForgeConfigSpec.ConfigValue<Double> advGyroMaxSpin;
-    private static final double advGyroMaxSpinDefault = 1.0d;
+    private static final double advGyroMaxSpinDefault = 256d;
 
     private static ForgeConfigSpec.ConfigValue<Double> advGyroStabilizeSpeed;
-    private static final double advGyroStabilizeSpeedDefault = 1.5d;
+    private static final double advGyroStabilizeSpeedDefault = 256d;
 
     private static ForgeConfigSpec.ConfigValue<Double> advGyroProportionalGain;
-    private static final double advGyroProportionalGainDefault = 0.05d;
+    private static final double advGyroProportionalGainDefault = 64d;
 
     private static ForgeConfigSpec.ConfigValue<Double> advGyroMaxTorqueFactor;
     private static final double advGyroMaxTorqueFactorDefault = 1200d;
