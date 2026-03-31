@@ -34,12 +34,6 @@ public class AdvancedGyroscopeControllerConfigScreen extends Screen {
     private static final int CLOSE_BUTTON_MARGIN = 4;
     private static final int CLOSE_ICON_SIZE = 10;
 
-    // Input indices: 0-3 left (G/B/R/P), 4-7 right (G/B/R/P)
-    private static final String[] INPUT_LABELS = {
-            "L:Green", "L:Blue", "L:Red", "L:Purple",
-            "R:Green", "R:Blue", "R:Red", "R:Purple"
-    };
-
     // Function indices: 0-7
     private static final String[] FUNCTION_NAMES = {
             "Rot X+", "Rot X-", "Rot Y+", "Rot Y-",
@@ -293,15 +287,11 @@ public class AdvancedGyroscopeControllerConfigScreen extends Screen {
             int cx = dotScreenCX(i, panelLeft);
             int cy = dotScreenCY(i, panelTop);
             int color = DOT_COLORS[i % 4];
-            drawDot(g, cx, cy, DOT_SIZE / 2, color);
-            // Small label beside dot
-            String label = INPUT_LABELS[i];
-            if (i < 4) {
-                g.drawString(font, label, cx + DOT_SIZE / 2 + 2, cy - 4, color, false);
-            } else {
-                int lw = font.width(label);
-                g.drawString(font, label, cx - DOT_SIZE / 2 - 2 - lw, cy - 4, color, false);
-            }
+            double dx = mouseX - cx;
+            double dy = mouseY - cy;
+            boolean hovered = dx * dx + dy * dy <= DOT_HIT_RADIUS * DOT_HIT_RADIUS;
+            int radius = hovered ? DOT_SIZE / 2 + 2 : DOT_SIZE / 2;
+            drawDot(g, cx, cy, radius, color);
         }
 
         // 5. Active drag line (on top of dots and boxes)
@@ -339,18 +329,14 @@ public class AdvancedGyroscopeControllerConfigScreen extends Screen {
             cy1 = y1;
         }
         int steps = 120;
-        float prevX = x0, prevY = y0;
         for (int step = 1; step <= steps; step++) {
             float t = step / (float) steps;
             float mt = 1 - t;
             float nx = mt * mt * mt * x0 + 3 * mt * mt * t * cx0 + 3 * mt * t * t * cx1 + t * t * t * x1;
             float ny = mt * mt * mt * y0 + 3 * mt * mt * t * cy0 + 3 * mt * t * t * cy1 + t * t * t * y1;
-            // Draw a 2×2 square at this point for a thick line feel
             int px = Math.round(nx);
             int py = Math.round(ny);
             g.fill(px, py, px + 2, py + 2, color);
-            prevX = nx;
-            prevY = ny;
         }
     }
 
