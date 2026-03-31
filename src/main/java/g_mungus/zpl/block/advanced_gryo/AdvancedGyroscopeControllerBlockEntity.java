@@ -76,6 +76,9 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
     public void setInputFunctionMapping(int[] mapping) {
         this.inputFunctionMapping = mapping.clone();
         setChanged();
+        if (level != null && !level.isClientSide) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+        }
     }
 
     public int getEnergyUsage() {
@@ -116,6 +119,11 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
     }
 
     @Override
