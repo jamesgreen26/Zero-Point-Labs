@@ -221,7 +221,8 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
                 GyroFunctions.fromArray(getMappedFunctionValues()) : GyroFunctions.ZERO;
 
         Vector3dc scaling = physShip.getTransform().getShipToWorldScaling();
-        double rawMass = physShip.getMass() * scaling.x() * scaling.y() * scaling.z();
+        double massScale = scaling.x() * scaling.y() * scaling.z();
+        double rawMass = physShip.getMass() / massScale;
         Vector3dc angularVelocity = physShip.getAngularVelocity();
 
         double maxTorque = enegryUsgaeCached.get() * ZPLConfig.getAdvGyroMaxTorqueFactor() * 1000;
@@ -261,7 +262,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
             controlTorque.mul(maxTorque / torqueMag);
         }
 
-        physShip.applyRotDependentTorque(controlTorque);
+        physShip.applyBodyTorque(controlTorque);
     }
 
     /**
