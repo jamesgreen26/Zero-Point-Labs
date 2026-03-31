@@ -13,6 +13,18 @@ public class ZPLConfig {
     private static ForgeConfigSpec.ConfigValue<Double> thrusterDrag;
     private static final double thrusterDragDefault = 2400d;
 
+    private static ForgeConfigSpec.ConfigValue<Double> advGyroMaxSpin;
+    private static final double advGyroMaxSpinDefault = 1.0d;
+
+    private static ForgeConfigSpec.ConfigValue<Double> advGyroStabilizeSpeed;
+    private static final double advGyroStabilizeSpeedDefault = 1.5d;
+
+    private static ForgeConfigSpec.ConfigValue<Double> advGyroProportionalGain;
+    private static final double advGyroProportionalGainDefault = 0.05d;
+
+    private static ForgeConfigSpec.ConfigValue<Double> advGyroMaxTorqueFactor;
+    private static final double advGyroMaxTorqueFactorDefault = 1200d;
+
     public static double getThrusterStrength() {
         double result = thrusterStrengthDefault;
         try {
@@ -38,6 +50,26 @@ public class ZPLConfig {
     }
 
 
+    public static double getAdvGyroMaxSpin() {
+        try { return advGyroMaxSpin.get(); } catch (Exception ignored) { }
+        return advGyroMaxSpinDefault;
+    }
+
+    public static double getAdvGyroStabilizeSpeed() {
+        try { return advGyroStabilizeSpeed.get(); } catch (Exception ignored) { }
+        return advGyroStabilizeSpeedDefault;
+    }
+
+    public static double getAdvGyroProportionalGain() {
+        try { return advGyroProportionalGain.get(); } catch (Exception ignored) { }
+        return advGyroProportionalGainDefault;
+    }
+
+    public static double getAdvGyroMaxTorqueFactor() {
+        try { return advGyroMaxTorqueFactor.get(); } catch (Exception ignored) { }
+        return advGyroMaxTorqueFactorDefault;
+    }
+
     public static final ForgeConfigSpec CONFIG_SPEC = buildConfig();
 
     private static ForgeConfigSpec buildConfig() {
@@ -45,6 +77,10 @@ public class ZPLConfig {
         thrusterStrength = builder.define("ThrusterBaseStrength", thrusterStrengthDefault);
         gyroscopeStrength = builder.define("GyroscopeBaseStrength", gyroscopeStrengthDefault);
         thrusterDrag = builder.define("ThrusterDrag", thrusterDragDefault);
+        advGyroMaxSpin = builder.define("AdvGyroMaxSpin", advGyroMaxSpinDefault);
+        advGyroStabilizeSpeed = builder.define("AdvGyroStabilizeSpeed", advGyroStabilizeSpeedDefault);
+        advGyroProportionalGain = builder.define("AdvGyroProportionalGain", advGyroProportionalGainDefault);
+        advGyroMaxTorqueFactor = builder.define("AdvGyroMaxTorqueFactor", advGyroMaxTorqueFactorDefault);
         return builder.build();
     }
 }

@@ -22,16 +22,28 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
+import g_mungus.zpl.config.ZPLConfig;
+import org.joml.Matrix3d;
+import org.joml.Matrix4dc;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
+import org.valkyrienskies.core.api.ships.PhysShip;
+import org.valkyrienskies.core.api.world.PhysLevel;
+import org.valkyrienskies.mod.api.BlockEntityPhysicsListener;
 import org.valkyrienskies.mod.common.BlockStateInfo;
 import org.jetbrains.annotations.Nullable;
 import kotlin.Pair;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implements MenuProvider {
+public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implements MenuProvider, BlockEntityPhysicsListener {
     private static final int SLOT_COUNT = 1;
     public static final int MAX_ENERGY = 24_000;
     public static final int MAX_TRANSFER = 2_000;
+
+    private AtomicInteger enegryUsgaeCached = new AtomicInteger();
 
     private int[] inputFunctionMapping = new int[]{-1, -1, -1, -1, -1, -1, -1, -1};
     private int[] mappedFunctionValues = new int[8];
@@ -115,6 +127,8 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
             functionValues[funcIdx] = Math.max(functionValues[funcIdx], signal);
         }
         be.mappedFunctionValues = functionValues;
+
+        be.enegryUsgaeCached.set(be.getEnergyUsage());
     }
 
     public int getEnergyUsage() {
@@ -127,7 +141,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
             Pair<Double, ?> data = BlockStateInfo.INSTANCE.get(state);
             if (data != null) {
                 double mass = data.getFirst();
-                return (int) Math.max(0, Math.round(mass / 100.0));
+                return (int) Math.max(1, Math.round(mass / 100.0));
             }
         }
         return 0;
@@ -185,5 +199,92 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         tag.put("Items", items.serializeNBT());
         tag.put("Energy", energyStorage.serializeNBT());
         tag.putIntArray("InputFunctionMapping", inputFunctionMapping);
+    }
+
+    String vsDimension = "";
+
+    @Override
+    public @NotNull String getDimension() {
+        return vsDimension;
+    }
+
+    @Override
+    public void setDimension(@NotNull String s) {
+        vsDimension = s;
+    }
+
+    @Override
+    public void physTick(@Nullable PhysShip physShip, @NotNull PhysLevel physLevel) {
+        if (physShip == null) return;
+
+        GyroFunctions gyroFunctions = getBlockState().getValue(AdvancedGyroscopeController.ASSEMBLED) ?
+                GyroFunctions.fromArray(getMappedFunctionValues()) : GyroFunctions.ZERO;
+
+        Vector3dc scaling = physShip.getTransform().getShipToWorldScaling();
+        double rawMass = physShip.getMass() * scaling.x() * scaling.y() * scaling.z();
+        Vector3dc angularVelocity = physShip.getAngularVelocity();
+
+        double maxTorque = enegryUsgaeCached.get() * ZPLConfig.getAdvGyroMaxTorqueFactor();
+
+        // world→ship rotation matrix (same pattern as DroidAttachment / GyroForceApplier)
+        Matrix4dc worldToShip = physShip.getTransform().getWorldToShip();
+        Matrix3d rotToShip = new Matrix3d();
+        worldToShip.get3x3(rotToShip);
+        double matScale = Math.sqrt(
+                rotToShip.m00() * rotToShip.m00() +
+                rotToShip.m10() * rotToShip.m10() +
+                rotToShip.m20() * rotToShip.m20());
+        rotToShip.scale(1.0 / matScale);
+
+        // angular velocity in ship space
+        Vector3d shipOmega = rotToShip.transform(new Vector3d(angularVelocity));
+
+        // target omega from spin signals (ship-space X/Y/Z axes)
+        double maxSpin = ZPLConfig.getAdvGyroMaxSpin();
+        double tX = (gyroFunctions.rotXPos() - gyroFunctions.rotXNeg()) / 15.0 * maxSpin;
+        double tY = (gyroFunctions.rotYPos() - gyroFunctions.rotYNeg()) / 15.0 * maxSpin;
+        double tZ = (gyroFunctions.rotZPos() - gyroFunctions.rotZNeg()) / 15.0 * maxSpin;
+        Vector3d targetOmega = new Vector3d(tX, tY, tZ);
+
+        targetOmega.add(stabilizeContribution(physShip, rotToShip, gyroFunctions.stabilize()));
+
+        // proportional control on omega error; clamped to maxTorque
+        final double KP = rawMass * ZPLConfig.getAdvGyroProportionalGain();
+        Vector3d controlTorque = targetOmega.sub(shipOmega, new Vector3d()).mul(KP);
+
+        // bypass scales down gyro authority
+        controlTorque.mul(1.0 - (gyroFunctions.bypass() / 15.0));
+
+        // clamp magnitude to maxTorque
+        double torqueMag = controlTorque.length();
+        if (torqueMag > maxTorque && torqueMag > 0) {
+            controlTorque.mul(maxTorque / torqueMag);
+        }
+
+        physShip.applyRotDependentTorque(controlTorque);
+    }
+
+    /**
+     * Returns the target omega contribution (ship space) needed to align the ship's
+     * local Y-up with world Y-up, scaled by the stabilize signal strength.
+     */
+    private static Vector3d stabilizeContribution(PhysShip physShip, Matrix3d rotToShip, int stabilizeSignal) {
+        double stabilizeFactor = stabilizeSignal / 15.0;
+        if (stabilizeFactor <= 0.001) return new Vector3d();
+
+        Matrix3d rotToWorld = new Matrix3d();
+        physShip.getTransform().getShipToWorld().get3x3(rotToWorld);
+        double sScale = Math.sqrt(
+                rotToWorld.m00() * rotToWorld.m00() +
+                rotToWorld.m10() * rotToWorld.m10() +
+                rotToWorld.m20() * rotToWorld.m20());
+        rotToWorld.scale(1.0 / sScale);
+
+        Vector3d localUpWorld = rotToWorld.transform(new Vector3d(0, 1, 0));
+        // cross(localUp, worldUp): axis to rotate around to correct tilt, magnitude = sin(angle)
+        Vector3d correctionWorld = localUpWorld.cross(new Vector3d(0, 1, 0), new Vector3d());
+        Vector3d correctionShip = rotToShip.transform(correctionWorld, new Vector3d());
+
+        return correctionShip.mul(stabilizeFactor * ZPLConfig.getAdvGyroStabilizeSpeed());
     }
 }
