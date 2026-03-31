@@ -43,7 +43,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
     public static final int MAX_ENERGY = 24_000;
     public static final int MAX_TRANSFER = 2_000;
 
-    private AtomicInteger enegryUsgaeCached = new AtomicInteger();
+    private final AtomicInteger energyUsageCached = new AtomicInteger();
 
     private int[] inputFunctionMapping = new int[]{-1, -1, -1, -1, -1, -1, -1, -1};
     private int[] mappedFunctionValues = new int[8];
@@ -128,7 +128,21 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         }
         be.mappedFunctionValues = functionValues;
 
-        be.enegryUsgaeCached.set(be.getEnergyUsage());
+        GyroFunctions gyroFunctions = GyroFunctions.fromArray(functionValues);
+        int maxActive = Math.max(Math.max(Math.max(gyroFunctions.rotXPos(), gyroFunctions.rotXNeg()),
+                Math.max(gyroFunctions.rotYPos(), gyroFunctions.rotYNeg())),
+                Math.max(Math.max(gyroFunctions.rotZPos(), gyroFunctions.rotZNeg()), gyroFunctions.stabilize()));
+        double activityFactor = maxActive / 15.0;
+        double bypassFactor = 1.0 - (gyroFunctions.bypass() / 15.0);
+        int rawUsage = be.getEnergyUsage();
+        int toConsume = (int) Math.round(rawUsage * activityFactor * bypassFactor);
+        int consumed = be.energyStorage.extractEnergy(toConsume, false);
+
+        if (be.energyStorage.getEnergyStored() > consumed) {
+            be.energyUsageCached.set(rawUsage);
+        } else {
+            be.energyUsageCached.set(consumed);
+        }
     }
 
     public int getEnergyUsage() {
@@ -225,7 +239,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         double rawMass = physShip.getMass() / massScale;
         Vector3dc angularVelocity = physShip.getAngularVelocity();
 
-        double maxTorque = enegryUsgaeCached.get() * ZPLConfig.getAdvGyroMaxTorqueFactor() * 1000;
+        double maxTorque = energyUsageCached.get() * ZPLConfig.getAdvGyroMaxTorqueFactor() * 1000;
 
         // world→ship rotation matrix (same pattern as DroidAttachment / GyroForceApplier)
         Matrix4dc worldToShip = physShip.getTransform().getWorldToShip();
