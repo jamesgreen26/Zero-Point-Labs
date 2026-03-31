@@ -1,21 +1,25 @@
 {
-  "parent": "block/block",
-  "textures": {
-    "0": "zps:block/dense_cables_end",
-    "1": "zpl:block/advanced_gyroscope_input_module"
-  },
-  "elements": [
-    {
-      "from": [0, 0, 0],
-      "to": [16, 8, 16],
-      "faces": {
-        "down": { "texture": "#0" },
-        "up": { "texture": "#1" },
-        "north": { "texture": "#1" },
-        "south": { "texture": "#1" },
-        "west": { "texture": "#1" },
-        "east": { "texture": "#1" }
-      }
-    }
-  ]
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"0": "zps:block/dense_cables_end",
+		"1": "zpl:block/advanced_gyro_controller",
+        "2": "zps:block/octo_controller_side",
+		"particle": "zps:block/dense_cables_end"
+    },
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 8, 16],
+			"faces": {
+				"north": {"uv": [4, 0, 6, 4], "rotation": 270, "texture": "#1"},
+				"east": {"uv": [4, 0, 6, 4], "rotation": 270, "texture": "#1"},
+				"south": {"uv": [4, 0, 6, 4], "rotation": 270, "texture": "#1"},
+				"west": {"uv": [4, 0, 6, 4], "rotation": 270, "texture": "#1"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+			}
+		}
+	]
 }
