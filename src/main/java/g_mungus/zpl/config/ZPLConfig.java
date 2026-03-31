@@ -17,7 +17,7 @@ public class ZPLConfig {
     private static final double advGyroMaxSpinDefault = 256d;
 
     private static ForgeConfigSpec.ConfigValue<Double> advGyroStabilizeSpeed;
-    private static final double advGyroStabilizeSpeedDefault = 256d;
+    private static final double advGyroStabilizeSpeedDefault = 12d;
 
     private static ForgeConfigSpec.ConfigValue<Double> advGyroProportionalGain;
     private static final double advGyroProportionalGainDefault = 256d;

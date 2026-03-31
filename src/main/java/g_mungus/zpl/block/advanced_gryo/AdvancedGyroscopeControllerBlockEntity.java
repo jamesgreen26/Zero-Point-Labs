@@ -246,7 +246,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         double tZ = (gyroFunctions.rotZPos() - gyroFunctions.rotZNeg()) / 15.0 * maxSpin;
         Vector3d targetOmega = new Vector3d(tX, tY, tZ);
 
-        targetOmega.add(stabilizeContribution(physShip, rotToShip, gyroFunctions.stabilize()));
+        targetOmega.add(stabilizeContribution(physShip, rotToShip, gyroFunctions.stabilize(), shipOmega));
 
         // proportional control on omega error; clamped to maxTorque
         final double KP = rawMass * ZPLConfig.getAdvGyroProportionalGain();
@@ -268,7 +268,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
      * Returns the target omega contribution (ship space) needed to align the ship's
      * local Y-up with world Y-up, scaled by the stabilize signal strength.
      */
-    private static Vector3d stabilizeContribution(PhysShip physShip, Matrix3d rotToShip, int stabilizeSignal) {
+    private static Vector3d stabilizeContribution(PhysShip physShip, Matrix3d rotToShip, int stabilizeSignal, Vector3d shipOmega) {
         double stabilizeFactor = stabilizeSignal / 15.0;
         if (stabilizeFactor <= 0.001) return new Vector3d();
 
@@ -282,9 +282,24 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
 
         Vector3d localUpWorld = rotToWorld.transform(new Vector3d(0, 1, 0));
         // cross(localUp, worldUp): axis to rotate around to correct tilt, magnitude = sin(angle)
-        Vector3d correctionWorld = localUpWorld.cross(new Vector3d(0, 1, 0), new Vector3d());
-        Vector3d correctionShip = rotToShip.transform(correctionWorld, new Vector3d());
+        Vector3d correctionShip = rotToShip.transform(
+                localUpWorld.cross(new Vector3d(0, 1, 0), new Vector3d()), new Vector3d());
 
-        return correctionShip.mul(stabilizeFactor * ZPLConfig.getAdvGyroStabilizeSpeed());
+        double corrLen = correctionShip.length();
+
+        double speed = stabilizeFactor * ZPLConfig.getAdvGyroStabilizeSpeed();
+
+        // P term: target omega proportional to tilt angle (sin via cross product magnitude)
+        Vector3d correction = corrLen > 1e-6
+                ? new Vector3d(correctionShip).normalize().mul(speed * corrLen)
+                : new Vector3d();
+
+        // D term: brake angular velocity in the tilt plane (X and Z in ship space).
+        // Projecting onto corrDir alone (previous approach) left perpendicular tilt-plane
+        // velocity uncontrolled, causing the error axis to precess in a circle.
+        // Y is intentionally excluded so yaw spin commands still work.
+        Vector3d damping = new Vector3d(shipOmega.x(), 0.0, shipOmega.z()).mul(stabilizeFactor);
+
+        return correction.sub(damping);
     }
 }
