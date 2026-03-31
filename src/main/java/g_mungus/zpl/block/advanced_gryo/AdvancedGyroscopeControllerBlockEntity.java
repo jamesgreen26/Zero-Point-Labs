@@ -1,10 +1,13 @@
 package g_mungus.zpl.block.advanced_gryo;
 
 import g_mungus.zpl.block.ModBlockEntities;
+import g_mungus.zps.block.cableNetwork.core.Channels;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +34,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
     public static final int MAX_TRANSFER = 2_000;
 
     private int[] inputFunctionMapping = new int[]{-1, -1, -1, -1, -1, -1, -1, -1};
+    private int[] mappedFunctionValues = new int[8];
 
     private final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
         @Override
@@ -79,6 +83,38 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         if (level != null && !level.isClientSide) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
         }
+    }
+
+    public int[] getMappedFunctionValues() {
+        return mappedFunctionValues.clone();
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, AdvancedGyroscopeControllerBlockEntity be) {
+        if (level.isClientSide) return;
+
+        Direction facing = state.getValue(AdvancedGyroscopeController.FACING);
+        BlockPos leftPos  = pos.relative(facing.getCounterClockWise());
+        BlockPos rightPos = pos.relative(facing.getClockWise());
+
+        int[] leftSignals  = new int[4];
+        int[] rightSignals = new int[4];
+
+        if (level.getBlockEntity(leftPos) instanceof AdvancedGyroInputModuleBlockEntity leftModule) {
+            for (int i = 0; i < 4; i++) leftSignals[i] = leftModule.getSignal(Channels.QUAD_1 + i);
+        }
+        if (level.getBlockEntity(rightPos) instanceof AdvancedGyroInputModuleBlockEntity rightModule) {
+            for (int i = 0; i < 4; i++) rightSignals[i] = rightModule.getSignal(Channels.QUAD_1 + i);
+        }
+
+        int[] functionValues = new int[8];
+        int[] mapping = be.inputFunctionMapping;
+        for (int inputIdx = 0; inputIdx < 8; inputIdx++) {
+            int funcIdx = mapping[inputIdx];
+            if (funcIdx < 0) continue;
+            int signal = inputIdx < 4 ? leftSignals[inputIdx] : rightSignals[inputIdx - 4];
+            functionValues[funcIdx] = Math.max(functionValues[funcIdx], signal);
+        }
+        be.mappedFunctionValues = functionValues;
     }
 
     public int getEnergyUsage() {

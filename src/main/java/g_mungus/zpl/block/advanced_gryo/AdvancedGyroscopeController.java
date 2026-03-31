@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import g_mungus.zpl.block.ModBlockEntities;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -174,6 +175,8 @@ public class AdvancedGyroscopeController extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return null;
+        if (level.isClientSide) return null;
+        return createTickerHelper(type, ModBlockEntities.ADVANCED_GYROSCOPE_CONTROLLER.get(),
+                AdvancedGyroscopeControllerBlockEntity::tick);
     }
 }
