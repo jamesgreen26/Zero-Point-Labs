@@ -224,7 +224,7 @@ public class AdvancedGyroscopeControllerBlockEntity extends BlockEntity implemen
         double rawMass = physShip.getMass() * scaling.x() * scaling.y() * scaling.z();
         Vector3dc angularVelocity = physShip.getAngularVelocity();
 
-        double maxTorque = enegryUsgaeCached.get() * ZPLConfig.getAdvGyroMaxTorqueFactor();
+        double maxTorque = enegryUsgaeCached.get() * ZPLConfig.getAdvGyroMaxTorqueFactor() * 1000;
 
         // world→ship rotation matrix (same pattern as DroidAttachment / GyroForceApplier)
         Matrix4dc worldToShip = physShip.getTransform().getWorldToShip();
