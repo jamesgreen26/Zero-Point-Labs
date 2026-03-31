@@ -338,7 +338,7 @@ public class AdvancedGyroscopeControllerConfigScreen extends Screen {
             cx1 = x1 + bend;
             cy1 = y1;
         }
-        int steps = 40;
+        int steps = 120;
         float prevX = x0, prevY = y0;
         for (int step = 1; step <= steps; step++) {
             float t = step / (float) steps;
